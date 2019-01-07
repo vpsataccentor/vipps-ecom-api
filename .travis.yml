@@ -4,10 +4,13 @@ node_js:
 before_script:
   - npm i api2html -g
 script:
+  skip-cleanup: true
   - api2html -o test.html docs/swagger.yaml
 deploy:
   provider: pages
   skip-cleanup: true
+  file:
+  - test.html
   github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep-history: true
   on:
