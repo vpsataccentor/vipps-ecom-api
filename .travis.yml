@@ -4,4 +4,4 @@ node_js:
 before_script:
   - npm i api2html -g
 script:
-  - api2html -o test.html docs/swagger.yml
+  - api2html -o test.html swagger.yaml
