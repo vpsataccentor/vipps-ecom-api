@@ -4,12 +4,12 @@ node_js:
 before_script:
   - npm i api2html -g
 script:
-  - api2html -o test.html docs/swagger.yaml
+  - api2html -o docs/shins.html -c "images/Vipps Logo@3x.png" docs/swagger.yaml
 deploy:
   provider: pages
   skip-cleanup: true
-  file:
-  - test.html
+#  file:
+#  - test.html
   github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep-history: true
   target-branch: test-branch
