@@ -8,10 +8,8 @@ script:
 deploy:
   provider: pages
   skip-cleanup: true
-#  file:
-#  - test.html
   github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep-history: true
-#  target-branch: gh-pages
+  target-branch: gh-pages
   on:
     branch: master
