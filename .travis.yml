@@ -1,6 +1,9 @@
 matrix:
   include:
     - language: node_js
+      branches:
+        only:
+          - master
       node_js:
         - "11"
       before_script:
@@ -12,10 +15,13 @@ matrix:
         skip-cleanup: true
         github-token: $GITHUB_TOKEN
         keep-history: true
-        target-branch: master
+        target-branch: deploy
         on:
           branch: master
     - language: python
+      branches:
+        only:
+          - deploy
       python:
         - "3.5"
       before_script:
