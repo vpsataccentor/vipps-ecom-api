@@ -1,10 +1,17 @@
-language: node_js
-node_js:
-  - "11"
-before_script:
-  - npm i api2html -g
-script:
-  - api2html -o docs/shins.html -b -s -c "images/Vipps Logo@3x.png" docs/swagger.yaml
+matrix:
+  include:
+    - language: node_js
+      node_js:
+        - "11"
+      before_script:
+        - npm i api2html -g
+      script:
+        - api2html -o docs/shins.html -b -s -c "images/Vipps Logo@3x.png" docs/swagger.yaml
+    - language: python
+      python:
+        - "3.7"
+      script:
+        - python tools/yaml2json.py
 deploy:
   provider: pages
   skip-cleanup: true
@@ -12,4 +19,4 @@ deploy:
   keep-history: true
   target-branch: gh-pages
   on:
-    branch: master
+  branch: master
