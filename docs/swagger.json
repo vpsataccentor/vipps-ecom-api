@@ -1,93 +1,752 @@
 {
-  "swagger": "2.0",
+  "paths": {
+    "[callbackPrefix]/v2/payments/{orderId}": {
+      "post": {
+        "operationId": "transactionUpdateCallbackForRegularPaymentUsingPOST",
+        "parameters": [
+          {
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "name": "orderId",
+            "description": "orderId"
+          },
+          {
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExpressCheckOutPaymentRequest"
+            },
+            "name": "expressCheckOutPaymentRequest",
+            "description": "expressCheckOutPaymentRequest"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported media type"
+          },
+          "404": {
+            "description": "Resource Not Found"
+          },
+          "403": {
+            "description": "Request Forbidden"
+          },
+          "402": {
+            "description": "Payment Failed"
+          },
+          "405": {
+            "description": "Request method not supported"
+          },
+          "500": {
+            "description": "Something went wrong on the Vipps server side"
+          },
+          "200": {
+            "description": "Callback : Transaction Update"
+          },
+          "400": {
+            "description": "Bad request (Missing a required parameter or bad request format)"
+          }
+        },
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "tags": [
+          "Endpoints required by Vipps from the merchant"
+        ],
+        "summary": "Callback : Transaction Update",
+        "description": "This API call allows Vipps to send the transaction details. During regular ecomm payment order and transaction details will be shared. During express checkout payment it will provide user details and shipping details addition to the order and transaction details. Vipps will add `/v2/payments/{orderId}` to the end of this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
+        "consumes": [
+          "application/json;charset=UTF-8"
+        ]
+      }
+    },
+    "[shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails": {
+      "post": {
+        "operationId": "fetchShippingCostUsingPOST",
+        "parameters": [
+          {
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "name": "orderId",
+            "description": "orderId"
+          },
+          {
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FetchShippingCostAndMethod"
+            },
+            "name": "fetchShippingCostAndMethod",
+            "description": "fetchShippingCostAndMethod"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported media type"
+          },
+          "404": {
+            "description": "Resource Not Found"
+          },
+          "403": {
+            "description": "Request Forbidden"
+          },
+          "402": {
+            "description": "Payment Failed"
+          },
+          "405": {
+            "description": "Request method not supported"
+          },
+          "500": {
+            "description": "Something went wrong from Vipps Server side"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/FetchShippingCostResponse"
+            },
+            "description": "Fetch Shipping Cost & Method."
+          },
+          "400": {
+            "description": "Bad request (Missing a required parameter or bad request format)"
+          }
+        },
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "tags": [
+          "Endpoints required by Vipps from the merchant"
+        ],
+        "summary": "Fetch Shipping Cost & Method",
+        "description": "This API endpoint on the merchant side allows Vipps to get the shipping cost and method based on the provided address and product details. The primary use of this service is Vipps Hurtigkasse (express checkout) where Vipps needs to present shipping cost and method to the Vipps user. Vipps will add `/v2/payments/{orderId}/shippingDetails` to the end of this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
+        "consumes": [
+          "application/json;charset=UTF-8"
+        ]
+      }
+    },
+    "/ecomm/v2/payments/{orderId}/cancel": {
+      "put": {
+        "operationId": "cancelPaymentRequestUsingPUT",
+        "parameters": [
+          {
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "name": "orderId",
+            "description": "Order id specified in the request body of initiate payment."
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "authorization",
+            "description": "Authorization-token is obtained by running the /accesstoken/get request."
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "content-type",
+            "description": "`application/json`"
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "ocp-apim-subscription-key",
+            "description": "The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images."
+          },
+          {
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CancelPaymentActionRequest"
+            },
+            "name": "paymentActionsRequest",
+            "description": "paymentActionsRequest"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported media type"
+          },
+          "404": {
+            "description": "Resource Not Found"
+          },
+          "403": {
+            "description": "Request Forbidden"
+          },
+          "402": {
+            "description": "Payment Failed"
+          },
+          "405": {
+            "description": "Request method not supported"
+          },
+          "500": {
+            "description": "Something went wrong from Vipps Server side"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/TransactionResponseCancel"
+            },
+            "description": "Cancel payment response"
+          },
+          "400": {
+            "description": "Bad request (Missing a required parameter or bad request format)"
+          }
+        },
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "tags": [
+          "Vipps eCom API"
+        ],
+        "summary": "Cancel Payment",
+        "description": "The API call allows merchant to cancel the reserved transaction, The API will not allow partial cancellation which has the consequence that partially captured transactions cannot be cancelled. Please note that in a case of communication errors during initiate payment service call between Vipps and PSP/Acquirer/Issuer; even in a case that customer has confirmed a payment, the payment will be cancelled by Vipps. Note this means you can not cancel a captured payment.",
+        "consumes": [
+          "application/json;charset=UTF-8"
+        ]
+      }
+    },
+    "/accesstoken/get": {
+      "post": {
+        "operationId": "fetchAuthorizationTokenUsingPost",
+        "parameters": [
+          {
+            "name": "client_id",
+            "description": "Client id is located in the [developer portal](https://apitest-portal.vipps.no/). Navigate to the ```Applications``` tab and click the ```View secrets``` button to display the client id. See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.",
+            "type": "string",
+            "format": "guid",
+            "required": true,
+            "in": "header"
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "client_secret",
+            "description": "Client secret is located in the [developer portal](https://apitest-portal.vipps.no/). Navigate to the ```Applications``` tab and click the ```View secrets``` button to display the client id. See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images."
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "ocp-apim-subscription-key",
+            "description": "The subscription-key for authorization token is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. The ```DEFAULT_ACCESSTOKEN``` key is the value for subscription-key. See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images."
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported media type"
+          },
+          "404": {
+            "description": "Resource Not Found"
+          },
+          "403": {
+            "description": "Request Forbidden"
+          },
+          "402": {
+            "description": "Payment Failed"
+          },
+          "405": {
+            "description": "Request method not supported"
+          },
+          "500": {
+            "description": "Something went wrong from Vipps Server side"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/AuthorizationTokenResponse"
+            },
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad request (Missing a required parameter or bad request format)"
+          }
+        },
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "tags": [
+          "Authorization Service"
+        ],
+        "summary": "Fetch authorization token",
+        "description": "Authorization token API endpoint helps to get the JWT Bearer token that needs to be passed in every API request in the authorization header. The merchant application use the API to get a JWT access token. JWT access token is a base 64 encoded string value that must be aquire first before making any Vipps api calls",
+        "consumes": [
+          "application/json;charset=UTF-8"
+        ]
+      }
+    },
+    "/ecomm/v2/payments/{orderId}/details": {
+      "get": {
+        "operationId": "getPaymentDetailsUsingGET",
+        "parameters": [
+          {
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "name": "orderId",
+            "description": "Order id specified in the request body of initiate payment."
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "authorization",
+            "description": "Authorization-token is obtained by running the `/accesstoken/get` request."
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "content-type",
+            "description": "`application/json`"
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "ocp-apim-subscription-key",
+            "description": "The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images."
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported media type"
+          },
+          "404": {
+            "description": "Resource Not Found"
+          },
+          "403": {
+            "description": "Request Forbidden"
+          },
+          "402": {
+            "description": "Payment Failed"
+          },
+          "405": {
+            "description": "Request method not supported"
+          },
+          "500": {
+            "description": "Something went wrong from Vipps Server side"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/GetTransactionDetails"
+            },
+            "description": "Get payment Details"
+          },
+          "400": {
+            "description": "Bad request (Missing a required parameter or bad request format)"
+          }
+        },
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "tags": [
+          "Vipps eCom API"
+        ],
+        "summary": "Get payment Details",
+        "description": "This API call allows merchant to get the details of a payment transaction. Service call returns detailed transaction history of given payment where events are sorted by the time single transaction occurred.",
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/ecomm/v2/payments/{orderId}/capture": {
+      "post": {
+        "operationId": "capturePaymentUsingPOST",
+        "parameters": [
+          {
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "name": "orderId",
+            "description": "Order id specified in the request body of initiate payment."
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "authorization",
+            "description": "Authorization-token is obtained by running the /accesstoken/get request."
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "content-type",
+            "description": "`application/json`"
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "ocp-apim-subscription-key",
+            "description": "The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images."
+          },
+          {
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PaymentActionsRequest"
+            },
+            "name": "paymentActionsRequest",
+            "description": "paymentActionsRequest"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported media type"
+          },
+          "404": {
+            "description": "Resource Not Found"
+          },
+          "403": {
+            "description": "Request Forbidden"
+          },
+          "402": {
+            "description": "Payment Failed"
+          },
+          "405": {
+            "description": "Request method not supported"
+          },
+          "500": {
+            "description": "Something went wrong from Vipps Server side"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/TransactionResponseCapture"
+            },
+            "description": "Capture payment response"
+          },
+          "400": {
+            "description": "Bad request (Missing a required parameter or bad request format)"
+          }
+        },
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "tags": [
+          "Vipps eCom API"
+        ],
+        "summary": "Capture Payment ",
+        "description": "This API call allows merchant to capture the reserved amount. Amount to capture cannot be higher than reserved. The API also allows capturing partial amount of the reserved amount. Partial capture can be called as many times as required so long there is reserved amount to capture. Transaction text is not optional and is used as a proof of delivery (tracking code, consignment number etc.). In a case of direct capture, both fund reservation and capture are executed in a single operation.",
+        "consumes": [
+          "application/json;charset=UTF-8"
+        ]
+      }
+    },
+    "/ecomm/v2/payments/{orderId}/refund": {
+      "post": {
+        "operationId": "refundPaymentUsingPOST",
+        "parameters": [
+          {
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "name": "orderId",
+            "description": "Order id specified in the request body of initiate payment."
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "authorization",
+            "description": "Authorization-token is obtained by running the /accesstoken/get request."
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "content-type",
+            "description": "`application/json`"
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "ocp-apim-subscription-key",
+            "description": "The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images."
+          },
+          {
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PaymentActionsRequest"
+            },
+            "name": "paymentActionsRequest",
+            "description": "paymentActionsRequest"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported media type"
+          },
+          "404": {
+            "description": "Resource Not Found"
+          },
+          "403": {
+            "description": "Request Forbidden"
+          },
+          "402": {
+            "description": "Payment Failed"
+          },
+          "405": {
+            "description": "Request method not supported"
+          },
+          "500": {
+            "description": "Something went wrong from Vipps Server side"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/TransactionResponseRefund"
+            },
+            "description": "Refund payment response"
+          },
+          "400": {
+            "description": "Bad request (Missing a required parameter or bad request format)"
+          }
+        },
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "tags": [
+          "Vipps eCom API"
+        ],
+        "summary": "Refund Payment ",
+        "description": "The API allows a merchant to do a refund of already captured transaction. There is an option to do a partial refund of the captured amount. Refunded amount cannot be larger than captured. Timeframe for issuing a refund for a payment is 365 days from the date payment has been captured. If the refund payment service call is called after the refund timeframe, service call will respond with an error. Refunded funds will be transferred from the merchant account to the customer credit card that was used in payment flow. Pay attention that in order to perform refund, there must be enough funds at merchant settlements account.",
+        "consumes": [
+          "application/json;charset=UTF-8"
+        ]
+      }
+    },
+    "/ecomm/v2/payments/{orderId}/status": {
+      "get": {
+        "operationId": "getOrderStatusUsingGET",
+        "parameters": [
+          {
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "name": "orderId",
+            "description": "Order id specified in the request body of initiate payment."
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "authorization",
+            "description": "Authorization-token is obtained by running the /accesstoken/get request."
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "ocp-apim-subscription-key",
+            "description": "The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images."
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported media type"
+          },
+          "404": {
+            "description": "Resource Not Found"
+          },
+          "403": {
+            "description": "Request Forbidden"
+          },
+          "402": {
+            "description": "Payment Failed"
+          },
+          "405": {
+            "description": "Request method not supported"
+          },
+          "500": {
+            "description": "Something went wrong from Vipps Server side"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/GetPaymentStatusResponse"
+            },
+            "description": "Get order status"
+          },
+          "400": {
+            "description": "Bad request (Missing a required parameter or bad request format)"
+          }
+        },
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "tags": [
+          "Vipps eCom API"
+        ],
+        "summary": "Get order status",
+        "description": "This API call allows the merchant to get the status of the last payment transaction. Primarily use of this service is meant for inApp where simple response to check order status is preferred.",
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/ecomm/v2/payments": {
+      "post": {
+        "operationId": "initiatePaymentV3UsingPOST",
+        "parameters": [
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "authorization",
+            "description": "Authorization-token is obtained by running the /accesstoken/get request."
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "content-type",
+            "description": "application/json"
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "required": true,
+            "name": "ocp-apim-subscription-key",
+            "description": "The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images."
+          },
+          {
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InitiatePaymentCommand"
+            },
+            "name": "initiatePaymentCommand",
+            "description": "initiatePaymentCommand"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported media type"
+          },
+          "404": {
+            "description": "Resource Not Found"
+          },
+          "403": {
+            "description": "Request Forbidden"
+          },
+          "402": {
+            "description": "Payment Failed"
+          },
+          "405": {
+            "description": "Request method not supported"
+          },
+          "202": {
+            "schema": {
+              "$ref": "#/definitions/InitiatePaymentV2Representation"
+            },
+            "description": "Response for Initiate Payment"
+          },
+          "500": {
+            "description": "Something went wrong from Vipps Server side"
+          },
+          "400": {
+            "description": "Bad request (Missing a required parameter or bad request format)"
+          }
+        },
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "tags": [
+          "Vipps eCom API"
+        ],
+        "summary": "Initiate Payment",
+        "description": "This API call allows the merchants to initiate a payment flow by using Vipps. In order to identify which sales channel payments are coming from, a merchantSerialNumber is used to distinguish between them. Please note that a single payment is uniquely identified by a composite of merchantApplicationId (X-App-ID), merchantSerialNumber and orderId. The Merchant provided orderId must be unique per sales channel. Once the transaction is successfully initiated in Vipps, will you receive a redirect URL in response which has to be used by the merchant to open the Vipps landing page. The landing page will have functionality to identify and differentiate request coming from mobile browser/desktop browser. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
+        "consumes": [
+          "application/json;charset=UTF-8"
+        ]
+      }
+    },
+    "[consentRemovalPrefix]/v2/consents/{userId}": {
+      "delete": {
+        "operationId": "removeUserConsentUsingDELETE",
+        "parameters": [
+          {
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "name": "userId",
+            "description": "The userId provided when requesting user information from Vipps. Received by callback or get detail request."
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "415": {
+            "description": "Unsupported media type"
+          },
+          "404": {
+            "description": "Resource Not Found"
+          },
+          "403": {
+            "description": "Request Forbidden"
+          },
+          "405": {
+            "description": "Request method not supported"
+          },
+          "500": {
+            "description": "Something went wrong from Vipps Server side"
+          },
+          "200": {
+            "description": "Remove User Consent (for express checkout)"
+          },
+          "400": {
+            "description": "Bad request (Missing a required parameter or bad request format)"
+          }
+        },
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "tags": [
+          "Endpoints required by Vipps from the merchant"
+        ],
+        "summary": "Remove User Consent (for express checkout)",
+        "description": "This API endpoint on the merchant side allows Vipps to send consent removal requests to the merchant. When receiving requests the merchant is obliged to remove the user details permanently, as per the GDPR guidelines. Vipps will add `/v2/consents/{userId}` to the end of this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
+        "consumes": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "host": "apitest.vipps.no",
   "definitions": {
-    "Transaction": {
-      "properties": {
-        "amount": {
-          "example": 20000,
-          "description": "Amount in øre, if amount is 0 or not provided then full capture will be performed. 32 Bit Integer (2147483647)",
-          "format": "int32",
-          "pattern": "^\\d{3,}$",
-          "type": "integer"
-        },
-        "transactionText": {
-          "description": "Proof of delivery",
-          "type": "string"
-        }
-      },
-      "required": [
-        "transactionText"
-      ],
-      "type": "object"
-    },
-    "Address": {
-      "properties": {
-        "addressLine2": {
-          "example": "Att: Rune Garborg",
-          "description": "Address Line 2",
-          "type": "string"
-        },
-        "country": {
-          "example": "NO",
-          "description": "Country,default=NO",
-          "type": "string"
-        },
-        "city": {
-          "example": "Oslo",
-          "description": "City",
-          "type": "string"
-        },
-        "addressLine1": {
-          "example": "Dronning Eufemias gate 42",
-          "description": "Address Line 1",
-          "type": "string"
-        },
-        "zipCode": {
-          "example": "0191",
-          "description": "Zip Code",
-          "type": "string"
-        }
-      },
-      "required": [
-        "addressLine1",
-        "city",
-        "country",
-        "zipCode"
-      ],
-      "type": "object"
-    },
-    "TransactionInfoRefund": {
-      "properties": {
-        "amount": {
-          "example": 20000,
-          "description": "Ordered amount in øre",
-          "format": "double",
-          "type": "number"
-        },
-        "status": {
-          "example": "Refund",
-          "enum": [
-            "Refund"
-          ],
-          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information.",
-          "type": "string"
-        },
-        "timeStamp": {
-          "example": "2018-12-12T11:18:38.246Z",
-          "description": "Timestamp in ISO-8601 representing when vipps Cancelled transaction.",
-          "type": "string"
-        },
-        "transactionId": {
-          "example": "5001420062",
-          "description": "Vipps transaction id",
-          "type": "string"
-        },
-        "transactionText": {
-          "example": "One pair of Vipps socks",
-          "description": "Transaction text reference provided by merchant",
-          "type": "string"
-        }
-      },
+    "TransactionInfoCancel": {
+      "type": "object",
       "required": [
         "amount",
         "status",
@@ -95,48 +754,40 @@
         "transactionId",
         "transactionText"
       ],
-      "type": "object"
-    },
-    "CancelTransaction": {
       "properties": {
-        "transactionText": {
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "TransactionInfoCancel": {
-      "properties": {
-        "amount": {
-          "example": 20000,
-          "description": "Ordered amount in øre",
-          "format": "double",
-          "type": "number"
+        "timeStamp": {
+          "type": "string",
+          "description": "Timestamp in ISO-8601 representing when vipps Cancelled transaction.",
+          "example": "2018-12-12T11:18:38.246Z"
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "Vipps transaction id",
+          "example": "5001420062"
         },
         "status": {
-          "example": "Cancelled",
           "enum": [
             "Cancelled"
           ],
-          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information.",
-          "type": "string"
+          "type": "string",
+          "example": "Cancelled",
+          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information."
         },
-        "timeStamp": {
-          "example": "2018-12-12T11:18:38.246Z",
-          "description": "Timestamp in ISO-8601 representing when vipps Cancelled transaction.",
-          "type": "string"
-        },
-        "transactionId": {
-          "example": "5001420062",
-          "description": "Vipps transaction id",
-          "type": "string"
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Ordered amount in øre",
+          "example": 20000
         },
         "transactionText": {
-          "example": "One pair of Vipps socks",
+          "type": "string",
           "description": "Transaction text reference provided by merchant",
-          "type": "string"
+          "example": "One pair of Vipps socks"
         }
-      },
+      }
+    },
+    "TransactionInfoCapture": {
+      "type": "object",
       "required": [
         "amount",
         "status",
@@ -144,49 +795,66 @@
         "transactionId",
         "transactionText"
       ],
-      "type": "object"
-    },
-    "CancelPaymentActionRequest": {
       "properties": {
-        "transaction": {
-          "$ref": "#/definitions/CancelTransaction"
+        "timeStamp": {
+          "type": "string",
+          "description": "Timestamp in ISO-8601 representing when vipps Cancelled transaction.",
+          "example": "2018-12-12T11:18:38.246Z"
         },
+        "transactionId": {
+          "type": "string",
+          "description": "Vipps transaction id",
+          "example": "5001420062"
+        },
+        "status": {
+          "enum": [
+            "Captured"
+          ],
+          "type": "string",
+          "example": "Captured",
+          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information."
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Ordered amount in øre",
+          "example": 20000
+        },
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text reference provided by merchant",
+          "example": "One pair of Vipps socks"
+        }
+      }
+    },
+    "PaymentActionsRequest": {
+      "type": "object",
+      "properties": {
         "merchantInfo": {
           "$ref": "#/definitions/MerchantInfoPayment"
+        },
+        "transaction": {
+          "$ref": "#/definitions/Transaction"
         }
-      },
-      "type": "object"
-    },
-    "MerchantInfoPayment": {
-      "properties": {
-        "merchantSerialNumber": {
-          "example": 123456,
-          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
-          "pattern": "^\\d{6}$",
-          "minLength": 6,
-          "maxLength": 6,
-          "type": "string"
-        }
-      },
-      "required": [
-        "merchantSerialNumber"
-      ],
-      "type": "object"
+      }
     },
     "ShippingDetails": {
+      "type": "object",
+      "required": [
+        "isDefault",
+        "shippingCost",
+        "shippingMethod",
+        "shippingMethodId"
+      ],
       "properties": {
-        "shippingCost": {
-          "format": "double",
-          "type": "number"
-        },
         "priority": {
-          "format": "int32",
-          "type": "integer"
-        },
-        "shippingMethod": {
-          "type": "string"
+          "type": "integer",
+          "format": "int32"
         },
         "shippingMethodId": {
+          "type": "string"
+        },
+        "shippingMethod": {
           "type": "string"
         },
         "isDefault": {
@@ -195,141 +863,50 @@
             "N"
           ],
           "type": "string"
+        },
+        "shippingCost": {
+          "type": "number",
+          "format": "double"
         }
-      },
-      "required": [
-        "isDefault",
-        "shippingCost",
-        "shippingMethod",
-        "shippingMethodId"
-      ],
-      "type": "object"
+      }
     },
-    "GetTransactionDetails": {
-      "properties": {
-        "transactionSummary": {
-          "$ref": "#/definitions/TransactionSummary"
-        },
-        "orderId": {
-          "example": "order123abc",
-          "type": "string"
-        },
-        "shippingDetails": {
-          "$ref": "#/definitions/PaymentShippingDetails"
-        },
-        "userDetails": {
-          "$ref": "#/definitions/UserDetails"
-        },
-        "transactionLogHistory": {
-          "items": {
-            "$ref": "#/definitions/TransactionLogHistory"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "TransactionResponseCancel": {
-      "properties": {
-        "transactionSummary": {
-          "$ref": "#/definitions/TransactionSummary"
-        },
-        "transactionInfo": {
-          "$ref": "#/definitions/TransactionInfoCancel"
-        },
-        "orderId": {
-          "example": "order123abc",
-          "maxLength": 30,
-          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters",
-          "type": "string"
-        }
-      },
+    "TransactionSummary": {
+      "type": "object",
       "required": [
-        "orderId"
+        "capturedAmount",
+        "refundedAmount",
+        "remainingAmountToCapture",
+        "remainingAmountToRefund"
       ],
-      "type": "object"
-    },
-    "CallbackTransactionInfoStatus": {
       "properties": {
-        "amount": {
-          "example": 20000,
-          "description": "Ordered amount in øre",
-          "format": "double",
-          "type": "number"
+        "refundedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total refunded amount of the order",
+          "example": 0
         },
-        "timeStamp": {
-          "example": "2018-12-12T11:18:38.246Z",
-          "description": "Timestamp in ISO-8601 representing when Vipps cancelled the transaction.",
-          "type": "string"
+        "remainingAmountToCapture": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to capture",
+          "example": 0
         },
-        "transactionId": {
-          "example": "5001420062",
-          "description": "Vipps transaction id",
-          "type": "string"
+        "remainingAmountToRefund": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to refund",
+          "example": 20000
         },
-        "status": {
-          "example": "RESERVE",
-          "enum": [
-            "RESERVE",
-            "SALE",
-            "CANCELLED",
-            "REJECTED"
-          ],
-          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#callbacks) for more information.",
-          "type": "string"
+        "capturedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total amount captured",
+          "example": 20000
         }
-      },
-      "required": [
-        "amount",
-        "status",
-        "timeStamp",
-        "transactionId"
-      ],
-      "type": "object"
+      }
     },
     "FetchShippingCostAndMethod": {
-      "properties": {
-        "addressId": {
-          "description": "Vipps Provided address Id. To be returned in response in the same field",
-          "format": "int32",
-          "type": "integer"
-        },
-        "city": {
-          "example": "Oslo",
-          "description": "City",
-          "type": "string"
-        },
-        "addressType": {
-          "example": "H",
-          "type": "string"
-        },
-        "addressLine1": {
-          "example": "Dronning Eufemias gate 42",
-          "type": "string"
-        },
-        "country": {
-          "example": "NO",
-          "description": "The only country supported is Norway",
-          "type": "string"
-        },
-        "addressLine2": {
-          "type": "string"
-        },
-        "postalCode": {
-          "example": "0191",
-          "description": "Four digits",
-          "format": "int32",
-          "pattern": "^\\df{4}$",
-          "type": "integer"
-        },
-        "postCode": {
-          "example": "0191",
-          "description": "Four digits",
-          "format": "int32",
-          "pattern": "^\\df{4}$",
-          "type": "integer"
-        }
-      },
+      "type": "object",
       "required": [
         "addressId",
         "addressLine1",
@@ -337,25 +914,56 @@
         "country",
         "postCode"
       ],
+      "properties": {
+        "addressId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Vipps Provided address Id. To be returned in response in the same field"
+        },
+        "country": {
+          "type": "string",
+          "description": "The only country supported is Norway",
+          "example": "NO"
+        },
+        "addressType": {
+          "type": "string",
+          "example": "H"
+        },
+        "postalCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": "0191",
+          "description": "Four digits",
+          "pattern": "^\\df{4}$"
+        },
+        "city": {
+          "type": "string",
+          "description": "City",
+          "example": "Oslo"
+        },
+        "addressLine2": {
+          "type": "string"
+        },
+        "addressLine1": {
+          "type": "string",
+          "example": "Dronning Eufemias gate 42"
+        },
+        "postCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": "0191",
+          "description": "Four digits",
+          "pattern": "^\\df{4}$"
+        }
+      }
+    },
+    "AuthorizationTokenMethod": {
       "type": "object"
     },
     "TransactionLogHistory": {
+      "type": "object",
       "properties": {
-        "amount": {
-          "format": "int32",
-          "type": "integer"
-        },
-        "requestId": {
-          "type": "string"
-        },
-        "timeStamp": {
-          "type": "string"
-        },
-        "operationSuccess": {
-          "type": "boolean"
-        },
         "operation": {
-          "example": "RESERVE",
           "enum": [
             "INITIATE",
             "RESERVE",
@@ -365,114 +973,97 @@
             "CANCEL",
             "VOID"
           ],
-          "description": "The operation that was performed for this log entry. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information.",
-          "type": "string"
+          "type": "string",
+          "example": "RESERVE",
+          "description": "The operation that was performed for this log entry. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information."
         },
         "transactionId": {
           "type": "string"
         },
-        "transactionText": {
+        "timeStamp": {
           "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "MerchantInfoDto": {
-      "properties": {
-        "isApp": {
-          "default": false,
-          "example": false,
-          "description": "This parameter indicates whether payment request is triggered from Mobile App or Web browser. Based on this value, response will be redirect URL for Vipps landing page or deeplink URL to connect vipps App. When isApp is set to true, URLs passed to Vipps will not be validated as regular URLs.",
+        },
+        "operationSuccess": {
           "type": "boolean"
         },
-        "fallBack": {
-          "example": "https://example.com/vipps/fallback/order123abc",
-          "maxLength": 255,
-          "description": "Vipps will use the fall back URL to redirect Merchant Page once Payment is completed in Vipps System URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
+        "transactionText": {
           "type": "string"
         },
-        "callbackPrefix": {
-          "example": "https://example.com/vipps/callbacks",
-          "maxLength": 255,
-          "description": "This is an URL for receiving the callback after the payment request. Domain name and context path should be provided by merchant as the value for this parameter. Vipps will add `/v2/payments/{orderId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
+        "requestId": {
           "type": "string"
         },
-        "paymentType": {
-          "default": "eComm Regular Payment",
-          "example": "eComm Regular Payment",
-          "enum": [
-            "eComm Regular Payment",
-            "eComm Express Payment"
-          ],
-          "description": "This parameter will identify difference between a regular ecomm payment and ecomm express payment. For express checkout, use: \"eComm Express Payment\". Express checkouts require consentRemovalPrefix.",
-          "type": "string"
-        },
-        "consentRemovalPrefix": {
-          "example": "https://example.com/vipps",
-          "maxLength": 255,
-          "description": "Required for expess checkout payments. This callback URL will be used by Vipps to inform the merchant that the user has revoked his/her consent: This Vipps user does do not want the merchant to store or use his/her personal information anymore. Required by GDPR. Vipps will add `/v2/consents/{userId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
-          "type": "string"
-        },
-        "shippingDetailsPrefix": {
-          "example": "https://example.com/vipps/shipping/",
-          "maxLength": 255,
-          "description": "In case of express checkout payment, merchant should pass this prefix to let Vipps fetch shipping cost and method related details. Vipps will add `/v2/payments/{orderId}/shippingDetails` to the end or this URL.",
-          "type": "string"
-        },
-        "merchantSerialNumber": {
-          "example": 123456,
-          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
-          "pattern": "^\\d{6}$",
-          "minLength": 6,
-          "maxLength": 6,
-          "type": "string"
-        },
-        "authToken": {
-          "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni <snip>",
-          "maxLength": 255,
-          "description": "The Merchant should share this token if merchant has authentication mechanism in place which could be used for making callbacks secure.",
-          "type": "string"
+        "amount": {
+          "type": "integer",
+          "format": "int32"
         }
-      },
+      }
+    },
+    "MerchantInfoDto": {
+      "type": "object",
       "required": [
         "callbackPrefix",
         "fallBack",
         "merchantSerialNumber"
       ],
-      "type": "object"
-    },
-    "TransactionInfoCapture": {
       "properties": {
-        "amount": {
-          "example": 20000,
-          "description": "Ordered amount in øre",
-          "format": "double",
-          "type": "number"
+        "merchantSerialNumber": {
+          "pattern": "^\\d{6}$",
+          "maxLength": 6,
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "type": "string",
+          "example": 123456,
+          "minLength": 6
         },
-        "status": {
-          "example": "Captured",
+        "callbackPrefix": {
+          "type": "string",
+          "description": "This is an URL for receiving the callback after the payment request. Domain name and context path should be provided by merchant as the value for this parameter. Vipps will add `/v2/payments/{orderId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
+          "maxLength": 255,
+          "example": "https://example.com/vipps/callbacks"
+        },
+        "fallBack": {
+          "type": "string",
+          "description": "Vipps will use the fall back URL to redirect Merchant Page once Payment is completed in Vipps System URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
+          "maxLength": 255,
+          "example": "https://example.com/vipps/fallback/order123abc"
+        },
+        "consentRemovalPrefix": {
+          "type": "string",
+          "description": "Required for expess checkout payments. This callback URL will be used by Vipps to inform the merchant that the user has revoked his/her consent: This Vipps user does do not want the merchant to store or use his/her personal information anymore. Required by GDPR. Vipps will add `/v2/consents/{userId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
+          "maxLength": 255,
+          "example": "https://example.com/vipps"
+        },
+        "authToken": {
+          "type": "string",
+          "description": "The Merchant should share this token if merchant has authentication mechanism in place which could be used for making callbacks secure.",
+          "maxLength": 255,
+          "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni <snip>"
+        },
+        "isApp": {
+          "type": "boolean",
+          "default": false,
+          "example": false,
+          "description": "This parameter indicates whether payment request is triggered from Mobile App or Web browser. Based on this value, response will be redirect URL for Vipps landing page or deeplink URL to connect vipps App. When isApp is set to true, URLs passed to Vipps will not be validated as regular URLs."
+        },
+        "shippingDetailsPrefix": {
+          "type": "string",
+          "description": "In case of express checkout payment, merchant should pass this prefix to let Vipps fetch shipping cost and method related details. Vipps will add `/v2/payments/{orderId}/shippingDetails` to the end or this URL.",
+          "maxLength": 255,
+          "example": "https://example.com/vipps/shipping/"
+        },
+        "paymentType": {
           "enum": [
-            "Captured"
+            "eComm Regular Payment",
+            "eComm Express Payment"
           ],
-          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information.",
-          "type": "string"
-        },
-        "timeStamp": {
-          "example": "2018-12-12T11:18:38.246Z",
-          "description": "Timestamp in ISO-8601 representing when vipps Cancelled transaction.",
-          "type": "string"
-        },
-        "transactionId": {
-          "example": "5001420062",
-          "description": "Vipps transaction id",
-          "type": "string"
-        },
-        "transactionText": {
-          "example": "One pair of Vipps socks",
-          "description": "Transaction text reference provided by merchant",
-          "type": "string"
+          "type": "string",
+          "default": "eComm Regular Payment",
+          "description": "This parameter will identify difference between a regular ecomm payment and ecomm express payment. For express checkout, use: \"eComm Express Payment\". Express checkouts require consentRemovalPrefix.",
+          "example": "eComm Regular Payment"
         }
-      },
+      }
+    },
+    "TransactionInfoRefund": {
+      "type": "object",
       "required": [
         "amount",
         "status",
@@ -480,160 +1071,109 @@
         "transactionId",
         "transactionText"
       ],
-      "type": "object"
-    },
-    "PaymentActionsRequest": {
       "properties": {
-        "transaction": {
-          "$ref": "#/definitions/Transaction"
+        "timeStamp": {
+          "type": "string",
+          "description": "Timestamp in ISO-8601 representing when vipps Cancelled transaction.",
+          "example": "2018-12-12T11:18:38.246Z"
         },
-        "merchantInfo": {
-          "$ref": "#/definitions/MerchantInfoPayment"
-        }
-      },
-      "type": "object"
-    },
-    "PaymentShippingDetails": {
-      "properties": {
-        "shippingCost": {
-          "example": 1500,
-          "description": "Shipping Cost",
-          "format": "double",
-          "type": "number"
+        "transactionId": {
+          "type": "string",
+          "description": "Vipps transaction id",
+          "example": "5001420062"
         },
-        "shippingMethod": {
-          "example": "Posten",
-          "description": "Shipping method",
-          "type": "string"
-        },
-        "address": {
-          "$ref": "#/definitions/Address"
-        }
-      },
-      "required": [
-        "shippingCost",
-        "shippingMethod"
-      ],
-      "type": "object"
-    },
-    "FetchShippingCostResponse": {
-      "properties": {
-        "shippingDetails": {
-          "items": {
-            "$ref": "#/definitions/ShippingDetails"
-          },
-          "type": "array"
-        },
-        "addressId": {
-          "format": "int32",
-          "type": "integer"
-        },
-        "orderId": {
-          "example": "order123abc",
-          "type": "string"
-        }
-      },
-      "required": [
-        "addressId",
-        "orderId",
-        "shippingDetails"
-      ],
-      "type": "object"
-    },
-    "InitiatePaymentV2Representation": {
-      "properties": {
-        "url": {
-          "example": "https://example.com",
-          "description": "URL parameter will have URL to redirect the request to vipps gateway page in case request is trigger from web browser or deeplink URL to open vipps app incase request is triggered from Merchant Mobile App.",
-          "type": "string"
-        },
-        "orderId": {
-          "example": "order123abc",
-          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters.",
-          "type": "string"
-        }
-      },
-      "required": [
-        "orderId",
-        "url"
-      ],
-      "type": "object"
-    },
-    "TransactionInfoInitiateDTO": {
-      "properties": {
-        "refOrderId": {
-          "example": "merchantOrder123abc",
-          "maxLength": 30,
-          "description": "Identifies if the payment references to some past orders registered with Vipps. If defined, transactions for this payment will show up as child transactions of the specified order.",
-          "type": "string"
+        "status": {
+          "enum": [
+            "Refund"
+          ],
+          "type": "string",
+          "example": "Refund",
+          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information."
         },
         "amount": {
-          "example": 20000,
-          "description": "Amount in øre. 32 bit Integer (2147483647)",
-          "format": "int32",
-          "pattern": "^\\d{3,}$",
-          "type": "integer"
-        },
-        "orderId": {
-          "example": "order123abc",
-          "maxLength": 30,
-          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters.",
-          "type": "string"
-        },
-        "timeStamp": {
-          "example": "2018-11-14T15:44:26.590Z",
-          "description": "ISO formatted date time string.",
-          "format": "date-time",
-          "type": "string"
+          "type": "number",
+          "format": "double",
+          "description": "Ordered amount in øre",
+          "example": 20000
         },
         "transactionText": {
-          "example": "One pair of Vipps socks",
-          "maxLength": 100,
-          "description": "Transaction text that can be displayed to end user",
-          "type": "string"
+          "type": "string",
+          "description": "Transaction text reference provided by merchant",
+          "example": "One pair of Vipps socks"
         }
-      },
+      }
+    },
+    "CustomerInfoDto": {
+      "type": "object",
+      "properties": {
+        "mobileNumber": {
+          "pattern": "^\\d{8}$",
+          "maxLength": 8,
+          "description": "Mobile number of the user who has to pay for the transation from Vipps. Allowed format: xxxxxxxx",
+          "type": "string",
+          "example": 91234567,
+          "minLength": 8
+        }
+      }
+    },
+    "Transaction": {
+      "type": "object",
       "required": [
-        "amount",
-        "orderId",
         "transactionText"
       ],
-      "type": "object"
-    },
-    "InitiatePaymentCommand": {
       "properties": {
-        "merchantInfo": {
-          "$ref": "#/definitions/MerchantInfoDto",
-          "description": "it has merchant related information to initiate the payment"
+        "transactionText": {
+          "type": "string",
+          "description": "Proof of delivery"
         },
-        "transaction": {
-          "$ref": "#/definitions/TransactionInfoInitiateDTO",
-          "description": "it has transaction details which needs to be inititated"
-        },
-        "customerInfo": {
-          "$ref": "#/definitions/CustomerInfoDto",
-          "description": "it has customer information and it is not required"
+        "amount": {
+          "type": "integer",
+          "format": "int32",
+          "example": 20000,
+          "description": "Amount in øre, if amount is 0 or not provided then full capture will be performed. 32 Bit Integer (2147483647)",
+          "pattern": "^\\d{3,}$"
         }
-      },
+      }
+    },
+    "TransactionResponseCancel": {
+      "type": "object",
       "required": [
-        "customerInfo",
-        "merchantInfo",
-        "transaction"
+        "orderId"
       ],
-      "type": "object"
+      "properties": {
+        "transactionInfo": {
+          "$ref": "#/definitions/TransactionInfoCancel"
+        },
+        "transactionSummary": {
+          "$ref": "#/definitions/TransactionSummary"
+        },
+        "orderId": {
+          "type": "string",
+          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters",
+          "maxLength": 30,
+          "example": "order123abc"
+        }
+      }
     },
     "ExpressCheckOutPaymentRequest": {
+      "type": "object",
+      "required": [
+        "merchantSerialNumber",
+        "orderId",
+        "shippingDetails",
+        "userDetails"
+      ],
       "properties": {
-        "merchantSerialNumber": {
-          "example": 123456,
-          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
-          "pattern": "^\\d{6}$",
-          "minLength": 6,
-          "maxLength": 6,
-          "type": "string"
-        },
         "transactionInfo": {
           "$ref": "#/definitions/CallbackTransactionInfoStatus"
+        },
+        "merchantSerialNumber": {
+          "pattern": "^\\d{6}$",
+          "maxLength": 6,
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "type": "string",
+          "example": 123456,
+          "minLength": 6
         },
         "shippingDetails": {
           "$ref": "#/definitions/ShippingDetailsRequest",
@@ -644,183 +1184,220 @@
           "description": "Vipps User Information"
         },
         "orderId": {
-          "example": "order123abc",
+          "type": "string",
           "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters",
-          "type": "string"
+          "example": "order123abc"
         }
-      },
+      }
+    },
+    "FetchShippingCostResponse": {
+      "type": "object",
       "required": [
-        "merchantSerialNumber",
+        "addressId",
         "orderId",
-        "shippingDetails",
-        "userDetails"
+        "shippingDetails"
       ],
-      "type": "object"
-    },
-    "TransactionSummary": {
       "properties": {
-        "refundedAmount": {
-          "example": 0,
-          "description": "Total refunded amount of the order",
-          "format": "int32",
-          "type": "integer"
+        "addressId": {
+          "type": "integer",
+          "format": "int32"
         },
-        "capturedAmount": {
-          "example": 20000,
-          "description": "Total amount captured",
-          "format": "int32",
-          "type": "integer"
-        },
-        "remainingAmountToCapture": {
-          "example": 0,
-          "description": "Total remaining amount to capture",
-          "format": "int32",
-          "type": "integer"
-        },
-        "remainingAmountToRefund": {
-          "example": 20000,
-          "description": "Total remaining amount to refund",
-          "format": "int32",
-          "type": "integer"
-        }
-      },
-      "required": [
-        "capturedAmount",
-        "refundedAmount",
-        "remainingAmountToCapture",
-        "remainingAmountToRefund"
-      ],
-      "type": "object"
-    },
-    "TransactionResponseRefund": {
-      "properties": {
-        "transactionSummary": {
-          "$ref": "#/definitions/TransactionSummary"
-        },
-        "transaction": {
-          "$ref": "#/definitions/TransactionInfoRefund"
+        "shippingDetails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShippingDetails"
+          }
         },
         "orderId": {
-          "example": "order123abc",
-          "maxLength": 30,
-          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters",
-          "type": "string"
+          "type": "string",
+          "example": "order123abc"
         }
-      },
+      }
+    },
+    "MerchantInfoPayment": {
+      "type": "object",
       "required": [
-        "orderId"
+        "merchantSerialNumber"
       ],
-      "type": "object"
-    },
-    "TransactionResponseCapture": {
       "properties": {
-        "transactionSummary": {
-          "$ref": "#/definitions/TransactionSummary"
-        },
-        "transactionInfo": {
-          "$ref": "#/definitions/TransactionInfoCapture"
-        },
-        "orderId": {
-          "example": "order123abc",
-          "maxLength": 30,
-          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters",
-          "type": "string"
+        "merchantSerialNumber": {
+          "pattern": "^\\d{6}$",
+          "maxLength": 6,
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "type": "string",
+          "example": 123456,
+          "minLength": 6
         }
-      },
-      "required": [
-        "orderId"
-      ],
-      "type": "object"
-    },
-    "CustomerInfoDto": {
-      "properties": {
-        "mobileNumber": {
-          "example": 91234567,
-          "description": "Mobile number of the user who has to pay for the transation from Vipps. Allowed format: xxxxxxxx",
-          "pattern": "^\\d{8}$",
-          "minLength": 8,
-          "maxLength": 8,
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "AuthorizationTokenResponse": {
-      "properties": {
-        "ext_expires_in": {
-          "example": 3600,
-          "type": "integer"
-        },
-        "token_type": {
-          "example": "Bearer",
-          "type": "string"
-        },
-        "expires_in": {
-          "example": 3600,
-          "type": "integer"
-        },
-        "not_before": {
-          "example": 1547819508,
-          "type": "integer"
-        },
-        "expires_on": {
-          "example": 1547823408,
-          "type": "integer"
-        },
-        "access_token": {
-          "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni <snip>",
-          "type": "string"
-        },
-        "resource": {
-          "example": "00000002-0000-0000-c000-000000000000",
-          "type": "string"
-        }
-      },
-      "type": "object"
+      }
     },
     "ShippingDetailsRequest": {
-      "properties": {
-        "shippingCost": {
-          "description": "Shipping cost",
-          "format": "double",
-          "type": "number"
-        },
-        "shippingMethod": {
-          "description": "Shipping method which choosed for the payment",
-          "type": "string"
-        },
-        "address": {
-          "$ref": "#/definitions/Address",
-          "description": "Address Details"
-        }
-      },
+      "type": "object",
       "required": [
         "address",
         "shippingCost",
         "shippingMethod"
       ],
-      "type": "object"
-    },
-    "OrderStatusInfoTransactionInfo": {
       "properties": {
-        "amount": {
-          "example": 20000,
-          "description": "Ordered amount in øre",
+        "address": {
+          "$ref": "#/definitions/Address",
+          "description": "Address Details"
+        },
+        "shippingMethod": {
+          "type": "string",
+          "description": "Shipping method which choosed for the payment"
+        },
+        "shippingCost": {
+          "type": "number",
           "format": "double",
-          "type": "number"
+          "description": "Shipping cost"
+        }
+      }
+    },
+    "TransactionResponseCapture": {
+      "type": "object",
+      "required": [
+        "orderId"
+      ],
+      "properties": {
+        "transactionInfo": {
+          "$ref": "#/definitions/TransactionInfoCapture"
+        },
+        "transactionSummary": {
+          "$ref": "#/definitions/TransactionSummary"
+        },
+        "orderId": {
+          "type": "string",
+          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters",
+          "maxLength": 30,
+          "example": "order123abc"
+        }
+      }
+    },
+    "Address": {
+      "type": "object",
+      "required": [
+        "addressLine1",
+        "city",
+        "country",
+        "zipCode"
+      ],
+      "properties": {
+        "addressLine2": {
+          "type": "string",
+          "description": "Address Line 2",
+          "example": "Att: Rune Garborg"
+        },
+        "city": {
+          "type": "string",
+          "description": "City",
+          "example": "Oslo"
+        },
+        "country": {
+          "type": "string",
+          "description": "Country,default=NO",
+          "example": "NO"
+        },
+        "zipCode": {
+          "type": "string",
+          "description": "Zip Code",
+          "example": "0191"
+        },
+        "addressLine1": {
+          "type": "string",
+          "description": "Address Line 1",
+          "example": "Dronning Eufemias gate 42"
+        }
+      }
+    },
+    "CancelTransaction": {
+      "type": "object",
+      "properties": {
+        "transactionText": {
+          "type": "string"
+        }
+      }
+    },
+    "TransactionInfoInitiateDTO": {
+      "type": "object",
+      "required": [
+        "amount",
+        "orderId",
+        "transactionText"
+      ],
+      "properties": {
+        "refOrderId": {
+          "type": "string",
+          "description": "Identifies if the payment references to some past orders registered with Vipps. If defined, transactions for this payment will show up as child transactions of the specified order.",
+          "maxLength": 30,
+          "example": "merchantOrder123abc"
         },
         "timeStamp": {
-          "example": "2018-12-12T11:18:38.246Z",
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO formatted date time string.",
+          "example": "2018-11-14T15:44:26.590Z"
+        },
+        "amount": {
+          "type": "integer",
+          "format": "int32",
+          "example": 20000,
+          "description": "Amount in øre. 32 bit Integer (2147483647)",
+          "pattern": "^\\d{3,}$"
+        },
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text that can be displayed to end user",
+          "maxLength": 100,
+          "example": "One pair of Vipps socks"
+        },
+        "orderId": {
+          "type": "string",
+          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters.",
+          "maxLength": 30,
+          "example": "order123abc"
+        }
+      }
+    },
+    "TransactionResponseRefund": {
+      "type": "object",
+      "required": [
+        "orderId"
+      ],
+      "properties": {
+        "transactionSummary": {
+          "$ref": "#/definitions/TransactionSummary"
+        },
+        "orderId": {
+          "type": "string",
+          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters",
+          "maxLength": 30,
+          "example": "order123abc"
+        },
+        "transaction": {
+          "$ref": "#/definitions/TransactionInfoRefund"
+        }
+      }
+    },
+    "OrderStatusInfoTransactionInfo": {
+      "type": "object",
+      "required": [
+        "amount",
+        "status",
+        "timeStamp",
+        "transactionId"
+      ],
+      "properties": {
+        "timeStamp": {
+          "type": "string",
           "description": "Timestamp in ISO-8601 representing when Vipps cancelled the transaction.",
-          "type": "string"
+          "example": "2018-12-12T11:18:38.246Z"
         },
         "transactionId": {
-          "example": "5001420062",
+          "type": "string",
           "description": "Vipps transaction id",
-          "type": "string"
+          "example": "5001420062"
         },
         "status": {
-          "example": "RESERVE",
           "enum": [
             "INITIATE",
             "REGISTER",
@@ -833,63 +1410,53 @@
             "FAILED",
             "REJECTED"
           ],
+          "type": "string",
           "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information.",
-          "type": "string"
+          "example": "RESERVE"
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Ordered amount in øre",
+          "example": 20000
         }
-      },
+      }
+    },
+    "InitiatePaymentCommand": {
+      "type": "object",
       "required": [
-        "amount",
-        "status",
-        "timeStamp",
-        "transactionId"
+        "customerInfo",
+        "merchantInfo",
+        "transaction"
       ],
-      "type": "object"
+      "properties": {
+        "merchantInfo": {
+          "$ref": "#/definitions/MerchantInfoDto",
+          "description": "it has merchant related information to initiate the payment"
+        },
+        "customerInfo": {
+          "$ref": "#/definitions/CustomerInfoDto",
+          "description": "it has customer information and it is not required"
+        },
+        "transaction": {
+          "$ref": "#/definitions/TransactionInfoInitiateDTO",
+          "description": "it has transaction details which needs to be inititated"
+        }
+      }
+    },
+    "CancelPaymentActionRequest": {
+      "type": "object",
+      "properties": {
+        "merchantInfo": {
+          "$ref": "#/definitions/MerchantInfoPayment"
+        },
+        "transaction": {
+          "$ref": "#/definitions/CancelTransaction"
+        }
+      }
     },
     "UserDetails": {
-      "properties": {
-        "ssn": {
-          "minLength": 11,
-          "pattern": "^\\d{11}$",
-          "description": "12345678912",
-          "maxLength": 11,
-          "type": "string"
-        },
-        "bankIdVerified": {
-          "type": "string"
-        },
-        "firstName": {
-          "example": "Ada",
-          "description": "First name",
-          "type": "string"
-        },
-        "mobileNumber": {
-          "minLength": 8,
-          "pattern": "^\\d{8,12}$",
-          "description": "12345678",
-          "maxLength": 12,
-          "type": "string"
-        },
-        "dateOfBirth": {
-          "example": "12-3-1988",
-          "description": "12-3-1988",
-          "type": "string"
-        },
-        "lastName": {
-          "example": "Lovelace",
-          "description": "Last name",
-          "type": "string"
-        },
-        "userId": {
-          "example": "1234567",
-          "description": "1234567",
-          "type": "string"
-        },
-        "email": {
-          "example": "user@example.com",
-          "description": "Email address",
-          "type": "string"
-        }
-      },
+      "type": "object",
       "required": [
         "email",
         "firstName",
@@ -897,786 +1464,219 @@
         "mobileNumber",
         "userId"
       ],
-      "type": "object"
+      "properties": {
+        "dateOfBirth": {
+          "type": "string",
+          "description": "12-3-1988",
+          "example": "12-3-1988"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name",
+          "example": "Lovelace"
+        },
+        "userId": {
+          "type": "string",
+          "description": "1234567",
+          "example": "1234567"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address",
+          "example": "user@example.com"
+        },
+        "ssn": {
+          "type": "string",
+          "description": "12345678912",
+          "minLength": 11,
+          "maxLength": 11,
+          "pattern": "^\\d{11}$"
+        },
+        "mobileNumber": {
+          "type": "string",
+          "description": "12345678",
+          "minLength": 8,
+          "maxLength": 12,
+          "pattern": "^\\d{8,12}$"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name",
+          "example": "Ada"
+        },
+        "bankIdVerified": {
+          "type": "string"
+        }
+      }
+    },
+    "PaymentShippingDetails": {
+      "type": "object",
+      "required": [
+        "shippingCost",
+        "shippingMethod"
+      ],
+      "properties": {
+        "address": {
+          "$ref": "#/definitions/Address"
+        },
+        "shippingMethod": {
+          "type": "string",
+          "description": "Shipping method",
+          "example": "Posten"
+        },
+        "shippingCost": {
+          "type": "number",
+          "format": "double",
+          "description": "Shipping Cost",
+          "example": 1500
+        }
+      }
+    },
+    "GetTransactionDetails": {
+      "type": "object",
+      "properties": {
+        "transactionLogHistory": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TransactionLogHistory"
+          }
+        },
+        "transactionSummary": {
+          "$ref": "#/definitions/TransactionSummary"
+        },
+        "shippingDetails": {
+          "$ref": "#/definitions/PaymentShippingDetails"
+        },
+        "userDetails": {
+          "$ref": "#/definitions/UserDetails"
+        },
+        "orderId": {
+          "type": "string",
+          "example": "order123abc"
+        }
+      }
+    },
+    "CallbackTransactionInfoStatus": {
+      "type": "object",
+      "required": [
+        "amount",
+        "status",
+        "timeStamp",
+        "transactionId"
+      ],
+      "properties": {
+        "timeStamp": {
+          "type": "string",
+          "description": "Timestamp in ISO-8601 representing when Vipps cancelled the transaction.",
+          "example": "2018-12-12T11:18:38.246Z"
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "Vipps transaction id",
+          "example": "5001420062"
+        },
+        "status": {
+          "enum": [
+            "RESERVE",
+            "SALE",
+            "CANCELLED",
+            "REJECTED"
+          ],
+          "type": "string",
+          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#callbacks) for more information.",
+          "example": "RESERVE"
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Ordered amount in øre",
+          "example": 20000
+        }
+      }
+    },
+    "AuthorizationTokenResponse": {
+      "type": "object",
+      "properties": {
+        "expires_in": {
+          "type": "integer",
+          "example": 3600
+        },
+        "resource": {
+          "type": "string",
+          "example": "00000002-0000-0000-c000-000000000000"
+        },
+        "not_before": {
+          "type": "integer",
+          "example": 1547819508
+        },
+        "expires_on": {
+          "type": "integer",
+          "example": 1547823408
+        },
+        "access_token": {
+          "type": "string",
+          "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni <snip>"
+        },
+        "token_type": {
+          "type": "string",
+          "example": "Bearer"
+        },
+        "ext_expires_in": {
+          "type": "integer",
+          "example": 3600
+        }
+      }
+    },
+    "InitiatePaymentV2Representation": {
+      "type": "object",
+      "required": [
+        "orderId",
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "URL parameter will have URL to redirect the request to vipps gateway page in case request is trigger from web browser or deeplink URL to open vipps app incase request is triggered from Merchant Mobile App.",
+          "example": "https://example.com"
+        },
+        "orderId": {
+          "type": "string",
+          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters.",
+          "example": "order123abc"
+        }
+      }
     },
     "GetPaymentStatusResponse": {
+      "type": "object",
       "properties": {
         "transactionInfo": {
           "$ref": "#/definitions/OrderStatusInfoTransactionInfo"
         },
         "orderId": {
-          "example": "order123abc",
-          "type": "string"
+          "type": "string",
+          "example": "order123abc"
         }
-      },
-      "type": "object"
-    },
-    "AuthorizationTokenMethod": {
-      "type": "object"
+      }
     }
   },
   "info": {
     "title": "Vipps eCommerce APIs",
-    "description": "# Vipps eCommerce API\nAdditional API documentation: https://github.com/vippsas/vipps-ecom-api/\n",
-    "version": "1.0.4"
+    "version": "1.0.4",
+    "description": "# Vipps eCommerce API\nAdditional API documentation: https://github.com/vippsas/vipps-ecom-api/\n"
   },
   "tags": [
     {
-      "description": "Authorization Service",
-      "name": "Authorization Service"
+      "name": "Authorization Service",
+      "description": "Authorization Service"
     },
     {
-      "description": "Functionality provided by the Vipps eCommerce API",
-      "name": "Vipps eCom API"
+      "name": "Vipps eCom API",
+      "description": "Functionality provided by the Vipps eCommerce API"
     },
     {
-      "description": "These endpoints must be implemented by the merchant, and are called by Vipps.",
-      "name": "Endpoints required by Vipps from the merchant"
+      "name": "Endpoints required by Vipps from the merchant",
+      "description": "These endpoints must be implemented by the merchant, and are called by Vipps."
     }
   ],
-  "host": "apitest.vipps.no",
-  "paths": {
-    "[consentRemovalPrefix]/v2/consents/{userId}": {
-      "delete": {
-        "summary": "Remove User Consent (for express checkout)",
-        "responses": {
-          "404": {
-            "description": "Resource Not Found"
-          },
-          "200": {
-            "description": "Remove User Consent (for express checkout)"
-          },
-          "405": {
-            "description": "Request method not supported"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "415": {
-            "description": "Unsupported media type"
-          },
-          "400": {
-            "description": "Bad request (Missing a required parameter or bad request format)"
-          },
-          "500": {
-            "description": "Something went wrong from Vipps Server side"
-          },
-          "403": {
-            "description": "Request Forbidden"
-          }
-        },
-        "tags": [
-          "Endpoints required by Vipps from the merchant"
-        ],
-        "description": "This API endpoint on the merchant side allows Vipps to send consent removal requests to the merchant. When receiving requests the merchant is obliged to remove the user details permanently, as per the GDPR guidelines. Vipps will add `/v2/consents/{userId}` to the end of this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "The userId provided when requesting user information from Vipps. Received by callback or get detail request.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "produces": [
-          "application/json;charset=UTF-8"
-        ],
-        "operationId": "removeUserConsentUsingDELETE"
-      }
-    },
-    "[callbackPrefix]/v2/payments/{orderId}": {
-      "post": {
-        "summary": "Callback : Transaction Update",
-        "responses": {
-          "404": {
-            "description": "Resource Not Found"
-          },
-          "200": {
-            "description": "Callback : Transaction Update"
-          },
-          "405": {
-            "description": "Request method not supported"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "415": {
-            "description": "Unsupported media type"
-          },
-          "400": {
-            "description": "Bad request (Missing a required parameter or bad request format)"
-          },
-          "402": {
-            "description": "Payment Failed"
-          },
-          "500": {
-            "description": "Something went wrong on the Vipps server side"
-          },
-          "403": {
-            "description": "Request Forbidden"
-          }
-        },
-        "tags": [
-          "Endpoints required by Vipps from the merchant"
-        ],
-        "description": "This API call allows Vipps to send the transaction details. During regular ecomm payment order and transaction details will be shared. During express checkout payment it will provide user details and shipping details addition to the order and transaction details. Vipps will add `/v2/payments/{orderId}` to the end of this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
-        "consumes": [
-          "application/json;charset=UTF-8"
-        ],
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "description": "orderId",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/ExpressCheckOutPaymentRequest"
-            },
-            "description": "expressCheckOutPaymentRequest",
-            "required": true,
-            "name": "expressCheckOutPaymentRequest"
-          }
-        ],
-        "produces": [
-          "application/json;charset=UTF-8"
-        ],
-        "operationId": "transactionUpdateCallbackForRegularPaymentUsingPOST"
-      }
-    },
-    "/ecomm/v2/payments/{orderId}/details": {
-      "get": {
-        "summary": "Get payment Details",
-        "responses": {
-          "404": {
-            "description": "Resource Not Found"
-          },
-          "200": {
-            "schema": {
-              "$ref": "#/definitions/GetTransactionDetails"
-            },
-            "description": "Get payment Details"
-          },
-          "405": {
-            "description": "Request method not supported"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "415": {
-            "description": "Unsupported media type"
-          },
-          "400": {
-            "description": "Bad request (Missing a required parameter or bad request format)"
-          },
-          "402": {
-            "description": "Payment Failed"
-          },
-          "500": {
-            "description": "Something went wrong from Vipps Server side"
-          },
-          "403": {
-            "description": "Request Forbidden"
-          }
-        },
-        "tags": [
-          "Vipps eCom API"
-        ],
-        "description": "This API call allows merchant to get the details of a payment transaction. Service call returns detailed transaction history of given payment where events are sorted by the time single transaction occurred.",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "description": "Order id specified in the request body of initiate payment.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "description": "Authorization-token is obtained by running the `/accesstoken/get` request.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "content-type",
-            "description": "`application/json`",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "ocp-apim-subscription-key",
-            "description": "The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "produces": [
-          "application/json;charset=UTF-8"
-        ],
-        "operationId": "getPaymentDetailsUsingGET"
-      }
-    },
-    "/ecomm/v2/payments": {
-      "post": {
-        "summary": "Initiate Payment",
-        "responses": {
-          "404": {
-            "description": "Resource Not Found"
-          },
-          "402": {
-            "description": "Payment Failed"
-          },
-          "405": {
-            "description": "Request method not supported"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "415": {
-            "description": "Unsupported media type"
-          },
-          "400": {
-            "description": "Bad request (Missing a required parameter or bad request format)"
-          },
-          "202": {
-            "schema": {
-              "$ref": "#/definitions/InitiatePaymentV2Representation"
-            },
-            "description": "Response for Initiate Payment"
-          },
-          "500": {
-            "description": "Something went wrong from Vipps Server side"
-          },
-          "403": {
-            "description": "Request Forbidden"
-          }
-        },
-        "tags": [
-          "Vipps eCom API"
-        ],
-        "description": "This API call allows the merchants to initiate a payment flow by using Vipps. In order to identify which sales channel payments are coming from, a merchantSerialNumber is used to distinguish between them. Please note that a single payment is uniquely identified by a composite of merchantApplicationId (X-App-ID), merchantSerialNumber and orderId. The Merchant provided orderId must be unique per sales channel. Once the transaction is successfully initiated in Vipps, will you receive a redirect URL in response which has to be used by the merchant to open the Vipps landing page. The landing page will have functionality to identify and differentiate request coming from mobile browser/desktop browser. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
-        "consumes": [
-          "application/json;charset=UTF-8"
-        ],
-        "parameters": [
-          {
-            "in": "header",
-            "name": "authorization",
-            "description": "Authorization-token is obtained by running the /accesstoken/get request.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "content-type",
-            "description": "application/json",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "ocp-apim-subscription-key",
-            "description": "The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/InitiatePaymentCommand"
-            },
-            "description": "initiatePaymentCommand",
-            "required": true,
-            "name": "initiatePaymentCommand"
-          }
-        ],
-        "produces": [
-          "application/json;charset=UTF-8"
-        ],
-        "operationId": "initiatePaymentV3UsingPOST"
-      }
-    },
-    "/ecomm/v2/payments/{orderId}/refund": {
-      "post": {
-        "summary": "Refund Payment ",
-        "responses": {
-          "404": {
-            "description": "Resource Not Found"
-          },
-          "200": {
-            "schema": {
-              "$ref": "#/definitions/TransactionResponseRefund"
-            },
-            "description": "Refund payment response"
-          },
-          "405": {
-            "description": "Request method not supported"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "415": {
-            "description": "Unsupported media type"
-          },
-          "400": {
-            "description": "Bad request (Missing a required parameter or bad request format)"
-          },
-          "402": {
-            "description": "Payment Failed"
-          },
-          "500": {
-            "description": "Something went wrong from Vipps Server side"
-          },
-          "403": {
-            "description": "Request Forbidden"
-          }
-        },
-        "tags": [
-          "Vipps eCom API"
-        ],
-        "description": "The API allows a merchant to do a refund of already captured transaction. There is an option to do a partial refund of the captured amount. Refunded amount cannot be larger than captured. Timeframe for issuing a refund for a payment is 365 days from the date payment has been captured. If the refund payment service call is called after the refund timeframe, service call will respond with an error. Refunded funds will be transferred from the merchant account to the customer credit card that was used in payment flow. Pay attention that in order to perform refund, there must be enough funds at merchant settlements account.",
-        "consumes": [
-          "application/json;charset=UTF-8"
-        ],
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "description": "Order id specified in the request body of initiate payment.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "description": "Authorization-token is obtained by running the /accesstoken/get request.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "content-type",
-            "description": "`application/json`",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "ocp-apim-subscription-key",
-            "description": "The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/PaymentActionsRequest"
-            },
-            "description": "paymentActionsRequest",
-            "required": true,
-            "name": "paymentActionsRequest"
-          }
-        ],
-        "produces": [
-          "application/json;charset=UTF-8"
-        ],
-        "operationId": "refundPaymentUsingPOST"
-      }
-    },
-    "/ecomm/v2/payments/{orderId}/capture": {
-      "post": {
-        "summary": "Capture Payment ",
-        "responses": {
-          "404": {
-            "description": "Resource Not Found"
-          },
-          "200": {
-            "schema": {
-              "$ref": "#/definitions/TransactionResponseCapture"
-            },
-            "description": "Capture payment response"
-          },
-          "405": {
-            "description": "Request method not supported"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "415": {
-            "description": "Unsupported media type"
-          },
-          "400": {
-            "description": "Bad request (Missing a required parameter or bad request format)"
-          },
-          "402": {
-            "description": "Payment Failed"
-          },
-          "500": {
-            "description": "Something went wrong from Vipps Server side"
-          },
-          "403": {
-            "description": "Request Forbidden"
-          }
-        },
-        "tags": [
-          "Vipps eCom API"
-        ],
-        "description": "This API call allows merchant to capture the reserved amount. Amount to capture cannot be higher than reserved. The API also allows capturing partial amount of the reserved amount. Partial capture can be called as many times as required so long there is reserved amount to capture. Transaction text is not optional and is used as a proof of delivery (tracking code, consignment number etc.). In a case of direct capture, both fund reservation and capture are executed in a single operation.",
-        "consumes": [
-          "application/json;charset=UTF-8"
-        ],
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "description": "Order id specified in the request body of initiate payment.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "description": "Authorization-token is obtained by running the /accesstoken/get request.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "content-type",
-            "description": "`application/json`",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "ocp-apim-subscription-key",
-            "description": "The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/PaymentActionsRequest"
-            },
-            "description": "paymentActionsRequest",
-            "required": true,
-            "name": "paymentActionsRequest"
-          }
-        ],
-        "produces": [
-          "application/json;charset=UTF-8"
-        ],
-        "operationId": "capturePaymentUsingPOST"
-      }
-    },
-    "/ecomm/v2/payments/{orderId}/cancel": {
-      "put": {
-        "summary": "Cancel Payment",
-        "responses": {
-          "404": {
-            "description": "Resource Not Found"
-          },
-          "200": {
-            "schema": {
-              "$ref": "#/definitions/TransactionResponseCancel"
-            },
-            "description": "Cancel payment response"
-          },
-          "405": {
-            "description": "Request method not supported"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "415": {
-            "description": "Unsupported media type"
-          },
-          "400": {
-            "description": "Bad request (Missing a required parameter or bad request format)"
-          },
-          "402": {
-            "description": "Payment Failed"
-          },
-          "500": {
-            "description": "Something went wrong from Vipps Server side"
-          },
-          "403": {
-            "description": "Request Forbidden"
-          }
-        },
-        "tags": [
-          "Vipps eCom API"
-        ],
-        "description": "The API call allows merchant to cancel the reserved transaction, The API will not allow partial cancellation which has the consequence that partially captured transactions cannot be cancelled. Please note that in a case of communication errors during initiate payment service call between Vipps and PSP/Acquirer/Issuer; even in a case that customer has confirmed a payment, the payment will be cancelled by Vipps. Note this means you can not cancel a captured payment.",
-        "consumes": [
-          "application/json;charset=UTF-8"
-        ],
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "description": "Order id specified in the request body of initiate payment.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "description": "Authorization-token is obtained by running the /accesstoken/get request.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "content-type",
-            "description": "`application/json`",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "ocp-apim-subscription-key",
-            "description": "The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/CancelPaymentActionRequest"
-            },
-            "description": "paymentActionsRequest",
-            "required": true,
-            "name": "paymentActionsRequest"
-          }
-        ],
-        "produces": [
-          "application/json;charset=UTF-8"
-        ],
-        "operationId": "cancelPaymentRequestUsingPUT"
-      }
-    },
-    "[shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails": {
-      "post": {
-        "summary": "Fetch Shipping Cost & Method",
-        "responses": {
-          "404": {
-            "description": "Resource Not Found"
-          },
-          "200": {
-            "schema": {
-              "$ref": "#/definitions/FetchShippingCostResponse"
-            },
-            "description": "Fetch Shipping Cost & Method."
-          },
-          "405": {
-            "description": "Request method not supported"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "415": {
-            "description": "Unsupported media type"
-          },
-          "400": {
-            "description": "Bad request (Missing a required parameter or bad request format)"
-          },
-          "402": {
-            "description": "Payment Failed"
-          },
-          "500": {
-            "description": "Something went wrong from Vipps Server side"
-          },
-          "403": {
-            "description": "Request Forbidden"
-          }
-        },
-        "tags": [
-          "Endpoints required by Vipps from the merchant"
-        ],
-        "description": "This API endpoint on the merchant side allows Vipps to get the shipping cost and method based on the provided address and product details. The primary use of this service is Vipps Hurtigkasse (express checkout) where Vipps needs to present shipping cost and method to the Vipps user. Vipps will add `/v2/payments/{orderId}/shippingDetails` to the end of this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
-        "consumes": [
-          "application/json;charset=UTF-8"
-        ],
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "description": "orderId",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/FetchShippingCostAndMethod"
-            },
-            "description": "fetchShippingCostAndMethod",
-            "required": true,
-            "name": "fetchShippingCostAndMethod"
-          }
-        ],
-        "produces": [
-          "application/json;charset=UTF-8"
-        ],
-        "operationId": "fetchShippingCostUsingPOST"
-      }
-    },
-    "/ecomm/v2/payments/{orderId}/status": {
-      "get": {
-        "summary": "Get order status",
-        "responses": {
-          "404": {
-            "description": "Resource Not Found"
-          },
-          "200": {
-            "schema": {
-              "$ref": "#/definitions/GetPaymentStatusResponse"
-            },
-            "description": "Get order status"
-          },
-          "405": {
-            "description": "Request method not supported"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "415": {
-            "description": "Unsupported media type"
-          },
-          "400": {
-            "description": "Bad request (Missing a required parameter or bad request format)"
-          },
-          "402": {
-            "description": "Payment Failed"
-          },
-          "500": {
-            "description": "Something went wrong from Vipps Server side"
-          },
-          "403": {
-            "description": "Request Forbidden"
-          }
-        },
-        "tags": [
-          "Vipps eCom API"
-        ],
-        "description": "This API call allows the merchant to get the status of the last payment transaction. Primarily use of this service is meant for inApp where simple response to check order status is preferred.",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "description": "Order id specified in the request body of initiate payment.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "description": "Authorization-token is obtained by running the /accesstoken/get request.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "header",
-            "name": "ocp-apim-subscription-key",
-            "description": "The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "produces": [
-          "application/json;charset=UTF-8"
-        ],
-        "operationId": "getOrderStatusUsingGET"
-      }
-    },
-    "/accesstoken/get": {
-      "post": {
-        "summary": "Fetch authorization token",
-        "responses": {
-          "404": {
-            "description": "Resource Not Found"
-          },
-          "200": {
-            "schema": {
-              "$ref": "#/definitions/AuthorizationTokenResponse"
-            },
-            "description": "OK"
-          },
-          "405": {
-            "description": "Request method not supported"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "415": {
-            "description": "Unsupported media type"
-          },
-          "400": {
-            "description": "Bad request (Missing a required parameter or bad request format)"
-          },
-          "402": {
-            "description": "Payment Failed"
-          },
-          "500": {
-            "description": "Something went wrong from Vipps Server side"
-          },
-          "403": {
-            "description": "Request Forbidden"
-          }
-        },
-        "tags": [
-          "Authorization Service"
-        ],
-        "description": "Authorization token API endpoint helps to get the JWT Bearer token that needs to be passed in every API request in the authorization header. The merchant application use the API to get a JWT access token. JWT access token is a base 64 encoded string value that must be aquire first before making any Vipps api calls",
-        "consumes": [
-          "application/json;charset=UTF-8"
-        ],
-        "parameters": [
-          {
-            "type": "string",
-            "format": "guid",
-            "required": true,
-            "name": "client_id",
-            "description": "Client id is located in the [developer portal](https://apitest-portal.vipps.no/). Navigate to the ```Applications``` tab and click the ```View secrets``` button to display the client id. See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.",
-            "in": "header"
-          },
-          {
-            "name": "client_secret",
-            "in": "header",
-            "description": "Client secret is located in the [developer portal](https://apitest-portal.vipps.no/). Navigate to the ```Applications``` tab and click the ```View secrets``` button to display the client id. See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "ocp-apim-subscription-key",
-            "in": "header",
-            "description": "The subscription-key for authorization token is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. The ```DEFAULT_ACCESSTOKEN``` key is the value for subscription-key. See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "produces": [
-          "application/json;charset=UTF-8"
-        ],
-        "operationId": "fetchAuthorizationTokenUsingPost"
-      }
-    }
-  }
+  "swagger": "2.0"
 }
