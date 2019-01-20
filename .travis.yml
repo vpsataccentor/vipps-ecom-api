@@ -1,0 +1,38 @@
+matrix:
+  include:
+    - language: node_js
+      branches:
+        only:
+          - master
+      node_js:
+        - "11"
+      before_script:
+        - npm i api2html -g
+      script:
+        - api2html -o docs/shins.html -b -s -c "images/Vipps Logo@3x.png" docs/swagger.yaml
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token: $GITHUB_TOKEN
+        keep-history: true
+        target-branch: deploy
+        on:
+          branch: master
+    - language: python
+      branches:
+        only:
+          - deploy
+      python:
+        - "3.5"
+      before_script:
+        - pip install pyyaml
+      script:
+        - python tools/yaml2json.py
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token: $GITHUB_TOKEN
+        keep-history: true
+        target-branch: master
+        on:
+          branch: master
