@@ -10,6 +10,8 @@ matrix:
     - language: python
       python:
         - "3.5"
+      before_script:
+        - pip install pyyaml
       script:
         - python tools/yaml2json.py
 deploy:
