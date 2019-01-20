@@ -9,7 +9,7 @@ matrix:
         - api2html -o docs/shins.html -b -s -c "images/Vipps Logo@3x.png" docs/swagger.yaml
     - language: python
       python:
-        - "3.7"
+        - "3.5"
       script:
         - python tools/yaml2json.py
 deploy:
