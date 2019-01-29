@@ -15,5 +15,6 @@ steps:
     versionSpec: '11.x'
 - script: npm install api2html -g
 - script: api2html -o docs/shins.html -b -s -c "images/Vipps Logo@3x.png" docs/swagger.yaml
+- script: ls docs/
 - script: git status
 
