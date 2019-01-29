@@ -114,57 +114,6 @@ paths:
           description: Request method not supported
         '415':
           description: Unsupported media type
-  '[shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails':
-    post:
-      tags:
-        - Endpoints required by Vipps from the merchant
-      summary: Fetch Shipping Cost & Method
-      description: >-
-        This API endpoint on the merchant side allows Vipps to get the shipping
-        cost and method based on the provided address and product details. The
-        primary use of this service is Vipps Hurtigkasse (express checkout)
-        where Vipps needs to present shipping cost and method to the Vipps user.
-        Vipps will add `/v2/payments/{orderId}/shippingDetails` to the end of this URL.
-        URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons
-        [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).
-      operationId: fetchShippingCostUsingPOST
-      consumes:
-        - application/json;charset=UTF-8
-      produces:
-        - application/json;charset=UTF-8
-      parameters:
-        - name: orderId
-          in: path
-          description: orderId
-          required: true
-          type: string
-        - in: body
-          name: fetchShippingCostAndMethod
-          description: fetchShippingCostAndMethod
-          required: true
-          schema:
-            $ref: '#/definitions/FetchShippingCostAndMethod'
-      responses:
-        '200':
-          description: Fetch Shipping Cost & Method.
-          schema:
-            $ref: '#/definitions/FetchShippingCostResponse'
-        '400':
-          description: Bad request (Missing a required parameter or bad request format)
-        '401':
-          description: Unauthorized
-        '402':
-          description: Payment Failed
-        '403':
-          description: Request Forbidden
-        '404':
-          description: Resource Not Found
-        '405':
-          description: Request method not supported
-        '415':
-          description: Unsupported media type
-        '500':
-          description: Something went wrong from Vipps Server side
   /ecomm/v2/payments:
     post:
       tags:
