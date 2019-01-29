@@ -50,12 +50,6 @@ paths:
             for full guide with images.
           required: true
           type: string
-      description: >-
-        Authorization token API endpoint helps to get the JWT Bearer token that
-        needs to be passed in every API request in the authorization header. The
-        merchant application use the API to get a JWT access token. JWT access
-        token is a base 64 encoded string value that must be aquire first before
-        making any Vipps api calls
       operationId: fetchAuthorizationTokenUsingPost
       consumes:
         - application/json;charset=UTF-8
