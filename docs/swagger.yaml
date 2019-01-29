@@ -24,12 +24,6 @@ paths:
       parameters:
         - name: client_id
           in: header
-          description: >-
-          Navigate to the
-            ```Applications``` tab and click the ```View secrets``` button to
-            display the client id. See the [getting started
-            guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md)
-            for full guide with images.
           required: true
           type: string
           format: guid
