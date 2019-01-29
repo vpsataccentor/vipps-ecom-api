@@ -16,8 +16,8 @@ steps:
 - script: npm install api2html -g
 - script: 
     git config --global user.email "you@example.com";
-    git config --global user.name "Your Name"
-    api2html -o docs/shins.html -b -s -c "images/Vipps Logo@3x.png" docs/swagger.yaml 
+    git config --global user.name "Your Name";
+    api2html -o docs/shins.html -b -s -c "images/Vipps Logo@3x.png" docs/swagger.yaml;
     git status;
     git add docs/shins.html;
     git commit -m "Azure api2html conversion";
