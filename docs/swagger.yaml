@@ -25,8 +25,7 @@ paths:
         - name: client_id
           in: header
           description: >-
-            Client id is located in the [developer
-            portal](https://apitest-portal.vipps.no/). Navigate to the
+          Navigate to the
             ```Applications``` tab and click the ```View secrets``` button to
             display the client id. See the [getting started
             guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md)
