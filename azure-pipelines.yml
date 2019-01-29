@@ -20,5 +20,5 @@ steps:
 - script: git status
 - script: git add docs/shins.html
 - script: git commit -m "Azure api2html conversion"
-- script: git push -u
+- script: git push -u origin gh-pages
 
