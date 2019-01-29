@@ -114,8 +114,6 @@ paths:
           description: Request method not supported
         '415':
           description: Unsupported media type
-        '500':
-          description: Something went wrong from Vipps Server side
   '[shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails':
     post:
       tags:
