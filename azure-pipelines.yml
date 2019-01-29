@@ -18,6 +18,7 @@ steps:
 - script: git config --global user.email "you@example.com"
 - script: git config --global user.name "Your Name"
 - script: api2html -o docs/shins.html -b -s -c "images/Vipps Logo@3x.png" docs/swagger.yaml
+- script: git status
 - script: git add docs/shins.html
 - script: git commit -m "Azure api2html conversion"
 - script: git push -u
