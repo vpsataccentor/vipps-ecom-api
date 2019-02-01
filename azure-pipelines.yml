@@ -13,6 +13,8 @@ steps:
 - task: NodeTool@0
   inputs:
     versionSpec: '11.x'
+  env:
+    GITHUB_PAT: $(GITHUB_PAT)
 - script: npm install api2html -g
 - script: 
     git config --global user.email "you@example.com";
