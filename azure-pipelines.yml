@@ -13,18 +13,13 @@ steps:
 - task: NodeTool@0
   inputs:
     versionSpec: '11.x'
-  env:
-    GITHUB_PAT: $(GITHUB_PAT)
 - script: npm install api2html -g
 - script: 
     git config --global user.email "you@example.com";
     git config --global user.name "Your Name";
     api2html -o docs/shins.html -b -s -c "images/Vipps Logo@3x.png" docs/swagger.yaml;
-    git status;
     git add docs/shins.html;
     git commit -m "Azure api2html conversion";
-    git remote -v;
     git remote set-url origin https://vpsataccentor:$(GITHUB_PAT)@github.com/vpsataccentor/vipps-ecom-api.git;
-    git remote -v;
     git push -f origin HEAD:gh-pages
 
