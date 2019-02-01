@@ -24,7 +24,7 @@ steps:
     git add docs/shins.html;
     git commit -m "Azure api2html conversion";
     git remote -v;
-    git remote set-url origin https://vpsataccentor:$GITHUB_PAT@github.com/vpsataccentor/vipps-ecom-api.git;
+    git remote set-url origin https://vpsataccentor:$(GITHUB_PAT)@github.com/vpsataccentor/vipps-ecom-api.git;
     git remote -v;
     git push -f origin HEAD:gh-pages
 
