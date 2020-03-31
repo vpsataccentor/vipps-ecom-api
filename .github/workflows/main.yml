@@ -29,6 +29,9 @@ jobs:
     - run: widdershins docs/swagger.yaml -o docs/index.html.md
     - run: ls -R
     - run: which shins
+    - run: cd /usr/bin/
+    - run: ls
+    - run: ls shins/
       env:
         CI: true
 #    - name: Deploy to GitHub Pages
