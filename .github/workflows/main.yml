@@ -25,6 +25,7 @@ jobs:
       with:
         node-version: 12.x
     - run: npm install widdershins -g
+    - run: ls -R
     - run: widdershins --help
       env:
         CI: true
