@@ -25,7 +25,7 @@ jobs:
       with:
         node-version: 12.x
     - run: npm install widdershins -g
-    - run: ls -R
+    - run: npm install shins
     - run: widdershins docs/swagger.yaml -o docs/index.html.md
     - run: ls -R
     - run: cat docs/index.html.md
