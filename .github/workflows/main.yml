@@ -28,8 +28,8 @@ jobs:
     - run: widdershins --help
       env:
         CI: true
-    - name: Deploy to GitHub Pages
-      uses: docker://maxheld83/ghpages@v0.2.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BUILD_DIR: test-documentation/build/
+#    - name: Deploy to GitHub Pages
+#      uses: docker://maxheld83/ghpages@v0.2.1
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        BUILD_DIR: test-documentation/build/
