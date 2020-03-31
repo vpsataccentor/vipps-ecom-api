@@ -28,7 +28,7 @@ jobs:
     - run: npm install shins
     - run: widdershins docs/swagger.yaml -o docs/index.html.md
     - run: ls -R
-    - run: cd /usr/bin/;ls;ls shins/
+    - run: which widdershins
       env:
         CI: true
 #    - name: Deploy to GitHub Pages
