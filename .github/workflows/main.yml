@@ -9,19 +9,28 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+
 jobs:
   action-filter:
     runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
     steps:
     - uses: actions/checkout@master
-    - name: action-filter
-      uses: actions/bin/filter@master
-      with:
-        args: branch master
     - name: files-filter
       uses: wcchristian/gh-pattern-filter-action@master
       with:
         args: .*\\.yaml$
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install widdershins -g
+    - run: widdershins --help
+      env:
+        CI: true
     - name: Deploy to GitHub Pages
       uses: docker://maxheld83/ghpages@v0.2.1
       env:
