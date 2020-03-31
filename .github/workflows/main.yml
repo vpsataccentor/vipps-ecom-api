@@ -28,7 +28,6 @@ jobs:
     - run: npm install shins
     - run: widdershins docs/swagger.yaml -o docs/index.html.md
     - run: ls -R
-    - run: which shins
     - run: cd /usr/bin/
     - run: ls
     - run: ls shins/
