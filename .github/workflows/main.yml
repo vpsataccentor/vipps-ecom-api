@@ -46,7 +46,7 @@ jobs:
     - run: |
         git status
         git remote -v
-        git branch -v
+        git branch -a
         git checkout gh-pages
         git add --all
         git commit -m "fun"
