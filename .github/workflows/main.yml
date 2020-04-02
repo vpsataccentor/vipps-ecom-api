@@ -36,6 +36,7 @@ jobs:
         git pull https://github.com/slatedocs/slate
         cp ../vipps-ecom-api/docs/widdershins.html.md ./source/index.html.md
         ls
+        gem install bundler:2.0.2
         bundle install
         bundle exec middleman build --clean
         ls
