@@ -7,6 +7,7 @@ name: CI
 on:
   push:
     branches: [ master ]
+    paths: '.github/**'
   pull_request:
     branches: [ master ]
 
@@ -47,7 +48,6 @@ jobs:
         git status
         git remote -v
         git branch -a
-        git checkout gh-pages
         git add --all
         git commit -m "fun"
         git push
