@@ -25,10 +25,14 @@ jobs:
       with:
         node-version: 12.x
     - run: npm install widdershins -g
-    - run: npm install shins
     - run: widdershins docs/swagger.yaml -o docs/index.html.md
-    - run: ls -R
-    - run: which widdershins
+    - run: echo $PWD
+    - run: |
+        cd ..
+        git init slate
+        cd slate
+        git pull https://github.com/slatedocs/slate
+        ls
       env:
         CI: true
 #    - name: Deploy to GitHub Pages
