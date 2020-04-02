@@ -37,14 +37,16 @@ jobs:
         git pull https://github.com/slatedocs/slate
         cp ../vipps-ecom-api/docs/widdershins.html.md ./source/index.html.md
         ls
-        gem install bundler:2.0.2
-        bundle install
-        bundle exec middleman build --clean
-        cp -r build ../vipps-ecom-api/docs
-        ls source/
-        echo now-build
-        ls build/
+        #gem install bundler:2.0.2
+        #bundle install
+        #bundle exec middleman build --clean
+        #cp -r build ../vipps-ecom-api/docs
+        #ls source/
+        #echo now-build
+        #ls build/
     - run: |
+        git config --local user.email "you@example.com"
+        git config --local user.name "Your Name"
         git status
         git remote -v
         git branch -a
