@@ -24,6 +24,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: '2.6'
     - run: npm install widdershins -g
     - run: widdershins docs/swagger.yaml -o docs/widdershins.html.md
     - run: echo $PWD
@@ -32,7 +35,10 @@ jobs:
         cd ../slate
         git pull https://github.com/slatedocs/slate
         cp ../vipps-ecom-api/docs/widdershins.html.md ./source/index.html.md
-        cat ./source/index.html.md
+        ls
+        bundle install
+        bundle exec middleman build --clean
+        ls
       env:
         CI: true
 #    - name: Deploy to GitHub Pages
