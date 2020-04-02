@@ -39,7 +39,14 @@ jobs:
         gem install bundler:2.0.2
         bundle install
         bundle exec middleman build --clean
-        ls
+        cp -r source ../vipps-ecom-api/source
+        ls source/
+        ls build/
+    - run: |
+        git status
+        git remote -v
+        git branch -v
+        git checkout gh-page
       env:
         CI: true
 #    - name: Deploy to GitHub Pages
