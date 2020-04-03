@@ -47,9 +47,9 @@ Functionality provided by the Vipps eCommerce API
 curl -X POST https://apitest.vipps.no/ecomm/v2/payments \
   -H 'Content-Type: application/json;charset=UTF-8' \
   -H 'Accept: application/json;charset=UTF-8' \
-  -H 'Authorization: string' \
-  -H 'Content-Type: string' \
-  -H 'Ocp-Apim-Subscription-Key: string'
+  -H 'Authorization: [object Object]' \
+  -H 'Content-Type: [object Object]' \
+  -H 'Ocp-Apim-Subscription-Key: [object Object]'
 
 ```
 
@@ -58,49 +58,187 @@ POST https://apitest.vipps.no/ecomm/v2/payments HTTP/1.1
 Host: apitest.vipps.no
 Content-Type: application/json;charset=UTF-8
 Accept: application/json;charset=UTF-8
-Authorization: string
-Content-Type: string
-Ocp-Apim-Subscription-Key: string
+Authorization: [object Object]
+Content-Type: [object Object]
+Ocp-Apim-Subscription-Key: [object Object]
 
 ```
 
 ```javascript
 const inputBody = '{
-  "customerInfo": {
-    "mobileNumber": 91234567
-  },
-  "merchantInfo": {
-    "authToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni",
-    "callbackPrefix": "https://example.com/vipps/callbacks",
-    "consentRemovalPrefix": "https://example.com/vipps",
-    "fallBack": "https://example.com/vipps/fallback/order123abc",
-    "isApp": false,
-    "merchantSerialNumber": 123456,
-    "paymentType": "eComm Regular Payment",
-    "shippingDetailsPrefix": "https://example.com/vipps/shipping/",
-    "staticShippingDetails": [
-      {
-        "isDefault": "Y",
-        "priority": 0,
-        "shippingCost": 0,
-        "shippingMethod": "Posten Servicepakke",
-        "shippingMethodId": "string"
+  "type": "object",
+  "required": [
+    "customerInfo",
+    "merchantInfo",
+    "transaction"
+  ],
+  "properties": {
+    "customerInfo": {
+      "type": "object",
+      "properties": {
+        "mobileNumber": {
+          "type": "string",
+          "description": "Mobile number of the user who has to pay for the transation from Vipps. Allowed format: xxxxxxxx",
+          "minLength": 8,
+          "maxLength": 8,
+          "example": 91234567,
+          "pattern": "^\\d{8}$"
+        }
       }
-    ]
-  },
-  "transaction": {
-    "amount": 20000,
-    "orderId": "order123abc",
-    "timeStamp": "2018-11-14T15:44:26.590Z",
-    "transactionText": "One pair of Vipps socks"
+    },
+    "merchantInfo": {
+      "type": "object",
+      "required": [
+        "callbackPrefix",
+        "fallBack",
+        "merchantSerialNumber"
+      ],
+      "properties": {
+        "authToken": {
+          "type": "string",
+          "description": "Authorization token that the merchant could share to make callbacks more secure. If provided this token will be returned as an `Authorization` header for our callbacks. This includes shipping details and callback.",
+          "maxLength": 255,
+          "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni"
+        },
+        "callbackPrefix": {
+          "type": "string",
+          "description": "This is an URL for receiving the callback after the payment request. Domain name and context path should be provided by merchant as the value for this parameter. Vipps will add `/v2/payments/{orderId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html). We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.",
+          "maxLength": 255,
+          "example": "https://example.com/vipps/callbacks"
+        },
+        "consentRemovalPrefix": {
+          "type": "string",
+          "description": "Required for express checkout payments. This callback URL will be used by Vipps to inform the merchant that the user has revoked his/her consent: This Vipps user does do not want the merchant to store or use his/her personal information anymore. Required by GDPR. Vipps will add `/v2/consents/{userId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html). We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.",
+          "maxLength": 255,
+          "example": "https://example.com/vipps"
+        },
+        "fallBack": {
+          "type": "string",
+          "description": "Vipps will use the fall back URL to redirect Merchant Page once Payment is completed in Vipps System URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
+          "maxLength": 255,
+          "example": "https://example.com/vipps/fallback/order123abc"
+        },
+        "isApp": {
+          "type": "boolean",
+          "example": false,
+          "default": false,
+          "description": "This parameter indicates whether payment request is triggered from Mobile App or Web browser. Based on this value, response will be redirect URL for Vipps landing page or deeplink URL to connect vipps App. When isApp is set to true, URLs passed to Vipps will not be validated as regular URLs."
+        },
+        "merchantSerialNumber": {
+          "type": "string",
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "minLength": 6,
+          "maxLength": 6,
+          "example": 123456,
+          "pattern": "^\\d{6}$"
+        },
+        "paymentType": {
+          "type": "string",
+          "description": "This parameter will identify difference between a regular ecomm payment and ecomm express payment. For express checkout, use: \"eComm Express Payment\". Express checkouts require `consentRemovalPrefix`.",
+          "enum": [
+            "eComm Regular Payment",
+            "eComm Express Payment"
+          ],
+          "example": "eComm Regular Payment",
+          "default": "eComm Regular Payment"
+        },
+        "shippingDetailsPrefix": {
+          "type": "string",
+          "description": "In case of express checkout payment, merchant should pass this prefix to let Vipps fetch shipping cost and method related details. Vipps will add `/v2/payments/{orderId}/shippingDetails` to the end or this URL. We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.",
+          "maxLength": 255,
+          "example": "https://example.com/vipps/shipping/"
+        },
+        "staticShippingDetails": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "isDefault",
+              "shippingCost",
+              "shippingMethod",
+              "shippingMethodId"
+            ],
+            "properties": {
+              "isDefault": {
+                "type": "string",
+                "enum": [
+                  "Y",
+                  "N"
+                ]
+              },
+              "priority": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "shippingCost": {
+                "type": "number",
+                "format": "double"
+              },
+              "shippingMethod": {
+                "type": "string",
+                "description": "Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.",
+                "example": "Posten Servicepakke",
+                "maxLength": 256
+              },
+              "shippingMethodId": {
+                "type": "string"
+              }
+            }
+          },
+          "description": "If shipping method and cost are always a fixed value, for example 50kr,  then the method and price can be provided during the initiate call. The shippingDetailsPrefix callback will not be used if this value is provided."
+        }
+      }
+    },
+    "transaction": {
+      "type": "object",
+      "required": [
+        "amount",
+        "orderId",
+        "transactionText"
+      ],
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Amount in øre. 32 bit Integer (2147483647)",
+          "pattern": "^\\d{3,}$",
+          "example": 20000
+        },
+        "orderId": {
+          "type": "string",
+          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+          "example": "order123abc",
+          "pattern": "^[a-zA-Z0-9-]{1,30}$",
+          "maxLength": 30
+        },
+        "timeStamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO formatted date time string.",
+          "example": "2018-11-14T15:44:26.590Z"
+        },
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text to be displayed in Vipps",
+          "example": "One pair of Vipps socks",
+          "maxLength": 100
+        }
+      }
+    }
   }
 }';
 const headers = {
   'Content-Type':'application/json;charset=UTF-8',
   'Accept':'application/json;charset=UTF-8',
-  'Authorization':'string',
-  'Content-Type':'string',
-  'Ocp-Apim-Subscription-Key':'string'
+  'Authorization':{
+  "type": "string"
+},
+  'Content-Type':{
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key':{
+  "type": "string"
+}
 };
 
 fetch('https://apitest.vipps.no/ecomm/v2/payments',
@@ -124,9 +262,15 @@ require 'json'
 headers = {
   'Content-Type' => 'application/json;charset=UTF-8',
   'Accept' => 'application/json;charset=UTF-8',
-  'Authorization' => 'string',
-  'Content-Type' => 'string',
-  'Ocp-Apim-Subscription-Key' => 'string'
+  'Authorization' => {
+  "type": "string"
+},
+  'Content-Type' => {
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key' => {
+  "type": "string"
+}
 }
 
 result = RestClient.post 'https://apitest.vipps.no/ecomm/v2/payments',
@@ -142,9 +286,15 @@ import requests
 headers = {
   'Content-Type': 'application/json;charset=UTF-8',
   'Accept': 'application/json;charset=UTF-8',
-  'Authorization': 'string',
-  'Content-Type': 'string',
-  'Ocp-Apim-Subscription-Key': 'string'
+  'Authorization': {
+  "type": "string"
+},
+  'Content-Type': {
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key': {
+  "type": "string"
+}
 }
 
 r = requests.post('https://apitest.vipps.no/ecomm/v2/payments', headers = headers)
@@ -161,9 +311,9 @@ require 'vendor/autoload.php';
 $headers = array(
     'Content-Type' => 'application/json;charset=UTF-8',
     'Accept' => 'application/json;charset=UTF-8',
-    'Authorization' => 'string',
-    'Content-Type' => 'string',
-    'Ocp-Apim-Subscription-Key' => 'string',
+    'Authorization' => '[object Object]',
+    'Content-Type' => '[object Object]',
+    'Ocp-Apim-Subscription-Key' => '[object Object]',
 );
 
 $client = new \GuzzleHttp\Client();
@@ -218,9 +368,9 @@ func main() {
     headers := map[string][]string{
         "Content-Type": []string{"application/json;charset=UTF-8"},
         "Accept": []string{"application/json;charset=UTF-8"},
-        "Authorization": []string{"string"},
-        "Content-Type": []string{"string"},
-        "Ocp-Apim-Subscription-Key": []string{"string"},
+        "Authorization": []string{"[object Object]"},
+        "Content-Type": []string{"[object Object]"},
+        "Ocp-Apim-Subscription-Key": []string{"[object Object]"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
@@ -244,33 +394,165 @@ This API call allows the merchants to initiate a payment flow by using Vipps. In
 
 ```json
 {
-  "customerInfo": {
-    "mobileNumber": 91234567
-  },
-  "merchantInfo": {
-    "authToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni",
-    "callbackPrefix": "https://example.com/vipps/callbacks",
-    "consentRemovalPrefix": "https://example.com/vipps",
-    "fallBack": "https://example.com/vipps/fallback/order123abc",
-    "isApp": false,
-    "merchantSerialNumber": 123456,
-    "paymentType": "eComm Regular Payment",
-    "shippingDetailsPrefix": "https://example.com/vipps/shipping/",
-    "staticShippingDetails": [
-      {
-        "isDefault": "Y",
-        "priority": 0,
-        "shippingCost": 0,
-        "shippingMethod": "Posten Servicepakke",
-        "shippingMethodId": "string"
+  "type": "object",
+  "required": [
+    "customerInfo",
+    "merchantInfo",
+    "transaction"
+  ],
+  "properties": {
+    "customerInfo": {
+      "type": "object",
+      "properties": {
+        "mobileNumber": {
+          "type": "string",
+          "description": "Mobile number of the user who has to pay for the transation from Vipps. Allowed format: xxxxxxxx",
+          "minLength": 8,
+          "maxLength": 8,
+          "example": 91234567,
+          "pattern": "^\\d{8}$"
+        }
       }
-    ]
-  },
-  "transaction": {
-    "amount": 20000,
-    "orderId": "order123abc",
-    "timeStamp": "2018-11-14T15:44:26.590Z",
-    "transactionText": "One pair of Vipps socks"
+    },
+    "merchantInfo": {
+      "type": "object",
+      "required": [
+        "callbackPrefix",
+        "fallBack",
+        "merchantSerialNumber"
+      ],
+      "properties": {
+        "authToken": {
+          "type": "string",
+          "description": "Authorization token that the merchant could share to make callbacks more secure. If provided this token will be returned as an `Authorization` header for our callbacks. This includes shipping details and callback.",
+          "maxLength": 255,
+          "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni"
+        },
+        "callbackPrefix": {
+          "type": "string",
+          "description": "This is an URL for receiving the callback after the payment request. Domain name and context path should be provided by merchant as the value for this parameter. Vipps will add `/v2/payments/{orderId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html). We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.",
+          "maxLength": 255,
+          "example": "https://example.com/vipps/callbacks"
+        },
+        "consentRemovalPrefix": {
+          "type": "string",
+          "description": "Required for express checkout payments. This callback URL will be used by Vipps to inform the merchant that the user has revoked his/her consent: This Vipps user does do not want the merchant to store or use his/her personal information anymore. Required by GDPR. Vipps will add `/v2/consents/{userId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html). We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.",
+          "maxLength": 255,
+          "example": "https://example.com/vipps"
+        },
+        "fallBack": {
+          "type": "string",
+          "description": "Vipps will use the fall back URL to redirect Merchant Page once Payment is completed in Vipps System URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
+          "maxLength": 255,
+          "example": "https://example.com/vipps/fallback/order123abc"
+        },
+        "isApp": {
+          "type": "boolean",
+          "example": false,
+          "default": false,
+          "description": "This parameter indicates whether payment request is triggered from Mobile App or Web browser. Based on this value, response will be redirect URL for Vipps landing page or deeplink URL to connect vipps App. When isApp is set to true, URLs passed to Vipps will not be validated as regular URLs."
+        },
+        "merchantSerialNumber": {
+          "type": "string",
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "minLength": 6,
+          "maxLength": 6,
+          "example": 123456,
+          "pattern": "^\\d{6}$"
+        },
+        "paymentType": {
+          "type": "string",
+          "description": "This parameter will identify difference between a regular ecomm payment and ecomm express payment. For express checkout, use: \"eComm Express Payment\". Express checkouts require `consentRemovalPrefix`.",
+          "enum": [
+            "eComm Regular Payment",
+            "eComm Express Payment"
+          ],
+          "example": "eComm Regular Payment",
+          "default": "eComm Regular Payment"
+        },
+        "shippingDetailsPrefix": {
+          "type": "string",
+          "description": "In case of express checkout payment, merchant should pass this prefix to let Vipps fetch shipping cost and method related details. Vipps will add `/v2/payments/{orderId}/shippingDetails` to the end or this URL. We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.",
+          "maxLength": 255,
+          "example": "https://example.com/vipps/shipping/"
+        },
+        "staticShippingDetails": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "isDefault",
+              "shippingCost",
+              "shippingMethod",
+              "shippingMethodId"
+            ],
+            "properties": {
+              "isDefault": {
+                "type": "string",
+                "enum": [
+                  "Y",
+                  "N"
+                ]
+              },
+              "priority": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "shippingCost": {
+                "type": "number",
+                "format": "double"
+              },
+              "shippingMethod": {
+                "type": "string",
+                "description": "Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.",
+                "example": "Posten Servicepakke",
+                "maxLength": 256
+              },
+              "shippingMethodId": {
+                "type": "string"
+              }
+            }
+          },
+          "description": "If shipping method and cost are always a fixed value, for example 50kr,  then the method and price can be provided during the initiate call. The shippingDetailsPrefix callback will not be used if this value is provided."
+        }
+      }
+    },
+    "transaction": {
+      "type": "object",
+      "required": [
+        "amount",
+        "orderId",
+        "transactionText"
+      ],
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Amount in øre. 32 bit Integer (2147483647)",
+          "pattern": "^\\d{3,}$",
+          "example": 20000
+        },
+        "orderId": {
+          "type": "string",
+          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+          "example": "order123abc",
+          "pattern": "^[a-zA-Z0-9-]{1,30}$",
+          "maxLength": 30
+        },
+        "timeStamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO formatted date time string.",
+          "example": "2018-11-14T15:44:26.590Z"
+        },
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text to be displayed in Vipps",
+          "example": "One pair of Vipps socks",
+          "maxLength": 100
+        }
+      }
+    }
   }
 }
 ```
@@ -321,8 +603,25 @@ This API call allows the merchants to initiate a payment flow by using Vipps. In
 
 ```json
 {
-  "orderId": "order123abc",
-  "url": "https://example.com"
+  "type": "object",
+  "required": [
+    "orderId",
+    "url"
+  ],
+  "properties": {
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "url": {
+      "type": "string",
+      "description": "URL to redirect the user to Vipps landing page or a deeplink URL to open Vipps app, if isApp was set as true. The landing page will also redirect a user to the app if the user is using a mobile browser. This link will timeout after 5 minutes.",
+      "example": "https://example.com"
+    }
+  }
 }
 ```
 
@@ -368,40 +667,216 @@ Content-Type: application/json;charset=UTF-8
 
 ```javascript
 const inputBody = '{
-  "merchantSerialNumber": 123456,
-  "orderId": "order123abc",
-  "shippingDetails": {
-    "address": {
-      "addressLine1": "Dronning Eufemias gate 42",
-      "addressLine2": "Att: Rune Garborg",
-      "city": "Oslo",
-      "country": "Norway",
-      "postCode": 191
+  "type": "object",
+  "required": [
+    "merchantSerialNumber",
+    "orderId",
+    "shippingDetails",
+    "userDetails",
+    "transactionInfo"
+  ],
+  "properties": {
+    "merchantSerialNumber": {
+      "type": "string",
+      "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+      "minLength": 6,
+      "maxLength": 6,
+      "example": 123456,
+      "pattern": "^\\d{6}$"
     },
-    "shippingCost": 0,
-    "shippingMethod": "Posten Servicepakke",
-    "shippingMethodId": "string"
-  },
-  "transactionInfo": {
-    "amount": 20000,
-    "status": "RESERVE",
-    "timeStamp": "2018-12-12T11:18:38.246Z",
-    "transactionId": "5001420062"
-  },
-  "userDetails": {
-    "bankIdVerified": "Y",
-    "dateOfBirth": "12-3-1988",
-    "email": "user@example.com",
-    "firstName": "Ada",
-    "lastName": "Lovelace",
-    "mobileNumber": "12345678",
-    "ssn": "12345678901",
-    "userId": "uiJskNQ6qNN1iwN891uuob=="
-  },
-  "errorInfo": {
-    "errorCode": 45,
-    "errorGroup": "PAYMENTS",
-    "errorMessage": "User has cancelled or not acted upon the payment"
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "shippingDetails": {
+      "type": "object",
+      "required": [
+        "address",
+        "shippingCost",
+        "shippingMethod",
+        "shippingMethodId"
+      ],
+      "properties": {
+        "address": {
+          "type": "object",
+          "required": [
+            "addressLine1",
+            "city",
+            "country",
+            "postCode"
+          ],
+          "properties": {
+            "addressLine1": {
+              "type": "string",
+              "description": "Address Line 1",
+              "example": "Dronning Eufemias gate 42"
+            },
+            "addressLine2": {
+              "type": "string",
+              "description": "Address Line 2",
+              "example": "Att: Rune Garborg"
+            },
+            "city": {
+              "type": "string",
+              "description": "City",
+              "example": "Oslo"
+            },
+            "country": {
+              "type": "string",
+              "description": "Country",
+              "example": "Norway",
+              "enum": [
+                "Norway"
+              ]
+            },
+            "postCode": {
+              "type": "string",
+              "description": "Post Code",
+              "example": 191
+            }
+          }
+        },
+        "shippingCost": {
+          "type": "number",
+          "format": "double",
+          "description": "Shipping cost"
+        },
+        "shippingMethod": {
+          "type": "string",
+          "description": "Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.",
+          "example": "Posten Servicepakke",
+          "maxLength": 256
+        },
+        "shippingMethodId": {
+          "type": "string"
+        }
+      }
+    },
+    "transactionInfo": {
+      "type": "object",
+      "required": [
+        "amount",
+        "status",
+        "timeStamp",
+        "transactionId"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Ordered amount in øre",
+          "example": 20000
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "RESERVE",
+            "SALE",
+            "CANCELLED",
+            "REJECTED",
+            "AUTO_CANCEL"
+          ],
+          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#callbacks) for more information.",
+          "example": "RESERVE"
+        },
+        "timeStamp": {
+          "type": "string",
+          "description": "Timestamp in ISO-8601 representing when the operation was performed.",
+          "example": "2018-12-12T11:18:38.246Z"
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "Vipps transaction id",
+          "example": "5001420062"
+        }
+      }
+    },
+    "userDetails": {
+      "type": "object",
+      "required": [
+        "email",
+        "firstName",
+        "lastName",
+        "mobileNumber",
+        "userId"
+      ],
+      "properties": {
+        "bankIdVerified": {
+          "type": "string",
+          "description": "Optional Y/N string indicating if the user in bankId vertified, must be requested during onboarding.",
+          "example": "Y",
+          "enum": [
+            "Y",
+            "N"
+          ]
+        },
+        "dateOfBirth": {
+          "type": "string",
+          "description": "Optional date of birth infomation, must be requested during onboarding.",
+          "example": "12-3-1988"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address",
+          "example": "user@example.com"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name",
+          "example": "Ada"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name",
+          "example": "Lovelace"
+        },
+        "mobileNumber": {
+          "type": "string",
+          "description": "Mobile number",
+          "example": "12345678",
+          "minLength": 8,
+          "maxLength": 12,
+          "pattern": "^\\d{8,12}$"
+        },
+        "ssn": {
+          "type": "string",
+          "description": "Optional social security number for the user, must be requested during onboarding.",
+          "example": "12345678901",
+          "minLength": 11,
+          "maxLength": 11,
+          "pattern": "^\\d{11}$"
+        },
+        "userId": {
+          "type": "string",
+          "example": "uiJskNQ6qNN1iwN891uuob==",
+          "maxLength": 50,
+          "description": "Identifies a user in Vipps. Merchant is required to store this field for future references.",
+          "pattern": "^[\\d\\w\\/=+]+$"
+        }
+      }
+    },
+    "errorInfo": {
+      "type": "object",
+      "properties": {
+        "errorCode": {
+          "type": "integer",
+          "example": 45,
+          "description": "The number code for the error."
+        },
+        "errorGroup": {
+          "type": "string",
+          "example": "PAYMENTS"
+        },
+        "errorMessage": {
+          "type": "string",
+          "description": "Description of the error",
+          "example": "User has cancelled or not acted upon the payment"
+        }
+      }
+    }
   }
 }';
 const headers = {
@@ -533,40 +1008,216 @@ This API call allows Vipps to send the transaction details. During regular ecomm
 
 ```json
 {
-  "merchantSerialNumber": 123456,
-  "orderId": "order123abc",
-  "shippingDetails": {
-    "address": {
-      "addressLine1": "Dronning Eufemias gate 42",
-      "addressLine2": "Att: Rune Garborg",
-      "city": "Oslo",
-      "country": "Norway",
-      "postCode": 191
+  "type": "object",
+  "required": [
+    "merchantSerialNumber",
+    "orderId",
+    "shippingDetails",
+    "userDetails",
+    "transactionInfo"
+  ],
+  "properties": {
+    "merchantSerialNumber": {
+      "type": "string",
+      "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+      "minLength": 6,
+      "maxLength": 6,
+      "example": 123456,
+      "pattern": "^\\d{6}$"
     },
-    "shippingCost": 0,
-    "shippingMethod": "Posten Servicepakke",
-    "shippingMethodId": "string"
-  },
-  "transactionInfo": {
-    "amount": 20000,
-    "status": "RESERVE",
-    "timeStamp": "2018-12-12T11:18:38.246Z",
-    "transactionId": "5001420062"
-  },
-  "userDetails": {
-    "bankIdVerified": "Y",
-    "dateOfBirth": "12-3-1988",
-    "email": "user@example.com",
-    "firstName": "Ada",
-    "lastName": "Lovelace",
-    "mobileNumber": "12345678",
-    "ssn": "12345678901",
-    "userId": "uiJskNQ6qNN1iwN891uuob=="
-  },
-  "errorInfo": {
-    "errorCode": 45,
-    "errorGroup": "PAYMENTS",
-    "errorMessage": "User has cancelled or not acted upon the payment"
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "shippingDetails": {
+      "type": "object",
+      "required": [
+        "address",
+        "shippingCost",
+        "shippingMethod",
+        "shippingMethodId"
+      ],
+      "properties": {
+        "address": {
+          "type": "object",
+          "required": [
+            "addressLine1",
+            "city",
+            "country",
+            "postCode"
+          ],
+          "properties": {
+            "addressLine1": {
+              "type": "string",
+              "description": "Address Line 1",
+              "example": "Dronning Eufemias gate 42"
+            },
+            "addressLine2": {
+              "type": "string",
+              "description": "Address Line 2",
+              "example": "Att: Rune Garborg"
+            },
+            "city": {
+              "type": "string",
+              "description": "City",
+              "example": "Oslo"
+            },
+            "country": {
+              "type": "string",
+              "description": "Country",
+              "example": "Norway",
+              "enum": [
+                "Norway"
+              ]
+            },
+            "postCode": {
+              "type": "string",
+              "description": "Post Code",
+              "example": 191
+            }
+          }
+        },
+        "shippingCost": {
+          "type": "number",
+          "format": "double",
+          "description": "Shipping cost"
+        },
+        "shippingMethod": {
+          "type": "string",
+          "description": "Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.",
+          "example": "Posten Servicepakke",
+          "maxLength": 256
+        },
+        "shippingMethodId": {
+          "type": "string"
+        }
+      }
+    },
+    "transactionInfo": {
+      "type": "object",
+      "required": [
+        "amount",
+        "status",
+        "timeStamp",
+        "transactionId"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Ordered amount in øre",
+          "example": 20000
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "RESERVE",
+            "SALE",
+            "CANCELLED",
+            "REJECTED",
+            "AUTO_CANCEL"
+          ],
+          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#callbacks) for more information.",
+          "example": "RESERVE"
+        },
+        "timeStamp": {
+          "type": "string",
+          "description": "Timestamp in ISO-8601 representing when the operation was performed.",
+          "example": "2018-12-12T11:18:38.246Z"
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "Vipps transaction id",
+          "example": "5001420062"
+        }
+      }
+    },
+    "userDetails": {
+      "type": "object",
+      "required": [
+        "email",
+        "firstName",
+        "lastName",
+        "mobileNumber",
+        "userId"
+      ],
+      "properties": {
+        "bankIdVerified": {
+          "type": "string",
+          "description": "Optional Y/N string indicating if the user in bankId vertified, must be requested during onboarding.",
+          "example": "Y",
+          "enum": [
+            "Y",
+            "N"
+          ]
+        },
+        "dateOfBirth": {
+          "type": "string",
+          "description": "Optional date of birth infomation, must be requested during onboarding.",
+          "example": "12-3-1988"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address",
+          "example": "user@example.com"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name",
+          "example": "Ada"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name",
+          "example": "Lovelace"
+        },
+        "mobileNumber": {
+          "type": "string",
+          "description": "Mobile number",
+          "example": "12345678",
+          "minLength": 8,
+          "maxLength": 12,
+          "pattern": "^\\d{8,12}$"
+        },
+        "ssn": {
+          "type": "string",
+          "description": "Optional social security number for the user, must be requested during onboarding.",
+          "example": "12345678901",
+          "minLength": 11,
+          "maxLength": 11,
+          "pattern": "^\\d{11}$"
+        },
+        "userId": {
+          "type": "string",
+          "example": "uiJskNQ6qNN1iwN891uuob==",
+          "maxLength": 50,
+          "description": "Identifies a user in Vipps. Merchant is required to store this field for future references.",
+          "pattern": "^[\\d\\w\\/=+]+$"
+        }
+      }
+    },
+    "errorInfo": {
+      "type": "object",
+      "properties": {
+        "errorCode": {
+          "type": "integer",
+          "example": 45,
+          "description": "The number code for the error."
+        },
+        "errorGroup": {
+          "type": "string",
+          "example": "PAYMENTS"
+        },
+        "errorMessage": {
+          "type": "string",
+          "description": "Description of the error",
+          "example": "User has cancelled or not acted upon the payment"
+        }
+      }
+    }
   }
 }
 ```
@@ -652,10 +1303,10 @@ This operation does not require authentication
 curl -X POST https://apitest.vipps.no/ecomm/v2/payments/{orderId}/capture \
   -H 'Content-Type: application/json;charset=UTF-8' \
   -H 'Accept: application/json;charset=UTF-8' \
-  -H 'Authorization: string' \
-  -H 'Content-Type: string' \
-  -H 'Ocp-Apim-Subscription-Key: string' \
-  -H 'X-Request-Id: string'
+  -H 'Authorization: [object Object]' \
+  -H 'Content-Type: [object Object]' \
+  -H 'Ocp-Apim-Subscription-Key: [object Object]' \
+  -H 'X-Request-Id: [object Object]'
 
 ```
 
@@ -664,30 +1315,71 @@ POST https://apitest.vipps.no/ecomm/v2/payments/{orderId}/capture HTTP/1.1
 Host: apitest.vipps.no
 Content-Type: application/json;charset=UTF-8
 Accept: application/json;charset=UTF-8
-Authorization: string
-Content-Type: string
-Ocp-Apim-Subscription-Key: string
-X-Request-Id: string
+Authorization: [object Object]
+Content-Type: [object Object]
+Ocp-Apim-Subscription-Key: [object Object]
+X-Request-Id: [object Object]
 
 ```
 
 ```javascript
 const inputBody = '{
-  "merchantInfo": {
-    "merchantSerialNumber": 123456
-  },
-  "transaction": {
-    "amount": 20000,
-    "transactionText": "One pair of Vipps socks"
+  "type": "object",
+  "properties": {
+    "merchantInfo": {
+      "type": "object",
+      "required": [
+        "merchantSerialNumber"
+      ],
+      "properties": {
+        "merchantSerialNumber": {
+          "type": "string",
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "minLength": 6,
+          "maxLength": 6,
+          "example": 123456,
+          "pattern": "^\\d{6}$"
+        }
+      }
+    },
+    "transaction": {
+      "type": "object",
+      "required": [
+        "transactionText"
+      ],
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Amount in øre, if amount is 0 or not provided then full capture will be performed. 32 Bit Integer (2147483647)",
+          "pattern": "^\\d{3,}$",
+          "example": 20000
+        },
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text to be displayed in Vipps",
+          "example": "One pair of Vipps socks",
+          "maxLength": 100
+        }
+      }
+    }
   }
 }';
 const headers = {
   'Content-Type':'application/json;charset=UTF-8',
   'Accept':'application/json;charset=UTF-8',
-  'Authorization':'string',
-  'Content-Type':'string',
-  'Ocp-Apim-Subscription-Key':'string',
-  'X-Request-Id':'string'
+  'Authorization':{
+  "type": "string"
+},
+  'Content-Type':{
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key':{
+  "type": "string"
+},
+  'X-Request-Id':{
+  "type": "string"
+}
 };
 
 fetch('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/capture',
@@ -711,10 +1403,18 @@ require 'json'
 headers = {
   'Content-Type' => 'application/json;charset=UTF-8',
   'Accept' => 'application/json;charset=UTF-8',
-  'Authorization' => 'string',
-  'Content-Type' => 'string',
-  'Ocp-Apim-Subscription-Key' => 'string',
-  'X-Request-Id' => 'string'
+  'Authorization' => {
+  "type": "string"
+},
+  'Content-Type' => {
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key' => {
+  "type": "string"
+},
+  'X-Request-Id' => {
+  "type": "string"
+}
 }
 
 result = RestClient.post 'https://apitest.vipps.no/ecomm/v2/payments/{orderId}/capture',
@@ -730,10 +1430,18 @@ import requests
 headers = {
   'Content-Type': 'application/json;charset=UTF-8',
   'Accept': 'application/json;charset=UTF-8',
-  'Authorization': 'string',
-  'Content-Type': 'string',
-  'Ocp-Apim-Subscription-Key': 'string',
-  'X-Request-Id': 'string'
+  'Authorization': {
+  "type": "string"
+},
+  'Content-Type': {
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key': {
+  "type": "string"
+},
+  'X-Request-Id': {
+  "type": "string"
+}
 }
 
 r = requests.post('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/capture', headers = headers)
@@ -750,10 +1458,10 @@ require 'vendor/autoload.php';
 $headers = array(
     'Content-Type' => 'application/json;charset=UTF-8',
     'Accept' => 'application/json;charset=UTF-8',
-    'Authorization' => 'string',
-    'Content-Type' => 'string',
-    'Ocp-Apim-Subscription-Key' => 'string',
-    'X-Request-Id' => 'string',
+    'Authorization' => '[object Object]',
+    'Content-Type' => '[object Object]',
+    'Ocp-Apim-Subscription-Key' => '[object Object]',
+    'X-Request-Id' => '[object Object]',
 );
 
 $client = new \GuzzleHttp\Client();
@@ -808,10 +1516,10 @@ func main() {
     headers := map[string][]string{
         "Content-Type": []string{"application/json;charset=UTF-8"},
         "Accept": []string{"application/json;charset=UTF-8"},
-        "Authorization": []string{"string"},
-        "Content-Type": []string{"string"},
-        "Ocp-Apim-Subscription-Key": []string{"string"},
-        "X-Request-Id": []string{"string"},
+        "Authorization": []string{"[object Object]"},
+        "Content-Type": []string{"[object Object]"},
+        "Ocp-Apim-Subscription-Key": []string{"[object Object]"},
+        "X-Request-Id": []string{"[object Object]"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
@@ -835,12 +1543,45 @@ This API call allows merchant to capture the reserved amount. Amount to capture 
 
 ```json
 {
-  "merchantInfo": {
-    "merchantSerialNumber": 123456
-  },
-  "transaction": {
-    "amount": 20000,
-    "transactionText": "One pair of Vipps socks"
+  "type": "object",
+  "properties": {
+    "merchantInfo": {
+      "type": "object",
+      "required": [
+        "merchantSerialNumber"
+      ],
+      "properties": {
+        "merchantSerialNumber": {
+          "type": "string",
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "minLength": 6,
+          "maxLength": 6,
+          "example": 123456,
+          "pattern": "^\\d{6}$"
+        }
+      }
+    },
+    "transaction": {
+      "type": "object",
+      "required": [
+        "transactionText"
+      ],
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Amount in øre, if amount is 0 or not provided then full capture will be performed. 32 Bit Integer (2147483647)",
+          "pattern": "^\\d{3,}$",
+          "example": 20000
+        },
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text to be displayed in Vipps",
+          "example": "One pair of Vipps socks",
+          "maxLength": 100
+        }
+      }
+    }
   }
 }
 ```
@@ -867,19 +1608,95 @@ This API call allows merchant to capture the reserved amount. Amount to capture 
 
 ```json
 {
-  "orderId": "order123abc",
-  "transactionInfo": {
-    "amount": 20000,
-    "status": "Captured",
-    "timeStamp": "2018-12-12T11:18:38.246Z",
-    "transactionId": "5001420062",
-    "transactionText": "One pair of Vipps socks"
-  },
-  "transactionSummary": {
-    "capturedAmount": 20000,
-    "refundedAmount": 0,
-    "remainingAmountToCapture": 0,
-    "remainingAmountToRefund": 20000
+  "type": "object",
+  "required": [
+    "orderId"
+  ],
+  "properties": {
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "transactionInfo": {
+      "type": "object",
+      "required": [
+        "amount",
+        "status",
+        "timeStamp",
+        "transactionId",
+        "transactionText"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Ordered amount in øre",
+          "example": 20000
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Captured"
+          ],
+          "example": "Captured",
+          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information."
+        },
+        "timeStamp": {
+          "type": "string",
+          "description": "Timestamp in ISO-8601 representing when the order was captured.",
+          "example": "2018-12-12T11:18:38.246Z"
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "Vipps transaction id",
+          "example": "5001420062"
+        },
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text to be displayed in Vipps",
+          "example": "One pair of Vipps socks",
+          "maxLength": 100
+        }
+      }
+    },
+    "transactionSummary": {
+      "type": "object",
+      "required": [
+        "capturedAmount",
+        "refundedAmount",
+        "remainingAmountToCapture",
+        "remainingAmountToRefund"
+      ],
+      "properties": {
+        "capturedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total amount captured",
+          "example": 20000
+        },
+        "refundedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total refunded amount of the order",
+          "example": 0
+        },
+        "remainingAmountToCapture": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to capture",
+          "example": 0
+        },
+        "remainingAmountToRefund": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to refund",
+          "example": 20000
+        }
+      }
+    }
   }
 }
 ```
@@ -913,9 +1730,9 @@ This operation does not require authentication
 curl -X PUT https://apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel \
   -H 'Content-Type: application/json;charset=UTF-8' \
   -H 'Accept: application/json;charset=UTF-8' \
-  -H 'Authorization: string' \
-  -H 'Content-Type: string' \
-  -H 'Ocp-Apim-Subscription-Key: string'
+  -H 'Authorization: [object Object]' \
+  -H 'Content-Type: [object Object]' \
+  -H 'Ocp-Apim-Subscription-Key: [object Object]'
 
 ```
 
@@ -924,27 +1741,57 @@ PUT https://apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel HTTP/1.1
 Host: apitest.vipps.no
 Content-Type: application/json;charset=UTF-8
 Accept: application/json;charset=UTF-8
-Authorization: string
-Content-Type: string
-Ocp-Apim-Subscription-Key: string
+Authorization: [object Object]
+Content-Type: [object Object]
+Ocp-Apim-Subscription-Key: [object Object]
 
 ```
 
 ```javascript
 const inputBody = '{
-  "merchantInfo": {
-    "merchantSerialNumber": 123456
-  },
-  "transaction": {
-    "transactionText": "One pair of Vipps socks"
+  "type": "object",
+  "properties": {
+    "merchantInfo": {
+      "type": "object",
+      "required": [
+        "merchantSerialNumber"
+      ],
+      "properties": {
+        "merchantSerialNumber": {
+          "type": "string",
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "minLength": 6,
+          "maxLength": 6,
+          "example": 123456,
+          "pattern": "^\\d{6}$"
+        }
+      }
+    },
+    "transaction": {
+      "type": "object",
+      "properties": {
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text to be displayed in Vipps",
+          "example": "One pair of Vipps socks",
+          "maxLength": 100
+        }
+      }
+    }
   }
 }';
 const headers = {
   'Content-Type':'application/json;charset=UTF-8',
   'Accept':'application/json;charset=UTF-8',
-  'Authorization':'string',
-  'Content-Type':'string',
-  'Ocp-Apim-Subscription-Key':'string'
+  'Authorization':{
+  "type": "string"
+},
+  'Content-Type':{
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key':{
+  "type": "string"
+}
 };
 
 fetch('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel',
@@ -968,9 +1815,15 @@ require 'json'
 headers = {
   'Content-Type' => 'application/json;charset=UTF-8',
   'Accept' => 'application/json;charset=UTF-8',
-  'Authorization' => 'string',
-  'Content-Type' => 'string',
-  'Ocp-Apim-Subscription-Key' => 'string'
+  'Authorization' => {
+  "type": "string"
+},
+  'Content-Type' => {
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key' => {
+  "type": "string"
+}
 }
 
 result = RestClient.put 'https://apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel',
@@ -986,9 +1839,15 @@ import requests
 headers = {
   'Content-Type': 'application/json;charset=UTF-8',
   'Accept': 'application/json;charset=UTF-8',
-  'Authorization': 'string',
-  'Content-Type': 'string',
-  'Ocp-Apim-Subscription-Key': 'string'
+  'Authorization': {
+  "type": "string"
+},
+  'Content-Type': {
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key': {
+  "type": "string"
+}
 }
 
 r = requests.put('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel', headers = headers)
@@ -1005,9 +1864,9 @@ require 'vendor/autoload.php';
 $headers = array(
     'Content-Type' => 'application/json;charset=UTF-8',
     'Accept' => 'application/json;charset=UTF-8',
-    'Authorization' => 'string',
-    'Content-Type' => 'string',
-    'Ocp-Apim-Subscription-Key' => 'string',
+    'Authorization' => '[object Object]',
+    'Content-Type' => '[object Object]',
+    'Ocp-Apim-Subscription-Key' => '[object Object]',
 );
 
 $client = new \GuzzleHttp\Client();
@@ -1062,9 +1921,9 @@ func main() {
     headers := map[string][]string{
         "Content-Type": []string{"application/json;charset=UTF-8"},
         "Accept": []string{"application/json;charset=UTF-8"},
-        "Authorization": []string{"string"},
-        "Content-Type": []string{"string"},
-        "Ocp-Apim-Subscription-Key": []string{"string"},
+        "Authorization": []string{"[object Object]"},
+        "Content-Type": []string{"[object Object]"},
+        "Ocp-Apim-Subscription-Key": []string{"[object Object]"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
@@ -1088,11 +1947,35 @@ The API call allows merchant to cancel the reserved transaction, The API will no
 
 ```json
 {
-  "merchantInfo": {
-    "merchantSerialNumber": 123456
-  },
-  "transaction": {
-    "transactionText": "One pair of Vipps socks"
+  "type": "object",
+  "properties": {
+    "merchantInfo": {
+      "type": "object",
+      "required": [
+        "merchantSerialNumber"
+      ],
+      "properties": {
+        "merchantSerialNumber": {
+          "type": "string",
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "minLength": 6,
+          "maxLength": 6,
+          "example": 123456,
+          "pattern": "^\\d{6}$"
+        }
+      }
+    },
+    "transaction": {
+      "type": "object",
+      "properties": {
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text to be displayed in Vipps",
+          "example": "One pair of Vipps socks",
+          "maxLength": 100
+        }
+      }
+    }
   }
 }
 ```
@@ -1117,19 +2000,95 @@ The API call allows merchant to cancel the reserved transaction, The API will no
 
 ```json
 {
-  "orderId": "order123abc",
-  "transactionInfo": {
-    "amount": 20000,
-    "status": "Cancelled",
-    "timeStamp": "2018-12-12T11:18:38.246Z",
-    "transactionId": "5001420062",
-    "transactionText": "One pair of Vipps socks"
-  },
-  "transactionSummary": {
-    "capturedAmount": 20000,
-    "refundedAmount": 0,
-    "remainingAmountToCapture": 0,
-    "remainingAmountToRefund": 20000
+  "type": "object",
+  "required": [
+    "orderId"
+  ],
+  "properties": {
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "transactionInfo": {
+      "type": "object",
+      "required": [
+        "amount",
+        "status",
+        "timeStamp",
+        "transactionId",
+        "transactionText"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Ordered amount in øre",
+          "example": 20000
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Cancelled"
+          ],
+          "example": "Cancelled",
+          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information."
+        },
+        "timeStamp": {
+          "type": "string",
+          "description": "Timestamp in ISO-8601 representing when the order was cancelled.",
+          "example": "2018-12-12T11:18:38.246Z"
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "Vipps transaction id",
+          "example": "5001420062"
+        },
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text to be displayed in Vipps",
+          "example": "One pair of Vipps socks",
+          "maxLength": 100
+        }
+      }
+    },
+    "transactionSummary": {
+      "type": "object",
+      "required": [
+        "capturedAmount",
+        "refundedAmount",
+        "remainingAmountToCapture",
+        "remainingAmountToRefund"
+      ],
+      "properties": {
+        "capturedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total amount captured",
+          "example": 20000
+        },
+        "refundedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total refunded amount of the order",
+          "example": 0
+        },
+        "remainingAmountToCapture": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to capture",
+          "example": 0
+        },
+        "remainingAmountToRefund": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to refund",
+          "example": 20000
+        }
+      }
+    }
   }
 }
 ```
@@ -1163,10 +2122,10 @@ This operation does not require authentication
 curl -X POST https://apitest.vipps.no/ecomm/v2/payments/{orderId}/refund \
   -H 'Content-Type: application/json;charset=UTF-8' \
   -H 'Accept: application/json;charset=UTF-8' \
-  -H 'Authorization: string' \
-  -H 'Content-Type: string' \
-  -H 'Ocp-Apim-Subscription-Key: string' \
-  -H 'X-Request-Id: string'
+  -H 'Authorization: [object Object]' \
+  -H 'Content-Type: [object Object]' \
+  -H 'Ocp-Apim-Subscription-Key: [object Object]' \
+  -H 'X-Request-Id: [object Object]'
 
 ```
 
@@ -1175,30 +2134,71 @@ POST https://apitest.vipps.no/ecomm/v2/payments/{orderId}/refund HTTP/1.1
 Host: apitest.vipps.no
 Content-Type: application/json;charset=UTF-8
 Accept: application/json;charset=UTF-8
-Authorization: string
-Content-Type: string
-Ocp-Apim-Subscription-Key: string
-X-Request-Id: string
+Authorization: [object Object]
+Content-Type: [object Object]
+Ocp-Apim-Subscription-Key: [object Object]
+X-Request-Id: [object Object]
 
 ```
 
 ```javascript
 const inputBody = '{
-  "merchantInfo": {
-    "merchantSerialNumber": 123456
-  },
-  "transaction": {
-    "amount": 20000,
-    "transactionText": "One pair of Vipps socks"
+  "type": "object",
+  "properties": {
+    "merchantInfo": {
+      "type": "object",
+      "required": [
+        "merchantSerialNumber"
+      ],
+      "properties": {
+        "merchantSerialNumber": {
+          "type": "string",
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "minLength": 6,
+          "maxLength": 6,
+          "example": 123456,
+          "pattern": "^\\d{6}$"
+        }
+      }
+    },
+    "transaction": {
+      "type": "object",
+      "required": [
+        "transactionText"
+      ],
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Amount in øre, if amount is 0 or not provided then full capture will be performed. 32 Bit Integer (2147483647)",
+          "pattern": "^\\d{3,}$",
+          "example": 20000
+        },
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text to be displayed in Vipps",
+          "example": "One pair of Vipps socks",
+          "maxLength": 100
+        }
+      }
+    }
   }
 }';
 const headers = {
   'Content-Type':'application/json;charset=UTF-8',
   'Accept':'application/json;charset=UTF-8',
-  'Authorization':'string',
-  'Content-Type':'string',
-  'Ocp-Apim-Subscription-Key':'string',
-  'X-Request-Id':'string'
+  'Authorization':{
+  "type": "string"
+},
+  'Content-Type':{
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key':{
+  "type": "string"
+},
+  'X-Request-Id':{
+  "type": "string"
+}
 };
 
 fetch('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/refund',
@@ -1222,10 +2222,18 @@ require 'json'
 headers = {
   'Content-Type' => 'application/json;charset=UTF-8',
   'Accept' => 'application/json;charset=UTF-8',
-  'Authorization' => 'string',
-  'Content-Type' => 'string',
-  'Ocp-Apim-Subscription-Key' => 'string',
-  'X-Request-Id' => 'string'
+  'Authorization' => {
+  "type": "string"
+},
+  'Content-Type' => {
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key' => {
+  "type": "string"
+},
+  'X-Request-Id' => {
+  "type": "string"
+}
 }
 
 result = RestClient.post 'https://apitest.vipps.no/ecomm/v2/payments/{orderId}/refund',
@@ -1241,10 +2249,18 @@ import requests
 headers = {
   'Content-Type': 'application/json;charset=UTF-8',
   'Accept': 'application/json;charset=UTF-8',
-  'Authorization': 'string',
-  'Content-Type': 'string',
-  'Ocp-Apim-Subscription-Key': 'string',
-  'X-Request-Id': 'string'
+  'Authorization': {
+  "type": "string"
+},
+  'Content-Type': {
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key': {
+  "type": "string"
+},
+  'X-Request-Id': {
+  "type": "string"
+}
 }
 
 r = requests.post('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/refund', headers = headers)
@@ -1261,10 +2277,10 @@ require 'vendor/autoload.php';
 $headers = array(
     'Content-Type' => 'application/json;charset=UTF-8',
     'Accept' => 'application/json;charset=UTF-8',
-    'Authorization' => 'string',
-    'Content-Type' => 'string',
-    'Ocp-Apim-Subscription-Key' => 'string',
-    'X-Request-Id' => 'string',
+    'Authorization' => '[object Object]',
+    'Content-Type' => '[object Object]',
+    'Ocp-Apim-Subscription-Key' => '[object Object]',
+    'X-Request-Id' => '[object Object]',
 );
 
 $client = new \GuzzleHttp\Client();
@@ -1319,10 +2335,10 @@ func main() {
     headers := map[string][]string{
         "Content-Type": []string{"application/json;charset=UTF-8"},
         "Accept": []string{"application/json;charset=UTF-8"},
-        "Authorization": []string{"string"},
-        "Content-Type": []string{"string"},
-        "Ocp-Apim-Subscription-Key": []string{"string"},
-        "X-Request-Id": []string{"string"},
+        "Authorization": []string{"[object Object]"},
+        "Content-Type": []string{"[object Object]"},
+        "Ocp-Apim-Subscription-Key": []string{"[object Object]"},
+        "X-Request-Id": []string{"[object Object]"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
@@ -1346,12 +2362,45 @@ The API allows a merchant to do a refund of already captured transaction. There 
 
 ```json
 {
-  "merchantInfo": {
-    "merchantSerialNumber": 123456
-  },
-  "transaction": {
-    "amount": 20000,
-    "transactionText": "One pair of Vipps socks"
+  "type": "object",
+  "properties": {
+    "merchantInfo": {
+      "type": "object",
+      "required": [
+        "merchantSerialNumber"
+      ],
+      "properties": {
+        "merchantSerialNumber": {
+          "type": "string",
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "minLength": 6,
+          "maxLength": 6,
+          "example": 123456,
+          "pattern": "^\\d{6}$"
+        }
+      }
+    },
+    "transaction": {
+      "type": "object",
+      "required": [
+        "transactionText"
+      ],
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Amount in øre, if amount is 0 or not provided then full capture will be performed. 32 Bit Integer (2147483647)",
+          "pattern": "^\\d{3,}$",
+          "example": 20000
+        },
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text to be displayed in Vipps",
+          "example": "One pair of Vipps socks",
+          "maxLength": 100
+        }
+      }
+    }
   }
 }
 ```
@@ -1378,19 +2427,95 @@ The API allows a merchant to do a refund of already captured transaction. There 
 
 ```json
 {
-  "orderId": "order123abc",
-  "transaction": {
-    "amount": 20000,
-    "status": "Refund",
-    "timeStamp": "2018-12-12T11:18:38.246Z",
-    "transactionId": "5001420062",
-    "transactionText": "One pair of Vipps socks"
-  },
-  "transactionSummary": {
-    "capturedAmount": 20000,
-    "refundedAmount": 0,
-    "remainingAmountToCapture": 0,
-    "remainingAmountToRefund": 20000
+  "type": "object",
+  "required": [
+    "orderId"
+  ],
+  "properties": {
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "transaction": {
+      "type": "object",
+      "required": [
+        "amount",
+        "status",
+        "timeStamp",
+        "transactionId",
+        "transactionText"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Ordered amount in øre",
+          "example": 20000
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Refund"
+          ],
+          "example": "Refund",
+          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information."
+        },
+        "timeStamp": {
+          "type": "string",
+          "description": "Timestamp in ISO-8601 representing when the order was refunded.",
+          "example": "2018-12-12T11:18:38.246Z"
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "Vipps transaction id",
+          "example": "5001420062"
+        },
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text to be displayed in Vipps",
+          "example": "One pair of Vipps socks",
+          "maxLength": 100
+        }
+      }
+    },
+    "transactionSummary": {
+      "type": "object",
+      "required": [
+        "capturedAmount",
+        "refundedAmount",
+        "remainingAmountToCapture",
+        "remainingAmountToRefund"
+      ],
+      "properties": {
+        "capturedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total amount captured",
+          "example": 20000
+        },
+        "refundedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total refunded amount of the order",
+          "example": 0
+        },
+        "remainingAmountToCapture": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to capture",
+          "example": 0
+        },
+        "remainingAmountToRefund": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to refund",
+          "example": 20000
+        }
+      }
+    }
   }
 }
 ```
@@ -1423,9 +2548,9 @@ This operation does not require authentication
 # You can also use wget
 curl -X GET https://apitest.vipps.no/ecomm/v2/payments/{orderId}/details \
   -H 'Accept: application/json;charset=UTF-8' \
-  -H 'Authorization: string' \
-  -H 'Content-Type: string' \
-  -H 'Ocp-Apim-Subscription-Key: string'
+  -H 'Authorization: [object Object]' \
+  -H 'Content-Type: [object Object]' \
+  -H 'Ocp-Apim-Subscription-Key: [object Object]'
 
 ```
 
@@ -1433,9 +2558,9 @@ curl -X GET https://apitest.vipps.no/ecomm/v2/payments/{orderId}/details \
 GET https://apitest.vipps.no/ecomm/v2/payments/{orderId}/details HTTP/1.1
 Host: apitest.vipps.no
 Accept: application/json;charset=UTF-8
-Authorization: string
-Content-Type: string
-Ocp-Apim-Subscription-Key: string
+Authorization: [object Object]
+Content-Type: [object Object]
+Ocp-Apim-Subscription-Key: [object Object]
 
 ```
 
@@ -1443,9 +2568,15 @@ Ocp-Apim-Subscription-Key: string
 
 const headers = {
   'Accept':'application/json;charset=UTF-8',
-  'Authorization':'string',
-  'Content-Type':'string',
-  'Ocp-Apim-Subscription-Key':'string'
+  'Authorization':{
+  "type": "string"
+},
+  'Content-Type':{
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key':{
+  "type": "string"
+}
 };
 
 fetch('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/details',
@@ -1468,9 +2599,15 @@ require 'json'
 
 headers = {
   'Accept' => 'application/json;charset=UTF-8',
-  'Authorization' => 'string',
-  'Content-Type' => 'string',
-  'Ocp-Apim-Subscription-Key' => 'string'
+  'Authorization' => {
+  "type": "string"
+},
+  'Content-Type' => {
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key' => {
+  "type": "string"
+}
 }
 
 result = RestClient.get 'https://apitest.vipps.no/ecomm/v2/payments/{orderId}/details',
@@ -1485,9 +2622,15 @@ p JSON.parse(result)
 import requests
 headers = {
   'Accept': 'application/json;charset=UTF-8',
-  'Authorization': 'string',
-  'Content-Type': 'string',
-  'Ocp-Apim-Subscription-Key': 'string'
+  'Authorization': {
+  "type": "string"
+},
+  'Content-Type': {
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key': {
+  "type": "string"
+}
 }
 
 r = requests.get('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/details', headers = headers)
@@ -1503,9 +2646,9 @@ require 'vendor/autoload.php';
 
 $headers = array(
     'Accept' => 'application/json;charset=UTF-8',
-    'Authorization' => 'string',
-    'Content-Type' => 'string',
-    'Ocp-Apim-Subscription-Key' => 'string',
+    'Authorization' => '[object Object]',
+    'Content-Type' => '[object Object]',
+    'Ocp-Apim-Subscription-Key' => '[object Object]',
 );
 
 $client = new \GuzzleHttp\Client();
@@ -1559,9 +2702,9 @@ func main() {
 
     headers := map[string][]string{
         "Accept": []string{"application/json;charset=UTF-8"},
-        "Authorization": []string{"string"},
-        "Content-Type": []string{"string"},
-        "Ocp-Apim-Subscription-Key": []string{"string"},
+        "Authorization": []string{"[object Object]"},
+        "Content-Type": []string{"[object Object]"},
+        "Ocp-Apim-Subscription-Key": []string{"[object Object]"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
@@ -1596,45 +2739,237 @@ This API call allows merchant to get the details of a payment transaction. Servi
 
 ```json
 {
-  "orderId": "order123abc",
-  "shippingDetails": {
-    "address": {
-      "addressLine1": "Dronning Eufemias gate 42",
-      "addressLine2": "Att: Rune Garborg",
-      "city": "Oslo",
-      "country": "Norway",
-      "postCode": 191
+  "type": "object",
+  "properties": {
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
     },
-    "shippingCost": 1500,
-    "shippingMethod": "Posten Servicepakke",
-    "shippingMethodId": "string"
-  },
-  "transactionLogHistory": [
-    {
-      "amount": 0,
-      "operation": "RESERVE",
-      "operationf": true,
-      "requestId": 12983921873981899000,
-      "timeStamp": "2019-02-05T12:27:42.311Z",
-      "transactionId": 5001446662,
-      "transactionText": "One pair of Vipps socks"
+    "shippingDetails": {
+      "type": "object",
+      "required": [
+        "shippingCost",
+        "shippingMethod",
+        "shippingMethodId"
+      ],
+      "properties": {
+        "address": {
+          "type": "object",
+          "required": [
+            "addressLine1",
+            "city",
+            "country",
+            "postCode"
+          ],
+          "properties": {
+            "addressLine1": {
+              "type": "string",
+              "description": "Address Line 1",
+              "example": "Dronning Eufemias gate 42"
+            },
+            "addressLine2": {
+              "type": "string",
+              "description": "Address Line 2",
+              "example": "Att: Rune Garborg"
+            },
+            "city": {
+              "type": "string",
+              "description": "City",
+              "example": "Oslo"
+            },
+            "country": {
+              "type": "string",
+              "description": "Country",
+              "example": "Norway",
+              "enum": [
+                "Norway"
+              ]
+            },
+            "postCode": {
+              "type": "string",
+              "description": "Post Code",
+              "example": 191
+            }
+          }
+        },
+        "shippingCost": {
+          "type": "number",
+          "format": "double",
+          "description": "Shipping Cost",
+          "example": 1500
+        },
+        "shippingMethod": {
+          "type": "string",
+          "description": "Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.",
+          "example": "Posten Servicepakke",
+          "maxLength": 256
+        },
+        "shippingMethodId": {
+          "type": "string"
+        }
+      }
+    },
+    "transactionLogHistory": {
+      "type": "array",
+      "description": "Array of transaction operations. Sorted from newest to oldest.",
+      "items": {
+        "type": "object",
+        "required": [
+          "operation",
+          "amount",
+          "operationSuccess",
+          "transactionText"
+        ],
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "operation": {
+            "type": "string",
+            "example": "RESERVE",
+            "description": "The operation that was performed for this log entry. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information.",
+            "enum": [
+              "INITIATE",
+              "RESERVE",
+              "SALE",
+              "CAPTURE",
+              "REFUND",
+              "CANCEL",
+              "VOID"
+            ]
+          },
+          "operationf": {
+            "type": "boolean",
+            "description": "If the corrosponding operation was successfull.",
+            "example": true
+          },
+          "requestId": {
+            "description": "The idempotent request id provided by the merchant for the operation.",
+            "example": 12983921873981899000,
+            "type": "string"
+          },
+          "timeStamp": {
+            "type": "string",
+            "description": "Timestamp in ISO-8601 representing when the operation was perfomed.",
+            "example": "2019-02-05T12:27:42.311Z"
+          },
+          "transactionId": {
+            "description": "Identifies the transaction",
+            "example": 5001446662,
+            "type": "string"
+          },
+          "transactionText": {
+            "type": "string",
+            "description": "Transaction text to be displayed in Vipps",
+            "example": "One pair of Vipps socks",
+            "maxLength": 100
+          }
+        }
+      }
+    },
+    "transactionSummary": {
+      "type": "object",
+      "required": [
+        "capturedAmount",
+        "refundedAmount",
+        "remainingAmountToCapture",
+        "remainingAmountToRefund"
+      ],
+      "properties": {
+        "capturedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total amount captured",
+          "example": 20000
+        },
+        "refundedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total refunded amount of the order",
+          "example": 0
+        },
+        "remainingAmountToCapture": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to capture",
+          "example": 0
+        },
+        "remainingAmountToRefund": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to refund",
+          "example": 20000
+        }
+      }
+    },
+    "userDetails": {
+      "type": "object",
+      "required": [
+        "email",
+        "firstName",
+        "lastName",
+        "mobileNumber",
+        "userId"
+      ],
+      "properties": {
+        "bankIdVerified": {
+          "type": "string",
+          "description": "Optional Y/N string indicating if the user in bankId vertified, must be requested during onboarding.",
+          "example": "Y",
+          "enum": [
+            "Y",
+            "N"
+          ]
+        },
+        "dateOfBirth": {
+          "type": "string",
+          "description": "Optional date of birth infomation, must be requested during onboarding.",
+          "example": "12-3-1988"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address",
+          "example": "user@example.com"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name",
+          "example": "Ada"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name",
+          "example": "Lovelace"
+        },
+        "mobileNumber": {
+          "type": "string",
+          "description": "Mobile number",
+          "example": "12345678",
+          "minLength": 8,
+          "maxLength": 12,
+          "pattern": "^\\d{8,12}$"
+        },
+        "ssn": {
+          "type": "string",
+          "description": "Optional social security number for the user, must be requested during onboarding.",
+          "example": "12345678901",
+          "minLength": 11,
+          "maxLength": 11,
+          "pattern": "^\\d{11}$"
+        },
+        "userId": {
+          "type": "string",
+          "example": "uiJskNQ6qNN1iwN891uuob==",
+          "maxLength": 50,
+          "description": "Identifies a user in Vipps. Merchant is required to store this field for future references.",
+          "pattern": "^[\\d\\w\\/=+]+$"
+        }
+      }
     }
-  ],
-  "transactionSummary": {
-    "capturedAmount": 20000,
-    "refundedAmount": 0,
-    "remainingAmountToCapture": 0,
-    "remainingAmountToRefund": 20000
-  },
-  "userDetails": {
-    "bankIdVerified": "Y",
-    "dateOfBirth": "12-3-1988",
-    "email": "user@example.com",
-    "firstName": "Ada",
-    "lastName": "Lovelace",
-    "mobileNumber": "12345678",
-    "ssn": "12345678901",
-    "userId": "uiJskNQ6qNN1iwN891uuob=="
   }
 }
 ```
@@ -1667,8 +3002,8 @@ This operation does not require authentication
 # You can also use wget
 curl -X GET https://apitest.vipps.no/ecomm/v2/payments/{orderId}/status \
   -H 'Accept: application/json;charset=UTF-8' \
-  -H 'Authorization: string' \
-  -H 'Ocp-Apim-Subscription-Key: string'
+  -H 'Authorization: [object Object]' \
+  -H 'Ocp-Apim-Subscription-Key: [object Object]'
 
 ```
 
@@ -1676,8 +3011,8 @@ curl -X GET https://apitest.vipps.no/ecomm/v2/payments/{orderId}/status \
 GET https://apitest.vipps.no/ecomm/v2/payments/{orderId}/status HTTP/1.1
 Host: apitest.vipps.no
 Accept: application/json;charset=UTF-8
-Authorization: string
-Ocp-Apim-Subscription-Key: string
+Authorization: [object Object]
+Ocp-Apim-Subscription-Key: [object Object]
 
 ```
 
@@ -1685,8 +3020,12 @@ Ocp-Apim-Subscription-Key: string
 
 const headers = {
   'Accept':'application/json;charset=UTF-8',
-  'Authorization':'string',
-  'Ocp-Apim-Subscription-Key':'string'
+  'Authorization':{
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key':{
+  "type": "string"
+}
 };
 
 fetch('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/status',
@@ -1709,8 +3048,12 @@ require 'json'
 
 headers = {
   'Accept' => 'application/json;charset=UTF-8',
-  'Authorization' => 'string',
-  'Ocp-Apim-Subscription-Key' => 'string'
+  'Authorization' => {
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key' => {
+  "type": "string"
+}
 }
 
 result = RestClient.get 'https://apitest.vipps.no/ecomm/v2/payments/{orderId}/status',
@@ -1725,8 +3068,12 @@ p JSON.parse(result)
 import requests
 headers = {
   'Accept': 'application/json;charset=UTF-8',
-  'Authorization': 'string',
-  'Ocp-Apim-Subscription-Key': 'string'
+  'Authorization': {
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key': {
+  "type": "string"
+}
 }
 
 r = requests.get('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/status', headers = headers)
@@ -1742,8 +3089,8 @@ require 'vendor/autoload.php';
 
 $headers = array(
     'Accept' => 'application/json;charset=UTF-8',
-    'Authorization' => 'string',
-    'Ocp-Apim-Subscription-Key' => 'string',
+    'Authorization' => '[object Object]',
+    'Ocp-Apim-Subscription-Key' => '[object Object]',
 );
 
 $client = new \GuzzleHttp\Client();
@@ -1797,8 +3144,8 @@ func main() {
 
     headers := map[string][]string{
         "Accept": []string{"application/json;charset=UTF-8"},
-        "Authorization": []string{"string"},
-        "Ocp-Apim-Subscription-Key": []string{"string"},
+        "Authorization": []string{"[object Object]"},
+        "Ocp-Apim-Subscription-Key": []string{"[object Object]"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
@@ -1832,12 +3179,59 @@ This API call allows the merchant to get the status of the last payment transact
 
 ```json
 {
-  "orderId": "order123abc",
-  "transactionInfo": {
-    "amount": 20000,
-    "status": "RESERVE",
-    "timeStamp": "2018-12-12T11:18:38.246Z",
-    "transactionId": "5001420062"
+  "type": "object",
+  "properties": {
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "transactionInfo": {
+      "type": "object",
+      "required": [
+        "amount",
+        "status",
+        "timeStamp",
+        "transactionId"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Ordered amount in øre",
+          "example": 20000
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "INITIATE",
+            "REGISTER",
+            "RESERVE",
+            "SALE",
+            "CAPTURE",
+            "REFUND",
+            "CANCEL",
+            "VOID",
+            "FAILED",
+            "REJECTED"
+          ],
+          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information.",
+          "example": "RESERVE"
+        },
+        "timeStamp": {
+          "type": "string",
+          "description": "Timestamp in ISO-8601 representing when the status operation was performed.",
+          "example": "2018-12-12T11:18:38.246Z"
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "Vipps transaction id",
+          "example": "5001420062"
+        }
+      }
+    }
   }
 }
 ```
@@ -2016,7 +3410,7 @@ This operation does not require authentication
 curl -X POST https://apitest.vipps.no[shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails \
   -H 'Content-Type: application/json;charset=UTF-8' \
   -H 'Accept: application/json;charset=UTF-8' \
-  -H 'Authorization: string'
+  -H 'Authorization: [object Object]'
 
 ```
 
@@ -2025,24 +3419,61 @@ POST https://apitest.vipps.no[shippingDetailsPrefix]/v2/payments/{orderId}/shipp
 Host: apitest.vipps.no
 Content-Type: application/json;charset=UTF-8
 Accept: application/json;charset=UTF-8
-Authorization: string
+Authorization: [object Object]
 
 ```
 
 ```javascript
 const inputBody = '{
-  "addressId": 0,
-  "addressLine1": "Dronning Eufemias gate 42",
-  "addressLine2": "string",
-  "city": "Oslo",
-  "country": "NO",
-  "postCode": "0603",
-  "addressType": "H"
+  "type": "object",
+  "required": [
+    "addressId",
+    "addressLine1",
+    "city",
+    "country",
+    "postCode"
+  ],
+  "properties": {
+    "addressId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Vipps Provided address Id. To be returned in response in the same field"
+    },
+    "addressLine1": {
+      "type": "string",
+      "example": "Dronning Eufemias gate 42"
+    },
+    "addressLine2": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string",
+      "description": "City",
+      "example": "Oslo"
+    },
+    "country": {
+      "type": "string",
+      "description": "The only country supported is Norway",
+      "example": "NO"
+    },
+    "postCode": {
+      "type": "string",
+      "description": "Four digits",
+      "pattern": "^\\d{4}$",
+      "example": "0603"
+    },
+    "addressType": {
+      "type": "string",
+      "example": "H"
+    }
+  }
 }';
 const headers = {
   'Content-Type':'application/json;charset=UTF-8',
   'Accept':'application/json;charset=UTF-8',
-  'Authorization':'string'
+  'Authorization':{
+  "type": "string"
+}
 };
 
 fetch('https://apitest.vipps.no[shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails',
@@ -2066,7 +3497,9 @@ require 'json'
 headers = {
   'Content-Type' => 'application/json;charset=UTF-8',
   'Accept' => 'application/json;charset=UTF-8',
-  'Authorization' => 'string'
+  'Authorization' => {
+  "type": "string"
+}
 }
 
 result = RestClient.post 'https://apitest.vipps.no[shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails',
@@ -2082,7 +3515,9 @@ import requests
 headers = {
   'Content-Type': 'application/json;charset=UTF-8',
   'Accept': 'application/json;charset=UTF-8',
-  'Authorization': 'string'
+  'Authorization': {
+  "type": "string"
+}
 }
 
 r = requests.post('https://apitest.vipps.no[shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails', headers = headers)
@@ -2099,7 +3534,7 @@ require 'vendor/autoload.php';
 $headers = array(
     'Content-Type' => 'application/json;charset=UTF-8',
     'Accept' => 'application/json;charset=UTF-8',
-    'Authorization' => 'string',
+    'Authorization' => '[object Object]',
 );
 
 $client = new \GuzzleHttp\Client();
@@ -2154,7 +3589,7 @@ func main() {
     headers := map[string][]string{
         "Content-Type": []string{"application/json;charset=UTF-8"},
         "Accept": []string{"application/json;charset=UTF-8"},
-        "Authorization": []string{"string"},
+        "Authorization": []string{"[object Object]"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
@@ -2178,13 +3613,48 @@ This API endpoint on the merchant side allows Vipps to get the shipping cost and
 
 ```json
 {
-  "addressId": 0,
-  "addressLine1": "Dronning Eufemias gate 42",
-  "addressLine2": "string",
-  "city": "Oslo",
-  "country": "NO",
-  "postCode": "0603",
-  "addressType": "H"
+  "type": "object",
+  "required": [
+    "addressId",
+    "addressLine1",
+    "city",
+    "country",
+    "postCode"
+  ],
+  "properties": {
+    "addressId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Vipps Provided address Id. To be returned in response in the same field"
+    },
+    "addressLine1": {
+      "type": "string",
+      "example": "Dronning Eufemias gate 42"
+    },
+    "addressLine2": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string",
+      "description": "City",
+      "example": "Oslo"
+    },
+    "country": {
+      "type": "string",
+      "description": "The only country supported is Norway",
+      "example": "NO"
+    },
+    "postCode": {
+      "type": "string",
+      "description": "Four digits",
+      "pattern": "^\\d{4}$",
+      "example": "0603"
+    },
+    "addressType": {
+      "type": "string",
+      "example": "H"
+    }
+  }
 }
 ```
 
@@ -2209,17 +3679,63 @@ This API endpoint on the merchant side allows Vipps to get the shipping cost and
 
 ```json
 {
-  "addressId": 0,
-  "orderId": "order123abc",
-  "shippingDetails": [
-    {
-      "isDefault": "Y",
-      "priority": 0,
-      "shippingCost": 0,
-      "shippingMethod": "Posten Servicepakke",
-      "shippingMethodId": "string"
+  "type": "object",
+  "required": [
+    "addressId",
+    "orderId",
+    "shippingDetails"
+  ],
+  "properties": {
+    "addressId": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "shippingDetails": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "isDefault",
+          "shippingCost",
+          "shippingMethod",
+          "shippingMethodId"
+        ],
+        "properties": {
+          "isDefault": {
+            "type": "string",
+            "enum": [
+              "Y",
+              "N"
+            ]
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "shippingCost": {
+            "type": "number",
+            "format": "double"
+          },
+          "shippingMethod": {
+            "type": "string",
+            "description": "Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.",
+            "example": "Posten Servicepakke",
+            "maxLength": 256
+          },
+          "shippingMethodId": {
+            "type": "string"
+          }
+        }
+      }
     }
-  ]
+  }
 }
 ```
 
@@ -2243,7 +3759,7 @@ This operation does not require authentication
 # You can also use wget
 curl -X POST https://apitest.vipps.no[callbackPrefix]/v2/payments/{orderId} \
   -H 'Content-Type: application/json;charset=UTF-8' \
-  -H 'Authorization: string'
+  -H 'Authorization: [object Object]'
 
 ```
 
@@ -2252,51 +3768,316 @@ POST https://apitest.vipps.no[callbackPrefix]/v2/payments/{orderId} HTTP/1.1
 Host: apitest.vipps.no
 Content-Type: application/json;charset=UTF-8
 
-Authorization: string
+Authorization: [object Object]
 
 ```
 
 ```javascript
 const inputBody = '{
-  "merchantSerialNumber": 123456,
-  "orderId": "order123abc",
-  "shippingDetails": {
-    "address": {
-      "addressLine1": "Dronning Eufemias gate 42",
-      "addressLine2": "Att: Rune Garborg",
-      "city": "Oslo",
-      "country": "Norway",
-      "postCode": 191
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "merchantSerialNumber",
+        "orderId",
+        "shippingDetails",
+        "userDetails",
+        "transactionInfo"
+      ],
+      "properties": {
+        "merchantSerialNumber": {
+          "type": "string",
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "minLength": 6,
+          "maxLength": 6,
+          "example": 123456,
+          "pattern": "^\\d{6}$"
+        },
+        "orderId": {
+          "type": "string",
+          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+          "example": "order123abc",
+          "pattern": "^[a-zA-Z0-9-]{1,30}$",
+          "maxLength": 30
+        },
+        "shippingDetails": {
+          "type": "object",
+          "required": [
+            "address",
+            "shippingCost",
+            "shippingMethod",
+            "shippingMethodId"
+          ],
+          "properties": {
+            "address": {
+              "type": "object",
+              "required": [
+                "addressLine1",
+                "city",
+                "country",
+                "postCode"
+              ],
+              "properties": {
+                "addressLine1": {
+                  "type": "string",
+                  "description": "Address Line 1",
+                  "example": "Dronning Eufemias gate 42"
+                },
+                "addressLine2": {
+                  "type": "string",
+                  "description": "Address Line 2",
+                  "example": "Att: Rune Garborg"
+                },
+                "city": {
+                  "type": "string",
+                  "description": "City",
+                  "example": "Oslo"
+                },
+                "country": {
+                  "type": "string",
+                  "description": "Country",
+                  "example": "Norway",
+                  "enum": [
+                    "Norway"
+                  ]
+                },
+                "postCode": {
+                  "type": "string",
+                  "description": "Post Code",
+                  "example": 191
+                }
+              }
+            },
+            "shippingCost": {
+              "type": "number",
+              "format": "double",
+              "description": "Shipping cost"
+            },
+            "shippingMethod": {
+              "type": "string",
+              "description": "Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.",
+              "example": "Posten Servicepakke",
+              "maxLength": 256
+            },
+            "shippingMethodId": {
+              "type": "string"
+            }
+          }
+        },
+        "transactionInfo": {
+          "type": "object",
+          "required": [
+            "amount",
+            "status",
+            "timeStamp",
+            "transactionId"
+          ],
+          "properties": {
+            "amount": {
+              "type": "number",
+              "format": "double",
+              "description": "Ordered amount in øre",
+              "example": 20000
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "RESERVE",
+                "SALE",
+                "CANCELLED",
+                "REJECTED",
+                "AUTO_CANCEL"
+              ],
+              "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#callbacks) for more information.",
+              "example": "RESERVE"
+            },
+            "timeStamp": {
+              "type": "string",
+              "description": "Timestamp in ISO-8601 representing when the operation was performed.",
+              "example": "2018-12-12T11:18:38.246Z"
+            },
+            "transactionId": {
+              "type": "string",
+              "description": "Vipps transaction id",
+              "example": "5001420062"
+            }
+          }
+        },
+        "userDetails": {
+          "type": "object",
+          "required": [
+            "email",
+            "firstName",
+            "lastName",
+            "mobileNumber",
+            "userId"
+          ],
+          "properties": {
+            "bankIdVerified": {
+              "type": "string",
+              "description": "Optional Y/N string indicating if the user in bankId vertified, must be requested during onboarding.",
+              "example": "Y",
+              "enum": [
+                "Y",
+                "N"
+              ]
+            },
+            "dateOfBirth": {
+              "type": "string",
+              "description": "Optional date of birth infomation, must be requested during onboarding.",
+              "example": "12-3-1988"
+            },
+            "email": {
+              "type": "string",
+              "description": "Email address",
+              "example": "user@example.com"
+            },
+            "firstName": {
+              "type": "string",
+              "description": "First name",
+              "example": "Ada"
+            },
+            "lastName": {
+              "type": "string",
+              "description": "Last name",
+              "example": "Lovelace"
+            },
+            "mobileNumber": {
+              "type": "string",
+              "description": "Mobile number",
+              "example": "12345678",
+              "minLength": 8,
+              "maxLength": 12,
+              "pattern": "^\\d{8,12}$"
+            },
+            "ssn": {
+              "type": "string",
+              "description": "Optional social security number for the user, must be requested during onboarding.",
+              "example": "12345678901",
+              "minLength": 11,
+              "maxLength": 11,
+              "pattern": "^\\d{11}$"
+            },
+            "userId": {
+              "type": "string",
+              "example": "uiJskNQ6qNN1iwN891uuob==",
+              "maxLength": 50,
+              "description": "Identifies a user in Vipps. Merchant is required to store this field for future references.",
+              "pattern": "^[\\d\\w\\/=+]+$"
+            }
+          }
+        },
+        "errorInfo": {
+          "type": "object",
+          "properties": {
+            "errorCode": {
+              "type": "integer",
+              "example": 45,
+              "description": "The number code for the error."
+            },
+            "errorGroup": {
+              "type": "string",
+              "example": "PAYMENTS"
+            },
+            "errorMessage": {
+              "type": "string",
+              "description": "Description of the error",
+              "example": "User has cancelled or not acted upon the payment"
+            }
+          }
+        }
+      }
     },
-    "shippingCost": 0,
-    "shippingMethod": "Posten Servicepakke",
-    "shippingMethodId": "string"
-  },
-  "transactionInfo": {
-    "amount": 20000,
-    "status": "RESERVE",
-    "timeStamp": "2018-12-12T11:18:38.246Z",
-    "transactionId": "5001420062"
-  },
-  "userDetails": {
-    "bankIdVerified": "Y",
-    "dateOfBirth": "12-3-1988",
-    "email": "user@example.com",
-    "firstName": "Ada",
-    "lastName": "Lovelace",
-    "mobileNumber": "12345678",
-    "ssn": "12345678901",
-    "userId": "uiJskNQ6qNN1iwN891uuob=="
-  },
-  "errorInfo": {
-    "errorCode": 45,
-    "errorGroup": "PAYMENTS",
-    "errorMessage": "User has cancelled or not acted upon the payment"
-  }
+    {
+      "type": "object",
+      "required": [
+        "merchantSerialNumber",
+        "orderId",
+        "transactionInfo"
+      ],
+      "properties": {
+        "merchantSerialNumber": {
+          "type": "string",
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "minLength": 6,
+          "maxLength": 6,
+          "example": 123456,
+          "pattern": "^\\d{6}$"
+        },
+        "orderId": {
+          "type": "string",
+          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+          "example": "order123abc",
+          "pattern": "^[a-zA-Z0-9-]{1,30}$",
+          "maxLength": 30
+        },
+        "transactionInfo": {
+          "type": "object",
+          "required": [
+            "amount",
+            "status",
+            "timeStamp",
+            "transactionId"
+          ],
+          "properties": {
+            "amount": {
+              "type": "number",
+              "format": "double",
+              "description": "Ordered amount in øre",
+              "example": 20000
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "RESERVE",
+                "SALE",
+                "CANCELLED",
+                "REJECTED",
+                "AUTO_CANCEL"
+              ],
+              "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#callbacks) for more information.",
+              "example": "RESERVE"
+            },
+            "timeStamp": {
+              "type": "string",
+              "description": "Timestamp in ISO-8601 representing when the operation was performed.",
+              "example": "2018-12-12T11:18:38.246Z"
+            },
+            "transactionId": {
+              "type": "string",
+              "description": "Vipps transaction id",
+              "example": "5001420062"
+            }
+          }
+        },
+        "errorInfo": {
+          "type": "object",
+          "properties": {
+            "errorCode": {
+              "type": "integer",
+              "example": 45,
+              "description": "The number code for the error."
+            },
+            "errorGroup": {
+              "type": "string",
+              "example": "PAYMENTS"
+            },
+            "errorMessage": {
+              "type": "string",
+              "description": "Description of the error",
+              "example": "User has cancelled or not acted upon the payment"
+            }
+          }
+        }
+      }
+    }
+  ]
 }';
 const headers = {
   'Content-Type':'application/json;charset=UTF-8',
-  'Authorization':'string'
+  'Authorization':{
+  "type": "string"
+}
 };
 
 fetch('https://apitest.vipps.no[callbackPrefix]/v2/payments/{orderId}',
@@ -2319,7 +4100,9 @@ require 'json'
 
 headers = {
   'Content-Type' => 'application/json;charset=UTF-8',
-  'Authorization' => 'string'
+  'Authorization' => {
+  "type": "string"
+}
 }
 
 result = RestClient.post 'https://apitest.vipps.no[callbackPrefix]/v2/payments/{orderId}',
@@ -2334,7 +4117,9 @@ p JSON.parse(result)
 import requests
 headers = {
   'Content-Type': 'application/json;charset=UTF-8',
-  'Authorization': 'string'
+  'Authorization': {
+  "type": "string"
+}
 }
 
 r = requests.post('https://apitest.vipps.no[callbackPrefix]/v2/payments/{orderId}', headers = headers)
@@ -2350,7 +4135,7 @@ require 'vendor/autoload.php';
 
 $headers = array(
     'Content-Type' => 'application/json;charset=UTF-8',
-    'Authorization' => 'string',
+    'Authorization' => '[object Object]',
 );
 
 $client = new \GuzzleHttp\Client();
@@ -2404,7 +4189,7 @@ func main() {
 
     headers := map[string][]string{
         "Content-Type": []string{"application/json;charset=UTF-8"},
-        "Authorization": []string{"string"},
+        "Authorization": []string{"[object Object]"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
@@ -2428,41 +4213,304 @@ This API call allows Vipps to send the transaction details. During regular ecomm
 
 ```json
 {
-  "merchantSerialNumber": 123456,
-  "orderId": "order123abc",
-  "shippingDetails": {
-    "address": {
-      "addressLine1": "Dronning Eufemias gate 42",
-      "addressLine2": "Att: Rune Garborg",
-      "city": "Oslo",
-      "country": "Norway",
-      "postCode": 191
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "merchantSerialNumber",
+        "orderId",
+        "shippingDetails",
+        "userDetails",
+        "transactionInfo"
+      ],
+      "properties": {
+        "merchantSerialNumber": {
+          "type": "string",
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "minLength": 6,
+          "maxLength": 6,
+          "example": 123456,
+          "pattern": "^\\d{6}$"
+        },
+        "orderId": {
+          "type": "string",
+          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+          "example": "order123abc",
+          "pattern": "^[a-zA-Z0-9-]{1,30}$",
+          "maxLength": 30
+        },
+        "shippingDetails": {
+          "type": "object",
+          "required": [
+            "address",
+            "shippingCost",
+            "shippingMethod",
+            "shippingMethodId"
+          ],
+          "properties": {
+            "address": {
+              "type": "object",
+              "required": [
+                "addressLine1",
+                "city",
+                "country",
+                "postCode"
+              ],
+              "properties": {
+                "addressLine1": {
+                  "type": "string",
+                  "description": "Address Line 1",
+                  "example": "Dronning Eufemias gate 42"
+                },
+                "addressLine2": {
+                  "type": "string",
+                  "description": "Address Line 2",
+                  "example": "Att: Rune Garborg"
+                },
+                "city": {
+                  "type": "string",
+                  "description": "City",
+                  "example": "Oslo"
+                },
+                "country": {
+                  "type": "string",
+                  "description": "Country",
+                  "example": "Norway",
+                  "enum": [
+                    "Norway"
+                  ]
+                },
+                "postCode": {
+                  "type": "string",
+                  "description": "Post Code",
+                  "example": 191
+                }
+              }
+            },
+            "shippingCost": {
+              "type": "number",
+              "format": "double",
+              "description": "Shipping cost"
+            },
+            "shippingMethod": {
+              "type": "string",
+              "description": "Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.",
+              "example": "Posten Servicepakke",
+              "maxLength": 256
+            },
+            "shippingMethodId": {
+              "type": "string"
+            }
+          }
+        },
+        "transactionInfo": {
+          "type": "object",
+          "required": [
+            "amount",
+            "status",
+            "timeStamp",
+            "transactionId"
+          ],
+          "properties": {
+            "amount": {
+              "type": "number",
+              "format": "double",
+              "description": "Ordered amount in øre",
+              "example": 20000
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "RESERVE",
+                "SALE",
+                "CANCELLED",
+                "REJECTED",
+                "AUTO_CANCEL"
+              ],
+              "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#callbacks) for more information.",
+              "example": "RESERVE"
+            },
+            "timeStamp": {
+              "type": "string",
+              "description": "Timestamp in ISO-8601 representing when the operation was performed.",
+              "example": "2018-12-12T11:18:38.246Z"
+            },
+            "transactionId": {
+              "type": "string",
+              "description": "Vipps transaction id",
+              "example": "5001420062"
+            }
+          }
+        },
+        "userDetails": {
+          "type": "object",
+          "required": [
+            "email",
+            "firstName",
+            "lastName",
+            "mobileNumber",
+            "userId"
+          ],
+          "properties": {
+            "bankIdVerified": {
+              "type": "string",
+              "description": "Optional Y/N string indicating if the user in bankId vertified, must be requested during onboarding.",
+              "example": "Y",
+              "enum": [
+                "Y",
+                "N"
+              ]
+            },
+            "dateOfBirth": {
+              "type": "string",
+              "description": "Optional date of birth infomation, must be requested during onboarding.",
+              "example": "12-3-1988"
+            },
+            "email": {
+              "type": "string",
+              "description": "Email address",
+              "example": "user@example.com"
+            },
+            "firstName": {
+              "type": "string",
+              "description": "First name",
+              "example": "Ada"
+            },
+            "lastName": {
+              "type": "string",
+              "description": "Last name",
+              "example": "Lovelace"
+            },
+            "mobileNumber": {
+              "type": "string",
+              "description": "Mobile number",
+              "example": "12345678",
+              "minLength": 8,
+              "maxLength": 12,
+              "pattern": "^\\d{8,12}$"
+            },
+            "ssn": {
+              "type": "string",
+              "description": "Optional social security number for the user, must be requested during onboarding.",
+              "example": "12345678901",
+              "minLength": 11,
+              "maxLength": 11,
+              "pattern": "^\\d{11}$"
+            },
+            "userId": {
+              "type": "string",
+              "example": "uiJskNQ6qNN1iwN891uuob==",
+              "maxLength": 50,
+              "description": "Identifies a user in Vipps. Merchant is required to store this field for future references.",
+              "pattern": "^[\\d\\w\\/=+]+$"
+            }
+          }
+        },
+        "errorInfo": {
+          "type": "object",
+          "properties": {
+            "errorCode": {
+              "type": "integer",
+              "example": 45,
+              "description": "The number code for the error."
+            },
+            "errorGroup": {
+              "type": "string",
+              "example": "PAYMENTS"
+            },
+            "errorMessage": {
+              "type": "string",
+              "description": "Description of the error",
+              "example": "User has cancelled or not acted upon the payment"
+            }
+          }
+        }
+      }
     },
-    "shippingCost": 0,
-    "shippingMethod": "Posten Servicepakke",
-    "shippingMethodId": "string"
-  },
-  "transactionInfo": {
-    "amount": 20000,
-    "status": "RESERVE",
-    "timeStamp": "2018-12-12T11:18:38.246Z",
-    "transactionId": "5001420062"
-  },
-  "userDetails": {
-    "bankIdVerified": "Y",
-    "dateOfBirth": "12-3-1988",
-    "email": "user@example.com",
-    "firstName": "Ada",
-    "lastName": "Lovelace",
-    "mobileNumber": "12345678",
-    "ssn": "12345678901",
-    "userId": "uiJskNQ6qNN1iwN891uuob=="
-  },
-  "errorInfo": {
-    "errorCode": 45,
-    "errorGroup": "PAYMENTS",
-    "errorMessage": "User has cancelled or not acted upon the payment"
-  }
+    {
+      "type": "object",
+      "required": [
+        "merchantSerialNumber",
+        "orderId",
+        "transactionInfo"
+      ],
+      "properties": {
+        "merchantSerialNumber": {
+          "type": "string",
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "minLength": 6,
+          "maxLength": 6,
+          "example": 123456,
+          "pattern": "^\\d{6}$"
+        },
+        "orderId": {
+          "type": "string",
+          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+          "example": "order123abc",
+          "pattern": "^[a-zA-Z0-9-]{1,30}$",
+          "maxLength": 30
+        },
+        "transactionInfo": {
+          "type": "object",
+          "required": [
+            "amount",
+            "status",
+            "timeStamp",
+            "transactionId"
+          ],
+          "properties": {
+            "amount": {
+              "type": "number",
+              "format": "double",
+              "description": "Ordered amount in øre",
+              "example": 20000
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "RESERVE",
+                "SALE",
+                "CANCELLED",
+                "REJECTED",
+                "AUTO_CANCEL"
+              ],
+              "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#callbacks) for more information.",
+              "example": "RESERVE"
+            },
+            "timeStamp": {
+              "type": "string",
+              "description": "Timestamp in ISO-8601 representing when the operation was performed.",
+              "example": "2018-12-12T11:18:38.246Z"
+            },
+            "transactionId": {
+              "type": "string",
+              "description": "Vipps transaction id",
+              "example": "5001420062"
+            }
+          }
+        },
+        "errorInfo": {
+          "type": "object",
+          "properties": {
+            "errorCode": {
+              "type": "integer",
+              "example": 45,
+              "description": "The number code for the error."
+            },
+            "errorGroup": {
+              "type": "string",
+              "example": "PAYMENTS"
+            },
+            "errorMessage": {
+              "type": "string",
+              "description": "Description of the error",
+              "example": "User has cancelled or not acted upon the payment"
+            }
+          }
+        }
+      }
+    }
+  ]
 }
 ```
 
@@ -2496,9 +4544,9 @@ This operation does not require authentication
 # You can also use wget
 curl -X POST https://apitest.vipps.no/accesstoken/get \
   -H 'Accept: application/json;charset=UTF-8' \
-  -H 'client_id: string' \
-  -H 'client_secret: string' \
-  -H 'Ocp-Apim-Subscription-Key: string'
+  -H 'client_id: [object Object]' \
+  -H 'client_secret: [object Object]' \
+  -H 'Ocp-Apim-Subscription-Key: [object Object]'
 
 ```
 
@@ -2506,9 +4554,9 @@ curl -X POST https://apitest.vipps.no/accesstoken/get \
 POST https://apitest.vipps.no/accesstoken/get HTTP/1.1
 Host: apitest.vipps.no
 Accept: application/json;charset=UTF-8
-client_id: string
-client_secret: string
-Ocp-Apim-Subscription-Key: string
+client_id: [object Object]
+client_secret: [object Object]
+Ocp-Apim-Subscription-Key: [object Object]
 
 ```
 
@@ -2516,9 +4564,16 @@ Ocp-Apim-Subscription-Key: string
 
 const headers = {
   'Accept':'application/json;charset=UTF-8',
-  'client_id':'string',
-  'client_secret':'string',
-  'Ocp-Apim-Subscription-Key':'string'
+  'client_id':{
+  "type": "string",
+  "format": "guid"
+},
+  'client_secret':{
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key':{
+  "type": "string"
+}
 };
 
 fetch('https://apitest.vipps.no/accesstoken/get',
@@ -2541,9 +4596,16 @@ require 'json'
 
 headers = {
   'Accept' => 'application/json;charset=UTF-8',
-  'client_id' => 'string',
-  'client_secret' => 'string',
-  'Ocp-Apim-Subscription-Key' => 'string'
+  'client_id' => {
+  "type": "string",
+  "format": "guid"
+},
+  'client_secret' => {
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key' => {
+  "type": "string"
+}
 }
 
 result = RestClient.post 'https://apitest.vipps.no/accesstoken/get',
@@ -2558,9 +4620,16 @@ p JSON.parse(result)
 import requests
 headers = {
   'Accept': 'application/json;charset=UTF-8',
-  'client_id': 'string',
-  'client_secret': 'string',
-  'Ocp-Apim-Subscription-Key': 'string'
+  'client_id': {
+  "type": "string",
+  "format": "guid"
+},
+  'client_secret': {
+  "type": "string"
+},
+  'Ocp-Apim-Subscription-Key': {
+  "type": "string"
+}
 }
 
 r = requests.post('https://apitest.vipps.no/accesstoken/get', headers = headers)
@@ -2576,9 +4645,9 @@ require 'vendor/autoload.php';
 
 $headers = array(
     'Accept' => 'application/json;charset=UTF-8',
-    'client_id' => 'string',
-    'client_secret' => 'string',
-    'Ocp-Apim-Subscription-Key' => 'string',
+    'client_id' => '[object Object]',
+    'client_secret' => '[object Object]',
+    'Ocp-Apim-Subscription-Key' => '[object Object]',
 );
 
 $client = new \GuzzleHttp\Client();
@@ -2632,9 +4701,9 @@ func main() {
 
     headers := map[string][]string{
         "Accept": []string{"application/json;charset=UTF-8"},
-        "client_id": []string{"string"},
-        "client_secret": []string{"string"},
-        "Ocp-Apim-Subscription-Key": []string{"string"},
+        "client_id": []string{"[object Object]"},
+        "client_secret": []string{"[object Object]"},
+        "Ocp-Apim-Subscription-Key": []string{"[object Object]"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
@@ -2668,13 +4737,53 @@ Authorization token API endpoint helps to get the JWT Bearer token that needs to
 
 ```json
 {
-  "token_type": "Bearer",
-  "expires_in": 3600,
-  "ext_expires_in": 3600,
-  "expires_on": 1547823408,
-  "not_before": 1547819508,
-  "resource": "00000002-0000-0000-c000-000000000000",
-  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni"
+  "type": "object",
+  "required": [
+    "token_type",
+    "expires_in",
+    "ext_expires_in",
+    "expires_on",
+    "not_before",
+    "resource",
+    "access_token"
+  ],
+  "properties": {
+    "token_type": {
+      "type": "string",
+      "description": "String containing the type for the Access Token.",
+      "example": "Bearer"
+    },
+    "expires_in": {
+      "type": "integer",
+      "description": "Token expiry time in seconds.",
+      "example": 3600
+    },
+    "ext_expires_in": {
+      "type": "integer",
+      "description": "Extra time added to expiry time. Currently disabled.",
+      "example": 3600
+    },
+    "expires_on": {
+      "type": "integer",
+      "description": "Token expiry time in epoch time format.",
+      "example": 1547823408
+    },
+    "not_before": {
+      "type": "integer",
+      "description": "Token creation time in epoch time format.",
+      "example": 1547819508
+    },
+    "resource": {
+      "type": "string",
+      "description": "A common resource object. Not used in token validation",
+      "example": "00000002-0000-0000-c000-000000000000"
+    },
+    "access_token": {
+      "type": "string",
+      "format": "byte",
+      "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni"
+    }
+  }
 }
 ```
 
@@ -2705,12 +4814,49 @@ This operation does not require authentication
 <a id="tocSpaymentactionsrequest"></a>
 <a id="tocspaymentactionsrequest"></a>
 
-```yaml
-merchantInfo:
-  merchantSerialNumber: 123456
-transaction:
-  amount: 20000
-  transactionText: One pair of Vipps socks
+```json
+{
+  "type": "object",
+  "properties": {
+    "merchantInfo": {
+      "type": "object",
+      "required": [
+        "merchantSerialNumber"
+      ],
+      "properties": {
+        "merchantSerialNumber": {
+          "type": "string",
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "minLength": 6,
+          "maxLength": 6,
+          "example": 123456,
+          "pattern": "^\\d{6}$"
+        }
+      }
+    },
+    "transaction": {
+      "type": "object",
+      "required": [
+        "transactionText"
+      ],
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Amount in øre, if amount is 0 or not provided then full capture will be performed. 32 Bit Integer (2147483647)",
+          "pattern": "^\\d{3,}$",
+          "example": 20000
+        },
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text to be displayed in Vipps",
+          "example": "One pair of Vipps socks",
+          "maxLength": 100
+        }
+      }
+    }
+  }
+}
 
 ```
 
@@ -2728,12 +4874,46 @@ transaction:
 <a id="tocSaddress"></a>
 <a id="tocsaddress"></a>
 
-```yaml
-addressLine1: Dronning Eufemias gate 42
-addressLine2: "Att: Rune Garborg"
-city: Oslo
-country: Norway
-postCode: 191
+```json
+{
+  "type": "object",
+  "required": [
+    "addressLine1",
+    "city",
+    "country",
+    "postCode"
+  ],
+  "properties": {
+    "addressLine1": {
+      "type": "string",
+      "description": "Address Line 1",
+      "example": "Dronning Eufemias gate 42"
+    },
+    "addressLine2": {
+      "type": "string",
+      "description": "Address Line 2",
+      "example": "Att: Rune Garborg"
+    },
+    "city": {
+      "type": "string",
+      "description": "City",
+      "example": "Oslo"
+    },
+    "country": {
+      "type": "string",
+      "description": "Country",
+      "example": "Norway",
+      "enum": [
+        "Norway"
+      ]
+    },
+    "postCode": {
+      "type": "string",
+      "description": "Post Code",
+      "example": 191
+    }
+  }
+}
 
 ```
 
@@ -2760,16 +4940,71 @@ postCode: 191
 <a id="tocSpaymentshippingdetails"></a>
 <a id="tocspaymentshippingdetails"></a>
 
-```yaml
-address:
-  addressLine1: Dronning Eufemias gate 42
-  addressLine2: "Att: Rune Garborg"
-  city: Oslo
-  country: Norway
-  postCode: 191
-shippingCost: 1500
-shippingMethod: Posten Servicepakke
-shippingMethodId: string
+```json
+{
+  "type": "object",
+  "required": [
+    "shippingCost",
+    "shippingMethod",
+    "shippingMethodId"
+  ],
+  "properties": {
+    "address": {
+      "type": "object",
+      "required": [
+        "addressLine1",
+        "city",
+        "country",
+        "postCode"
+      ],
+      "properties": {
+        "addressLine1": {
+          "type": "string",
+          "description": "Address Line 1",
+          "example": "Dronning Eufemias gate 42"
+        },
+        "addressLine2": {
+          "type": "string",
+          "description": "Address Line 2",
+          "example": "Att: Rune Garborg"
+        },
+        "city": {
+          "type": "string",
+          "description": "City",
+          "example": "Oslo"
+        },
+        "country": {
+          "type": "string",
+          "description": "Country",
+          "example": "Norway",
+          "enum": [
+            "Norway"
+          ]
+        },
+        "postCode": {
+          "type": "string",
+          "description": "Post Code",
+          "example": 191
+        }
+      }
+    },
+    "shippingCost": {
+      "type": "number",
+      "format": "double",
+      "description": "Shipping Cost",
+      "example": 1500
+    },
+    "shippingMethod": {
+      "type": "string",
+      "description": "Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.",
+      "example": "Posten Servicepakke",
+      "maxLength": 256
+    },
+    "shippingMethodId": {
+      "type": "string"
+    }
+  }
+}
 
 ```
 
@@ -2789,14 +5024,62 @@ shippingMethodId: string
 <a id="tocStransactionloghistory"></a>
 <a id="tocstransactionloghistory"></a>
 
-```yaml
-amount: 0
-operation: RESERVE
-operationf: true
-requestId: 12983921873981899000
-timeStamp: 2019-02-05T12:27:42.311Z
-transactionId: 5001446662
-transactionText: One pair of Vipps socks
+```json
+{
+  "type": "object",
+  "required": [
+    "operation",
+    "amount",
+    "operationSuccess",
+    "transactionText"
+  ],
+  "properties": {
+    "amount": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "operation": {
+      "type": "string",
+      "example": "RESERVE",
+      "description": "The operation that was performed for this log entry. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information.",
+      "enum": [
+        "INITIATE",
+        "RESERVE",
+        "SALE",
+        "CAPTURE",
+        "REFUND",
+        "CANCEL",
+        "VOID"
+      ]
+    },
+    "operationf": {
+      "type": "boolean",
+      "description": "If the corrosponding operation was successfull.",
+      "example": true
+    },
+    "requestId": {
+      "description": "The idempotent request id provided by the merchant for the operation.",
+      "example": 12983921873981899000,
+      "type": "string"
+    },
+    "timeStamp": {
+      "type": "string",
+      "description": "Timestamp in ISO-8601 representing when the operation was perfomed.",
+      "example": "2019-02-05T12:27:42.311Z"
+    },
+    "transactionId": {
+      "description": "Identifies the transaction",
+      "example": 5001446662,
+      "type": "string"
+    },
+    "transactionText": {
+      "type": "string",
+      "description": "Transaction text to be displayed in Vipps",
+      "example": "One pair of Vipps socks",
+      "maxLength": 100
+    }
+  }
+}
 
 ```
 
@@ -2831,8 +5114,18 @@ transactionText: One pair of Vipps socks
 <a id="tocScanceltransaction"></a>
 <a id="tocscanceltransaction"></a>
 
-```yaml
-transactionText: One pair of Vipps socks
+```json
+{
+  "type": "object",
+  "properties": {
+    "transactionText": {
+      "type": "string",
+      "description": "Transaction text to be displayed in Vipps",
+      "example": "One pair of Vipps socks",
+      "maxLength": 100
+    }
+  }
+}
 
 ```
 
@@ -2849,15 +5142,71 @@ transactionText: One pair of Vipps socks
 <a id="tocSuserdetails"></a>
 <a id="tocsuserdetails"></a>
 
-```yaml
-bankIdVerified: Y
-dateOfBirth: 12-3-1988
-email: user@example.com
-firstName: Ada
-lastName: Lovelace
-mobileNumber: "12345678"
-ssn: "12345678901"
-userId: uiJskNQ6qNN1iwN891uuob==
+```json
+{
+  "type": "object",
+  "required": [
+    "email",
+    "firstName",
+    "lastName",
+    "mobileNumber",
+    "userId"
+  ],
+  "properties": {
+    "bankIdVerified": {
+      "type": "string",
+      "description": "Optional Y/N string indicating if the user in bankId vertified, must be requested during onboarding.",
+      "example": "Y",
+      "enum": [
+        "Y",
+        "N"
+      ]
+    },
+    "dateOfBirth": {
+      "type": "string",
+      "description": "Optional date of birth infomation, must be requested during onboarding.",
+      "example": "12-3-1988"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email address",
+      "example": "user@example.com"
+    },
+    "firstName": {
+      "type": "string",
+      "description": "First name",
+      "example": "Ada"
+    },
+    "lastName": {
+      "type": "string",
+      "description": "Last name",
+      "example": "Lovelace"
+    },
+    "mobileNumber": {
+      "type": "string",
+      "description": "Mobile number",
+      "example": "12345678",
+      "minLength": 8,
+      "maxLength": 12,
+      "pattern": "^\\d{8,12}$"
+    },
+    "ssn": {
+      "type": "string",
+      "description": "Optional social security number for the user, must be requested during onboarding.",
+      "example": "12345678901",
+      "minLength": 11,
+      "maxLength": 11,
+      "pattern": "^\\d{11}$"
+    },
+    "userId": {
+      "type": "string",
+      "example": "uiJskNQ6qNN1iwN891uuob==",
+      "maxLength": 50,
+      "description": "Identifies a user in Vipps. Merchant is required to store this field for future references.",
+      "pattern": "^[\\d\\w\\/=+]+$"
+    }
+  }
+}
 
 ```
 
@@ -2888,10 +5237,26 @@ userId: uiJskNQ6qNN1iwN891uuob==
 <a id="tocScallbackerrorinfo"></a>
 <a id="tocscallbackerrorinfo"></a>
 
-```yaml
-errorCode: 45
-errorGroup: PAYMENTS
-errorMessage: User has cancelled or not acted upon the payment
+```json
+{
+  "type": "object",
+  "properties": {
+    "errorCode": {
+      "type": "integer",
+      "example": 45,
+      "description": "The number code for the error."
+    },
+    "errorGroup": {
+      "type": "string",
+      "example": "PAYMENTS"
+    },
+    "errorMessage": {
+      "type": "string",
+      "description": "Description of the error",
+      "example": "User has cancelled or not acted upon the payment"
+    }
+  }
+}
 
 ```
 
@@ -2910,11 +5275,46 @@ errorMessage: User has cancelled or not acted upon the payment
 <a id="tocScallbacktransactioninfostatus"></a>
 <a id="tocscallbacktransactioninfostatus"></a>
 
-```yaml
-amount: 20000
-status: RESERVE
-timeStamp: 2018-12-12T11:18:38.246Z
-transactionId: "5001420062"
+```json
+{
+  "type": "object",
+  "required": [
+    "amount",
+    "status",
+    "timeStamp",
+    "transactionId"
+  ],
+  "properties": {
+    "amount": {
+      "type": "number",
+      "format": "double",
+      "description": "Ordered amount in øre",
+      "example": 20000
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "RESERVE",
+        "SALE",
+        "CANCELLED",
+        "REJECTED",
+        "AUTO_CANCEL"
+      ],
+      "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#callbacks) for more information.",
+      "example": "RESERVE"
+    },
+    "timeStamp": {
+      "type": "string",
+      "description": "Timestamp in ISO-8601 representing when the operation was performed.",
+      "example": "2018-12-12T11:18:38.246Z"
+    },
+    "transactionId": {
+      "type": "string",
+      "description": "Vipps transaction id",
+      "example": "5001420062"
+    }
+  }
+}
 
 ```
 
@@ -2944,11 +5344,51 @@ transactionId: "5001420062"
 <a id="tocSorderstatusinfotransactioninfo"></a>
 <a id="tocsorderstatusinfotransactioninfo"></a>
 
-```yaml
-amount: 20000
-status: RESERVE
-timeStamp: 2018-12-12T11:18:38.246Z
-transactionId: "5001420062"
+```json
+{
+  "type": "object",
+  "required": [
+    "amount",
+    "status",
+    "timeStamp",
+    "transactionId"
+  ],
+  "properties": {
+    "amount": {
+      "type": "number",
+      "format": "double",
+      "description": "Ordered amount in øre",
+      "example": 20000
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "INITIATE",
+        "REGISTER",
+        "RESERVE",
+        "SALE",
+        "CAPTURE",
+        "REFUND",
+        "CANCEL",
+        "VOID",
+        "FAILED",
+        "REJECTED"
+      ],
+      "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information.",
+      "example": "RESERVE"
+    },
+    "timeStamp": {
+      "type": "string",
+      "description": "Timestamp in ISO-8601 representing when the status operation was performed.",
+      "example": "2018-12-12T11:18:38.246Z"
+    },
+    "transactionId": {
+      "type": "string",
+      "description": "Vipps transaction id",
+      "example": "5001420062"
+    }
+  }
+}
 
 ```
 
@@ -2983,12 +5423,49 @@ transactionId: "5001420062"
 <a id="tocStransactioninfocancel"></a>
 <a id="tocstransactioninfocancel"></a>
 
-```yaml
-amount: 20000
-status: Cancelled
-timeStamp: 2018-12-12T11:18:38.246Z
-transactionId: "5001420062"
-transactionText: One pair of Vipps socks
+```json
+{
+  "type": "object",
+  "required": [
+    "amount",
+    "status",
+    "timeStamp",
+    "transactionId",
+    "transactionText"
+  ],
+  "properties": {
+    "amount": {
+      "type": "number",
+      "format": "double",
+      "description": "Ordered amount in øre",
+      "example": 20000
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Cancelled"
+      ],
+      "example": "Cancelled",
+      "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information."
+    },
+    "timeStamp": {
+      "type": "string",
+      "description": "Timestamp in ISO-8601 representing when the order was cancelled.",
+      "example": "2018-12-12T11:18:38.246Z"
+    },
+    "transactionId": {
+      "type": "string",
+      "description": "Vipps transaction id",
+      "example": "5001420062"
+    },
+    "transactionText": {
+      "type": "string",
+      "description": "Transaction text to be displayed in Vipps",
+      "example": "One pair of Vipps socks",
+      "maxLength": 100
+    }
+  }
+}
 
 ```
 
@@ -3015,12 +5492,49 @@ transactionText: One pair of Vipps socks
 <a id="tocStransactioninforefund"></a>
 <a id="tocstransactioninforefund"></a>
 
-```yaml
-amount: 20000
-status: Refund
-timeStamp: 2018-12-12T11:18:38.246Z
-transactionId: "5001420062"
-transactionText: One pair of Vipps socks
+```json
+{
+  "type": "object",
+  "required": [
+    "amount",
+    "status",
+    "timeStamp",
+    "transactionId",
+    "transactionText"
+  ],
+  "properties": {
+    "amount": {
+      "type": "number",
+      "format": "double",
+      "description": "Ordered amount in øre",
+      "example": 20000
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Refund"
+      ],
+      "example": "Refund",
+      "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information."
+    },
+    "timeStamp": {
+      "type": "string",
+      "description": "Timestamp in ISO-8601 representing when the order was refunded.",
+      "example": "2018-12-12T11:18:38.246Z"
+    },
+    "transactionId": {
+      "type": "string",
+      "description": "Vipps transaction id",
+      "example": "5001420062"
+    },
+    "transactionText": {
+      "type": "string",
+      "description": "Transaction text to be displayed in Vipps",
+      "example": "One pair of Vipps socks",
+      "maxLength": 100
+    }
+  }
+}
 
 ```
 
@@ -3047,12 +5561,49 @@ transactionText: One pair of Vipps socks
 <a id="tocStransactioninfocapture"></a>
 <a id="tocstransactioninfocapture"></a>
 
-```yaml
-amount: 20000
-status: Captured
-timeStamp: 2018-12-12T11:18:38.246Z
-transactionId: "5001420062"
-transactionText: One pair of Vipps socks
+```json
+{
+  "type": "object",
+  "required": [
+    "amount",
+    "status",
+    "timeStamp",
+    "transactionId",
+    "transactionText"
+  ],
+  "properties": {
+    "amount": {
+      "type": "number",
+      "format": "double",
+      "description": "Ordered amount in øre",
+      "example": 20000
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Captured"
+      ],
+      "example": "Captured",
+      "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information."
+    },
+    "timeStamp": {
+      "type": "string",
+      "description": "Timestamp in ISO-8601 representing when the order was captured.",
+      "example": "2018-12-12T11:18:38.246Z"
+    },
+    "transactionId": {
+      "type": "string",
+      "description": "Vipps transaction id",
+      "example": "5001420062"
+    },
+    "transactionText": {
+      "type": "string",
+      "description": "Transaction text to be displayed in Vipps",
+      "example": "One pair of Vipps socks",
+      "maxLength": 100
+    }
+  }
+}
 
 ```
 
@@ -3079,40 +5630,241 @@ transactionText: One pair of Vipps socks
 <a id="tocSgettransactiondetails"></a>
 <a id="tocsgettransactiondetails"></a>
 
-```yaml
-orderId: order123abc
-shippingDetails:
-  address:
-    addressLine1: Dronning Eufemias gate 42
-    addressLine2: "Att: Rune Garborg"
-    city: Oslo
-    country: Norway
-    postCode: 191
-  shippingCost: 1500
-  shippingMethod: Posten Servicepakke
-  shippingMethodId: string
-transactionLogHistory:
-  - amount: 0
-    operation: RESERVE
-    operationf: true
-    requestId: 12983921873981899000
-    timeStamp: 2019-02-05T12:27:42.311Z
-    transactionId: 5001446662
-    transactionText: One pair of Vipps socks
-transactionSummary:
-  capturedAmount: 20000
-  refundedAmount: 0
-  remainingAmountToCapture: 0
-  remainingAmountToRefund: 20000
-userDetails:
-  bankIdVerified: Y
-  dateOfBirth: 12-3-1988
-  email: user@example.com
-  firstName: Ada
-  lastName: Lovelace
-  mobileNumber: "12345678"
-  ssn: "12345678901"
-  userId: uiJskNQ6qNN1iwN891uuob==
+```json
+{
+  "type": "object",
+  "properties": {
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "shippingDetails": {
+      "type": "object",
+      "required": [
+        "shippingCost",
+        "shippingMethod",
+        "shippingMethodId"
+      ],
+      "properties": {
+        "address": {
+          "type": "object",
+          "required": [
+            "addressLine1",
+            "city",
+            "country",
+            "postCode"
+          ],
+          "properties": {
+            "addressLine1": {
+              "type": "string",
+              "description": "Address Line 1",
+              "example": "Dronning Eufemias gate 42"
+            },
+            "addressLine2": {
+              "type": "string",
+              "description": "Address Line 2",
+              "example": "Att: Rune Garborg"
+            },
+            "city": {
+              "type": "string",
+              "description": "City",
+              "example": "Oslo"
+            },
+            "country": {
+              "type": "string",
+              "description": "Country",
+              "example": "Norway",
+              "enum": [
+                "Norway"
+              ]
+            },
+            "postCode": {
+              "type": "string",
+              "description": "Post Code",
+              "example": 191
+            }
+          }
+        },
+        "shippingCost": {
+          "type": "number",
+          "format": "double",
+          "description": "Shipping Cost",
+          "example": 1500
+        },
+        "shippingMethod": {
+          "type": "string",
+          "description": "Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.",
+          "example": "Posten Servicepakke",
+          "maxLength": 256
+        },
+        "shippingMethodId": {
+          "type": "string"
+        }
+      }
+    },
+    "transactionLogHistory": {
+      "type": "array",
+      "description": "Array of transaction operations. Sorted from newest to oldest.",
+      "items": {
+        "type": "object",
+        "required": [
+          "operation",
+          "amount",
+          "operationSuccess",
+          "transactionText"
+        ],
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "operation": {
+            "type": "string",
+            "example": "RESERVE",
+            "description": "The operation that was performed for this log entry. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information.",
+            "enum": [
+              "INITIATE",
+              "RESERVE",
+              "SALE",
+              "CAPTURE",
+              "REFUND",
+              "CANCEL",
+              "VOID"
+            ]
+          },
+          "operationf": {
+            "type": "boolean",
+            "description": "If the corrosponding operation was successfull.",
+            "example": true
+          },
+          "requestId": {
+            "description": "The idempotent request id provided by the merchant for the operation.",
+            "example": 12983921873981899000,
+            "type": "string"
+          },
+          "timeStamp": {
+            "type": "string",
+            "description": "Timestamp in ISO-8601 representing when the operation was perfomed.",
+            "example": "2019-02-05T12:27:42.311Z"
+          },
+          "transactionId": {
+            "description": "Identifies the transaction",
+            "example": 5001446662,
+            "type": "string"
+          },
+          "transactionText": {
+            "type": "string",
+            "description": "Transaction text to be displayed in Vipps",
+            "example": "One pair of Vipps socks",
+            "maxLength": 100
+          }
+        }
+      }
+    },
+    "transactionSummary": {
+      "type": "object",
+      "required": [
+        "capturedAmount",
+        "refundedAmount",
+        "remainingAmountToCapture",
+        "remainingAmountToRefund"
+      ],
+      "properties": {
+        "capturedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total amount captured",
+          "example": 20000
+        },
+        "refundedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total refunded amount of the order",
+          "example": 0
+        },
+        "remainingAmountToCapture": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to capture",
+          "example": 0
+        },
+        "remainingAmountToRefund": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to refund",
+          "example": 20000
+        }
+      }
+    },
+    "userDetails": {
+      "type": "object",
+      "required": [
+        "email",
+        "firstName",
+        "lastName",
+        "mobileNumber",
+        "userId"
+      ],
+      "properties": {
+        "bankIdVerified": {
+          "type": "string",
+          "description": "Optional Y/N string indicating if the user in bankId vertified, must be requested during onboarding.",
+          "example": "Y",
+          "enum": [
+            "Y",
+            "N"
+          ]
+        },
+        "dateOfBirth": {
+          "type": "string",
+          "description": "Optional date of birth infomation, must be requested during onboarding.",
+          "example": "12-3-1988"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address",
+          "example": "user@example.com"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name",
+          "example": "Ada"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name",
+          "example": "Lovelace"
+        },
+        "mobileNumber": {
+          "type": "string",
+          "description": "Mobile number",
+          "example": "12345678",
+          "minLength": 8,
+          "maxLength": 12,
+          "pattern": "^\\d{8,12}$"
+        },
+        "ssn": {
+          "type": "string",
+          "description": "Optional social security number for the user, must be requested during onboarding.",
+          "example": "12345678901",
+          "minLength": 11,
+          "maxLength": 11,
+          "pattern": "^\\d{11}$"
+        },
+        "userId": {
+          "type": "string",
+          "example": "uiJskNQ6qNN1iwN891uuob==",
+          "maxLength": 50,
+          "description": "Identifies a user in Vipps. Merchant is required to store this field for future references.",
+          "pattern": "^[\\d\\w\\/=+]+$"
+        }
+      }
+    }
+  }
+}
 
 ```
 
@@ -3133,9 +5885,28 @@ userDetails:
 <a id="tocSinitiatepaymentv2representation"></a>
 <a id="tocsinitiatepaymentv2representation"></a>
 
-```yaml
-orderId: order123abc
-url: https://example.com
+```json
+{
+  "type": "object",
+  "required": [
+    "orderId",
+    "url"
+  ],
+  "properties": {
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "url": {
+      "type": "string",
+      "description": "URL to redirect the user to Vipps landing page or a deeplink URL to open Vipps app, if isApp was set as true. The landing page will also redirect a user to the app if the user is using a mobile browser. This link will timeout after 5 minutes.",
+      "example": "https://example.com"
+    }
+  }
+}
 
 ```
 
@@ -3153,16 +5924,71 @@ url: https://example.com
 <a id="tocSshippingdetailsrequest"></a>
 <a id="tocsshippingdetailsrequest"></a>
 
-```yaml
-address:
-  addressLine1: Dronning Eufemias gate 42
-  addressLine2: "Att: Rune Garborg"
-  city: Oslo
-  country: Norway
-  postCode: 191
-shippingCost: 0
-shippingMethod: Posten Servicepakke
-shippingMethodId: string
+```json
+{
+  "type": "object",
+  "required": [
+    "address",
+    "shippingCost",
+    "shippingMethod",
+    "shippingMethodId"
+  ],
+  "properties": {
+    "address": {
+      "type": "object",
+      "required": [
+        "addressLine1",
+        "city",
+        "country",
+        "postCode"
+      ],
+      "properties": {
+        "addressLine1": {
+          "type": "string",
+          "description": "Address Line 1",
+          "example": "Dronning Eufemias gate 42"
+        },
+        "addressLine2": {
+          "type": "string",
+          "description": "Address Line 2",
+          "example": "Att: Rune Garborg"
+        },
+        "city": {
+          "type": "string",
+          "description": "City",
+          "example": "Oslo"
+        },
+        "country": {
+          "type": "string",
+          "description": "Country",
+          "example": "Norway",
+          "enum": [
+            "Norway"
+          ]
+        },
+        "postCode": {
+          "type": "string",
+          "description": "Post Code",
+          "example": 191
+        }
+      }
+    },
+    "shippingCost": {
+      "type": "number",
+      "format": "double",
+      "description": "Shipping cost"
+    },
+    "shippingMethod": {
+      "type": "string",
+      "description": "Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.",
+      "example": "Posten Servicepakke",
+      "maxLength": 256
+    },
+    "shippingMethodId": {
+      "type": "string"
+    }
+  }
+}
 
 ```
 
@@ -3182,19 +6008,99 @@ shippingMethodId: string
 <a id="tocStransactionresponsecancel"></a>
 <a id="tocstransactionresponsecancel"></a>
 
-```yaml
-orderId: order123abc
-transactionInfo:
-  amount: 20000
-  status: Cancelled
-  timeStamp: 2018-12-12T11:18:38.246Z
-  transactionId: "5001420062"
-  transactionText: One pair of Vipps socks
-transactionSummary:
-  capturedAmount: 20000
-  refundedAmount: 0
-  remainingAmountToCapture: 0
-  remainingAmountToRefund: 20000
+```json
+{
+  "type": "object",
+  "required": [
+    "orderId"
+  ],
+  "properties": {
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "transactionInfo": {
+      "type": "object",
+      "required": [
+        "amount",
+        "status",
+        "timeStamp",
+        "transactionId",
+        "transactionText"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Ordered amount in øre",
+          "example": 20000
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Cancelled"
+          ],
+          "example": "Cancelled",
+          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information."
+        },
+        "timeStamp": {
+          "type": "string",
+          "description": "Timestamp in ISO-8601 representing when the order was cancelled.",
+          "example": "2018-12-12T11:18:38.246Z"
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "Vipps transaction id",
+          "example": "5001420062"
+        },
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text to be displayed in Vipps",
+          "example": "One pair of Vipps socks",
+          "maxLength": 100
+        }
+      }
+    },
+    "transactionSummary": {
+      "type": "object",
+      "required": [
+        "capturedAmount",
+        "refundedAmount",
+        "remainingAmountToCapture",
+        "remainingAmountToRefund"
+      ],
+      "properties": {
+        "capturedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total amount captured",
+          "example": 20000
+        },
+        "refundedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total refunded amount of the order",
+          "example": 0
+        },
+        "remainingAmountToCapture": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to capture",
+          "example": 0
+        },
+        "remainingAmountToRefund": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to refund",
+          "example": 20000
+        }
+      }
+    }
+  }
+}
 
 ```
 
@@ -3213,19 +6119,99 @@ transactionSummary:
 <a id="tocStransactionresponsecapture"></a>
 <a id="tocstransactionresponsecapture"></a>
 
-```yaml
-orderId: order123abc
-transactionInfo:
-  amount: 20000
-  status: Captured
-  timeStamp: 2018-12-12T11:18:38.246Z
-  transactionId: "5001420062"
-  transactionText: One pair of Vipps socks
-transactionSummary:
-  capturedAmount: 20000
-  refundedAmount: 0
-  remainingAmountToCapture: 0
-  remainingAmountToRefund: 20000
+```json
+{
+  "type": "object",
+  "required": [
+    "orderId"
+  ],
+  "properties": {
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "transactionInfo": {
+      "type": "object",
+      "required": [
+        "amount",
+        "status",
+        "timeStamp",
+        "transactionId",
+        "transactionText"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Ordered amount in øre",
+          "example": 20000
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Captured"
+          ],
+          "example": "Captured",
+          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information."
+        },
+        "timeStamp": {
+          "type": "string",
+          "description": "Timestamp in ISO-8601 representing when the order was captured.",
+          "example": "2018-12-12T11:18:38.246Z"
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "Vipps transaction id",
+          "example": "5001420062"
+        },
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text to be displayed in Vipps",
+          "example": "One pair of Vipps socks",
+          "maxLength": 100
+        }
+      }
+    },
+    "transactionSummary": {
+      "type": "object",
+      "required": [
+        "capturedAmount",
+        "refundedAmount",
+        "remainingAmountToCapture",
+        "remainingAmountToRefund"
+      ],
+      "properties": {
+        "capturedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total amount captured",
+          "example": 20000
+        },
+        "refundedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total refunded amount of the order",
+          "example": 0
+        },
+        "remainingAmountToCapture": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to capture",
+          "example": 0
+        },
+        "remainingAmountToRefund": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to refund",
+          "example": 20000
+        }
+      }
+    }
+  }
+}
 
 ```
 
@@ -3244,19 +6230,99 @@ transactionSummary:
 <a id="tocStransactionresponserefund"></a>
 <a id="tocstransactionresponserefund"></a>
 
-```yaml
-orderId: order123abc
-transaction:
-  amount: 20000
-  status: Refund
-  timeStamp: 2018-12-12T11:18:38.246Z
-  transactionId: "5001420062"
-  transactionText: One pair of Vipps socks
-transactionSummary:
-  capturedAmount: 20000
-  refundedAmount: 0
-  remainingAmountToCapture: 0
-  remainingAmountToRefund: 20000
+```json
+{
+  "type": "object",
+  "required": [
+    "orderId"
+  ],
+  "properties": {
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "transaction": {
+      "type": "object",
+      "required": [
+        "amount",
+        "status",
+        "timeStamp",
+        "transactionId",
+        "transactionText"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Ordered amount in øre",
+          "example": 20000
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Refund"
+          ],
+          "example": "Refund",
+          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information."
+        },
+        "timeStamp": {
+          "type": "string",
+          "description": "Timestamp in ISO-8601 representing when the order was refunded.",
+          "example": "2018-12-12T11:18:38.246Z"
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "Vipps transaction id",
+          "example": "5001420062"
+        },
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text to be displayed in Vipps",
+          "example": "One pair of Vipps socks",
+          "maxLength": 100
+        }
+      }
+    },
+    "transactionSummary": {
+      "type": "object",
+      "required": [
+        "capturedAmount",
+        "refundedAmount",
+        "remainingAmountToCapture",
+        "remainingAmountToRefund"
+      ],
+      "properties": {
+        "capturedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total amount captured",
+          "example": 20000
+        },
+        "refundedAmount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total refunded amount of the order",
+          "example": 0
+        },
+        "remainingAmountToCapture": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to capture",
+          "example": 0
+        },
+        "remainingAmountToRefund": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total remaining amount to refund",
+          "example": 20000
+        }
+      }
+    }
+  }
+}
 
 ```
 
@@ -3275,8 +6341,23 @@ transactionSummary:
 <a id="tocSmerchantinfopayment"></a>
 <a id="tocsmerchantinfopayment"></a>
 
-```yaml
-merchantSerialNumber: 123456
+```json
+{
+  "type": "object",
+  "required": [
+    "merchantSerialNumber"
+  ],
+  "properties": {
+    "merchantSerialNumber": {
+      "type": "string",
+      "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+      "minLength": 6,
+      "maxLength": 6,
+      "example": 123456,
+      "pattern": "^\\d{6}$"
+    }
+  }
+}
 
 ```
 
@@ -3293,12 +6374,42 @@ merchantSerialNumber: 123456
 <a id="tocSshippingdetails"></a>
 <a id="tocsshippingdetails"></a>
 
-```yaml
-isDefault: Y
-priority: 0
-shippingCost: 0
-shippingMethod: Posten Servicepakke
-shippingMethodId: string
+```json
+{
+  "type": "object",
+  "required": [
+    "isDefault",
+    "shippingCost",
+    "shippingMethod",
+    "shippingMethodId"
+  ],
+  "properties": {
+    "isDefault": {
+      "type": "string",
+      "enum": [
+        "Y",
+        "N"
+      ]
+    },
+    "priority": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "shippingCost": {
+      "type": "number",
+      "format": "double"
+    },
+    "shippingMethod": {
+      "type": "string",
+      "description": "Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.",
+      "example": "Posten Servicepakke",
+      "maxLength": 256
+    },
+    "shippingMethodId": {
+      "type": "string"
+    }
+  }
+}
 
 ```
 
@@ -3326,29 +6437,169 @@ shippingMethodId: string
 <a id="tocSinitiatepaymentcommand"></a>
 <a id="tocsinitiatepaymentcommand"></a>
 
-```yaml
-customerInfo:
-  mobileNumber: 91234567
-merchantInfo:
-  authToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni
-  callbackPrefix: https://example.com/vipps/callbacks
-  consentRemovalPrefix: https://example.com/vipps
-  fallBack: https://example.com/vipps/fallback/order123abc
-  isApp: false
-  merchantSerialNumber: 123456
-  paymentType: eComm Regular Payment
-  shippingDetailsPrefix: https://example.com/vipps/shipping/
-  staticShippingDetails:
-    - isDefault: Y
-      priority: 0
-      shippingCost: 0
-      shippingMethod: Posten Servicepakke
-      shippingMethodId: string
-transaction:
-  amount: 20000
-  orderId: order123abc
-  timeStamp: 2018-11-14T15:44:26.590Z
-  transactionText: One pair of Vipps socks
+```json
+{
+  "type": "object",
+  "required": [
+    "customerInfo",
+    "merchantInfo",
+    "transaction"
+  ],
+  "properties": {
+    "customerInfo": {
+      "type": "object",
+      "properties": {
+        "mobileNumber": {
+          "type": "string",
+          "description": "Mobile number of the user who has to pay for the transation from Vipps. Allowed format: xxxxxxxx",
+          "minLength": 8,
+          "maxLength": 8,
+          "example": 91234567,
+          "pattern": "^\\d{8}$"
+        }
+      }
+    },
+    "merchantInfo": {
+      "type": "object",
+      "required": [
+        "callbackPrefix",
+        "fallBack",
+        "merchantSerialNumber"
+      ],
+      "properties": {
+        "authToken": {
+          "type": "string",
+          "description": "Authorization token that the merchant could share to make callbacks more secure. If provided this token will be returned as an `Authorization` header for our callbacks. This includes shipping details and callback.",
+          "maxLength": 255,
+          "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni"
+        },
+        "callbackPrefix": {
+          "type": "string",
+          "description": "This is an URL for receiving the callback after the payment request. Domain name and context path should be provided by merchant as the value for this parameter. Vipps will add `/v2/payments/{orderId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html). We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.",
+          "maxLength": 255,
+          "example": "https://example.com/vipps/callbacks"
+        },
+        "consentRemovalPrefix": {
+          "type": "string",
+          "description": "Required for express checkout payments. This callback URL will be used by Vipps to inform the merchant that the user has revoked his/her consent: This Vipps user does do not want the merchant to store or use his/her personal information anymore. Required by GDPR. Vipps will add `/v2/consents/{userId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html). We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.",
+          "maxLength": 255,
+          "example": "https://example.com/vipps"
+        },
+        "fallBack": {
+          "type": "string",
+          "description": "Vipps will use the fall back URL to redirect Merchant Page once Payment is completed in Vipps System URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
+          "maxLength": 255,
+          "example": "https://example.com/vipps/fallback/order123abc"
+        },
+        "isApp": {
+          "type": "boolean",
+          "example": false,
+          "default": false,
+          "description": "This parameter indicates whether payment request is triggered from Mobile App or Web browser. Based on this value, response will be redirect URL for Vipps landing page or deeplink URL to connect vipps App. When isApp is set to true, URLs passed to Vipps will not be validated as regular URLs."
+        },
+        "merchantSerialNumber": {
+          "type": "string",
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "minLength": 6,
+          "maxLength": 6,
+          "example": 123456,
+          "pattern": "^\\d{6}$"
+        },
+        "paymentType": {
+          "type": "string",
+          "description": "This parameter will identify difference between a regular ecomm payment and ecomm express payment. For express checkout, use: \"eComm Express Payment\". Express checkouts require `consentRemovalPrefix`.",
+          "enum": [
+            "eComm Regular Payment",
+            "eComm Express Payment"
+          ],
+          "example": "eComm Regular Payment",
+          "default": "eComm Regular Payment"
+        },
+        "shippingDetailsPrefix": {
+          "type": "string",
+          "description": "In case of express checkout payment, merchant should pass this prefix to let Vipps fetch shipping cost and method related details. Vipps will add `/v2/payments/{orderId}/shippingDetails` to the end or this URL. We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.",
+          "maxLength": 255,
+          "example": "https://example.com/vipps/shipping/"
+        },
+        "staticShippingDetails": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "isDefault",
+              "shippingCost",
+              "shippingMethod",
+              "shippingMethodId"
+            ],
+            "properties": {
+              "isDefault": {
+                "type": "string",
+                "enum": [
+                  "Y",
+                  "N"
+                ]
+              },
+              "priority": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "shippingCost": {
+                "type": "number",
+                "format": "double"
+              },
+              "shippingMethod": {
+                "type": "string",
+                "description": "Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.",
+                "example": "Posten Servicepakke",
+                "maxLength": 256
+              },
+              "shippingMethodId": {
+                "type": "string"
+              }
+            }
+          },
+          "description": "If shipping method and cost are always a fixed value, for example 50kr,  then the method and price can be provided during the initiate call. The shippingDetailsPrefix callback will not be used if this value is provided."
+        }
+      }
+    },
+    "transaction": {
+      "type": "object",
+      "required": [
+        "amount",
+        "orderId",
+        "transactionText"
+      ],
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Amount in øre. 32 bit Integer (2147483647)",
+          "pattern": "^\\d{3,}$",
+          "example": 20000
+        },
+        "orderId": {
+          "type": "string",
+          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+          "example": "order123abc",
+          "pattern": "^[a-zA-Z0-9-]{1,30}$",
+          "maxLength": 30
+        },
+        "timeStamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO formatted date time string.",
+          "example": "2018-11-14T15:44:26.590Z"
+        },
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text to be displayed in Vipps",
+          "example": "One pair of Vipps socks",
+          "maxLength": 100
+        }
+      }
+    }
+  }
+}
 
 ```
 
@@ -3367,11 +6618,43 @@ transaction:
 <a id="tocStransactioninfoinitiatedto"></a>
 <a id="tocstransactioninfoinitiatedto"></a>
 
-```yaml
-amount: 20000
-orderId: order123abc
-timeStamp: 2018-11-14T15:44:26.590Z
-transactionText: One pair of Vipps socks
+```json
+{
+  "type": "object",
+  "required": [
+    "amount",
+    "orderId",
+    "transactionText"
+  ],
+  "properties": {
+    "amount": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Amount in øre. 32 bit Integer (2147483647)",
+      "pattern": "^\\d{3,}$",
+      "example": 20000
+    },
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "timeStamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO formatted date time string.",
+      "example": "2018-11-14T15:44:26.590Z"
+    },
+    "transactionText": {
+      "type": "string",
+      "description": "Transaction text to be displayed in Vipps",
+      "example": "One pair of Vipps socks",
+      "maxLength": 100
+    }
+  }
+}
 
 ```
 
@@ -3391,21 +6674,110 @@ transactionText: One pair of Vipps socks
 <a id="tocSmerchantinfodto"></a>
 <a id="tocsmerchantinfodto"></a>
 
-```yaml
-authToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni
-callbackPrefix: https://example.com/vipps/callbacks
-consentRemovalPrefix: https://example.com/vipps
-fallBack: https://example.com/vipps/fallback/order123abc
-isApp: false
-merchantSerialNumber: 123456
-paymentType: eComm Regular Payment
-shippingDetailsPrefix: https://example.com/vipps/shipping/
-staticShippingDetails:
-  - isDefault: Y
-    priority: 0
-    shippingCost: 0
-    shippingMethod: Posten Servicepakke
-    shippingMethodId: string
+```json
+{
+  "type": "object",
+  "required": [
+    "callbackPrefix",
+    "fallBack",
+    "merchantSerialNumber"
+  ],
+  "properties": {
+    "authToken": {
+      "type": "string",
+      "description": "Authorization token that the merchant could share to make callbacks more secure. If provided this token will be returned as an `Authorization` header for our callbacks. This includes shipping details and callback.",
+      "maxLength": 255,
+      "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni"
+    },
+    "callbackPrefix": {
+      "type": "string",
+      "description": "This is an URL for receiving the callback after the payment request. Domain name and context path should be provided by merchant as the value for this parameter. Vipps will add `/v2/payments/{orderId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html). We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.",
+      "maxLength": 255,
+      "example": "https://example.com/vipps/callbacks"
+    },
+    "consentRemovalPrefix": {
+      "type": "string",
+      "description": "Required for express checkout payments. This callback URL will be used by Vipps to inform the merchant that the user has revoked his/her consent: This Vipps user does do not want the merchant to store or use his/her personal information anymore. Required by GDPR. Vipps will add `/v2/consents/{userId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html). We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.",
+      "maxLength": 255,
+      "example": "https://example.com/vipps"
+    },
+    "fallBack": {
+      "type": "string",
+      "description": "Vipps will use the fall back URL to redirect Merchant Page once Payment is completed in Vipps System URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).",
+      "maxLength": 255,
+      "example": "https://example.com/vipps/fallback/order123abc"
+    },
+    "isApp": {
+      "type": "boolean",
+      "example": false,
+      "default": false,
+      "description": "This parameter indicates whether payment request is triggered from Mobile App or Web browser. Based on this value, response will be redirect URL for Vipps landing page or deeplink URL to connect vipps App. When isApp is set to true, URLs passed to Vipps will not be validated as regular URLs."
+    },
+    "merchantSerialNumber": {
+      "type": "string",
+      "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+      "minLength": 6,
+      "maxLength": 6,
+      "example": 123456,
+      "pattern": "^\\d{6}$"
+    },
+    "paymentType": {
+      "type": "string",
+      "description": "This parameter will identify difference between a regular ecomm payment and ecomm express payment. For express checkout, use: \"eComm Express Payment\". Express checkouts require `consentRemovalPrefix`.",
+      "enum": [
+        "eComm Regular Payment",
+        "eComm Express Payment"
+      ],
+      "example": "eComm Regular Payment",
+      "default": "eComm Regular Payment"
+    },
+    "shippingDetailsPrefix": {
+      "type": "string",
+      "description": "In case of express checkout payment, merchant should pass this prefix to let Vipps fetch shipping cost and method related details. Vipps will add `/v2/payments/{orderId}/shippingDetails` to the end or this URL. We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.",
+      "maxLength": 255,
+      "example": "https://example.com/vipps/shipping/"
+    },
+    "staticShippingDetails": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "isDefault",
+          "shippingCost",
+          "shippingMethod",
+          "shippingMethodId"
+        ],
+        "properties": {
+          "isDefault": {
+            "type": "string",
+            "enum": [
+              "Y",
+              "N"
+            ]
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "shippingCost": {
+            "type": "number",
+            "format": "double"
+          },
+          "shippingMethod": {
+            "type": "string",
+            "description": "Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.",
+            "example": "Posten Servicepakke",
+            "maxLength": 256
+          },
+          "shippingMethodId": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "If shipping method and cost are always a fixed value, for example 50kr,  then the method and price can be provided during the initiate call. The shippingDetailsPrefix callback will not be used if this value is provided."
+    }
+  }
+}
 
 ```
 
@@ -3437,13 +6809,63 @@ staticShippingDetails:
 <a id="tocSgetpaymentstatusresponse"></a>
 <a id="tocsgetpaymentstatusresponse"></a>
 
-```yaml
-orderId: order123abc
-transactionInfo:
-  amount: 20000
-  status: RESERVE
-  timeStamp: 2018-12-12T11:18:38.246Z
-  transactionId: "5001420062"
+```json
+{
+  "type": "object",
+  "properties": {
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "transactionInfo": {
+      "type": "object",
+      "required": [
+        "amount",
+        "status",
+        "timeStamp",
+        "transactionId"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Ordered amount in øre",
+          "example": 20000
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "INITIATE",
+            "REGISTER",
+            "RESERVE",
+            "SALE",
+            "CAPTURE",
+            "REFUND",
+            "CANCEL",
+            "VOID",
+            "FAILED",
+            "REJECTED"
+          ],
+          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information.",
+          "example": "RESERVE"
+        },
+        "timeStamp": {
+          "type": "string",
+          "description": "Timestamp in ISO-8601 representing when the status operation was performed.",
+          "example": "2018-12-12T11:18:38.246Z"
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "Vipps transaction id",
+          "example": "5001420062"
+        }
+      }
+    }
+  }
+}
 
 ```
 
@@ -3461,9 +6883,28 @@ transactionInfo:
 <a id="tocStransaction"></a>
 <a id="tocstransaction"></a>
 
-```yaml
-amount: 20000
-transactionText: One pair of Vipps socks
+```json
+{
+  "type": "object",
+  "required": [
+    "transactionText"
+  ],
+  "properties": {
+    "amount": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Amount in øre, if amount is 0 or not provided then full capture will be performed. 32 Bit Integer (2147483647)",
+      "pattern": "^\\d{3,}$",
+      "example": 20000
+    },
+    "transactionText": {
+      "type": "string",
+      "description": "Transaction text to be displayed in Vipps",
+      "example": "One pair of Vipps socks",
+      "maxLength": 100
+    }
+  }
+}
 
 ```
 
@@ -3481,14 +6922,51 @@ transactionText: One pair of Vipps socks
 <a id="tocSfetchshippingcostandmethod"></a>
 <a id="tocsfetchshippingcostandmethod"></a>
 
-```yaml
-addressId: 0
-addressLine1: Dronning Eufemias gate 42
-addressLine2: string
-city: Oslo
-country: NO
-postCode: "0603"
-addressType: H
+```json
+{
+  "type": "object",
+  "required": [
+    "addressId",
+    "addressLine1",
+    "city",
+    "country",
+    "postCode"
+  ],
+  "properties": {
+    "addressId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Vipps Provided address Id. To be returned in response in the same field"
+    },
+    "addressLine1": {
+      "type": "string",
+      "example": "Dronning Eufemias gate 42"
+    },
+    "addressLine2": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string",
+      "description": "City",
+      "example": "Oslo"
+    },
+    "country": {
+      "type": "string",
+      "description": "The only country supported is Norway",
+      "example": "NO"
+    },
+    "postCode": {
+      "type": "string",
+      "description": "Four digits",
+      "pattern": "^\\d{4}$",
+      "example": "0603"
+    },
+    "addressType": {
+      "type": "string",
+      "example": "H"
+    }
+  }
+}
 
 ```
 
@@ -3511,8 +6989,20 @@ addressType: H
 <a id="tocScustomerinfodto"></a>
 <a id="tocscustomerinfodto"></a>
 
-```yaml
-mobileNumber: 91234567
+```json
+{
+  "type": "object",
+  "properties": {
+    "mobileNumber": {
+      "type": "string",
+      "description": "Mobile number of the user who has to pay for the transation from Vipps. Allowed format: xxxxxxxx",
+      "minLength": 8,
+      "maxLength": 8,
+      "example": 91234567,
+      "pattern": "^\\d{8}$"
+    }
+  }
+}
 
 ```
 
@@ -3529,11 +7019,39 @@ mobileNumber: 91234567
 <a id="tocScancelpaymentactionrequest"></a>
 <a id="tocscancelpaymentactionrequest"></a>
 
-```yaml
-merchantInfo:
-  merchantSerialNumber: 123456
-transaction:
-  transactionText: One pair of Vipps socks
+```json
+{
+  "type": "object",
+  "properties": {
+    "merchantInfo": {
+      "type": "object",
+      "required": [
+        "merchantSerialNumber"
+      ],
+      "properties": {
+        "merchantSerialNumber": {
+          "type": "string",
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "minLength": 6,
+          "maxLength": 6,
+          "example": 123456,
+          "pattern": "^\\d{6}$"
+        }
+      }
+    },
+    "transaction": {
+      "type": "object",
+      "properties": {
+        "transactionText": {
+          "type": "string",
+          "description": "Transaction text to be displayed in Vipps",
+          "example": "One pair of Vipps socks",
+          "maxLength": 100
+        }
+      }
+    }
+  }
+}
 
 ```
 
@@ -3551,37 +7069,220 @@ transaction:
 <a id="tocSexpresscheckoutpaymentrequest"></a>
 <a id="tocsexpresscheckoutpaymentrequest"></a>
 
-```yaml
-merchantSerialNumber: 123456
-orderId: order123abc
-shippingDetails:
-  address:
-    addressLine1: Dronning Eufemias gate 42
-    addressLine2: "Att: Rune Garborg"
-    city: Oslo
-    country: Norway
-    postCode: 191
-  shippingCost: 0
-  shippingMethod: Posten Servicepakke
-  shippingMethodId: string
-transactionInfo:
-  amount: 20000
-  status: RESERVE
-  timeStamp: 2018-12-12T11:18:38.246Z
-  transactionId: "5001420062"
-userDetails:
-  bankIdVerified: Y
-  dateOfBirth: 12-3-1988
-  email: user@example.com
-  firstName: Ada
-  lastName: Lovelace
-  mobileNumber: "12345678"
-  ssn: "12345678901"
-  userId: uiJskNQ6qNN1iwN891uuob==
-errorInfo:
-  errorCode: 45
-  errorGroup: PAYMENTS
-  errorMessage: User has cancelled or not acted upon the payment
+```json
+{
+  "type": "object",
+  "required": [
+    "merchantSerialNumber",
+    "orderId",
+    "shippingDetails",
+    "userDetails",
+    "transactionInfo"
+  ],
+  "properties": {
+    "merchantSerialNumber": {
+      "type": "string",
+      "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+      "minLength": 6,
+      "maxLength": 6,
+      "example": 123456,
+      "pattern": "^\\d{6}$"
+    },
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "shippingDetails": {
+      "type": "object",
+      "required": [
+        "address",
+        "shippingCost",
+        "shippingMethod",
+        "shippingMethodId"
+      ],
+      "properties": {
+        "address": {
+          "type": "object",
+          "required": [
+            "addressLine1",
+            "city",
+            "country",
+            "postCode"
+          ],
+          "properties": {
+            "addressLine1": {
+              "type": "string",
+              "description": "Address Line 1",
+              "example": "Dronning Eufemias gate 42"
+            },
+            "addressLine2": {
+              "type": "string",
+              "description": "Address Line 2",
+              "example": "Att: Rune Garborg"
+            },
+            "city": {
+              "type": "string",
+              "description": "City",
+              "example": "Oslo"
+            },
+            "country": {
+              "type": "string",
+              "description": "Country",
+              "example": "Norway",
+              "enum": [
+                "Norway"
+              ]
+            },
+            "postCode": {
+              "type": "string",
+              "description": "Post Code",
+              "example": 191
+            }
+          }
+        },
+        "shippingCost": {
+          "type": "number",
+          "format": "double",
+          "description": "Shipping cost"
+        },
+        "shippingMethod": {
+          "type": "string",
+          "description": "Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.",
+          "example": "Posten Servicepakke",
+          "maxLength": 256
+        },
+        "shippingMethodId": {
+          "type": "string"
+        }
+      }
+    },
+    "transactionInfo": {
+      "type": "object",
+      "required": [
+        "amount",
+        "status",
+        "timeStamp",
+        "transactionId"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Ordered amount in øre",
+          "example": 20000
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "RESERVE",
+            "SALE",
+            "CANCELLED",
+            "REJECTED",
+            "AUTO_CANCEL"
+          ],
+          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#callbacks) for more information.",
+          "example": "RESERVE"
+        },
+        "timeStamp": {
+          "type": "string",
+          "description": "Timestamp in ISO-8601 representing when the operation was performed.",
+          "example": "2018-12-12T11:18:38.246Z"
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "Vipps transaction id",
+          "example": "5001420062"
+        }
+      }
+    },
+    "userDetails": {
+      "type": "object",
+      "required": [
+        "email",
+        "firstName",
+        "lastName",
+        "mobileNumber",
+        "userId"
+      ],
+      "properties": {
+        "bankIdVerified": {
+          "type": "string",
+          "description": "Optional Y/N string indicating if the user in bankId vertified, must be requested during onboarding.",
+          "example": "Y",
+          "enum": [
+            "Y",
+            "N"
+          ]
+        },
+        "dateOfBirth": {
+          "type": "string",
+          "description": "Optional date of birth infomation, must be requested during onboarding.",
+          "example": "12-3-1988"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address",
+          "example": "user@example.com"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name",
+          "example": "Ada"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name",
+          "example": "Lovelace"
+        },
+        "mobileNumber": {
+          "type": "string",
+          "description": "Mobile number",
+          "example": "12345678",
+          "minLength": 8,
+          "maxLength": 12,
+          "pattern": "^\\d{8,12}$"
+        },
+        "ssn": {
+          "type": "string",
+          "description": "Optional social security number for the user, must be requested during onboarding.",
+          "example": "12345678901",
+          "minLength": 11,
+          "maxLength": 11,
+          "pattern": "^\\d{11}$"
+        },
+        "userId": {
+          "type": "string",
+          "example": "uiJskNQ6qNN1iwN891uuob==",
+          "maxLength": 50,
+          "description": "Identifies a user in Vipps. Merchant is required to store this field for future references.",
+          "pattern": "^[\\d\\w\\/=+]+$"
+        }
+      }
+    },
+    "errorInfo": {
+      "type": "object",
+      "properties": {
+        "errorCode": {
+          "type": "integer",
+          "example": 45,
+          "description": "The number code for the error."
+        },
+        "errorGroup": {
+          "type": "string",
+          "example": "PAYMENTS"
+        },
+        "errorMessage": {
+          "type": "string",
+          "description": "Description of the error",
+          "example": "User has cancelled or not acted upon the payment"
+        }
+      }
+    }
+  }
+}
 
 ```
 
@@ -3603,18 +7304,90 @@ errorInfo:
 <a id="tocSregularcheckoutpaymentrequest"></a>
 <a id="tocsregularcheckoutpaymentrequest"></a>
 
-```yaml
-merchantSerialNumber: 123456
-orderId: order123abc
-transactionInfo:
-  amount: 20000
-  status: RESERVE
-  timeStamp: 2018-12-12T11:18:38.246Z
-  transactionId: "5001420062"
-errorInfo:
-  errorCode: 45
-  errorGroup: PAYMENTS
-  errorMessage: User has cancelled or not acted upon the payment
+```json
+{
+  "type": "object",
+  "required": [
+    "merchantSerialNumber",
+    "orderId",
+    "transactionInfo"
+  ],
+  "properties": {
+    "merchantSerialNumber": {
+      "type": "string",
+      "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+      "minLength": 6,
+      "maxLength": 6,
+      "example": 123456,
+      "pattern": "^\\d{6}$"
+    },
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "transactionInfo": {
+      "type": "object",
+      "required": [
+        "amount",
+        "status",
+        "timeStamp",
+        "transactionId"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Ordered amount in øre",
+          "example": 20000
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "RESERVE",
+            "SALE",
+            "CANCELLED",
+            "REJECTED",
+            "AUTO_CANCEL"
+          ],
+          "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#callbacks) for more information.",
+          "example": "RESERVE"
+        },
+        "timeStamp": {
+          "type": "string",
+          "description": "Timestamp in ISO-8601 representing when the operation was performed.",
+          "example": "2018-12-12T11:18:38.246Z"
+        },
+        "transactionId": {
+          "type": "string",
+          "description": "Vipps transaction id",
+          "example": "5001420062"
+        }
+      }
+    },
+    "errorInfo": {
+      "type": "object",
+      "properties": {
+        "errorCode": {
+          "type": "integer",
+          "example": 45,
+          "description": "The number code for the error."
+        },
+        "errorGroup": {
+          "type": "string",
+          "example": "PAYMENTS"
+        },
+        "errorMessage": {
+          "type": "string",
+          "description": "Description of the error",
+          "example": "User has cancelled or not acted upon the payment"
+        }
+      }
+    }
+  }
+}
 
 ```
 
@@ -3634,14 +7407,56 @@ errorInfo:
 <a id="tocSauthorizationtokenresponse"></a>
 <a id="tocsauthorizationtokenresponse"></a>
 
-```yaml
-token_type: Bearer
-expires_in: 3600
-ext_expires_in: 3600
-expires_on: 1547823408
-not_before: 1547819508
-resource: 00000002-0000-0000-c000-000000000000
-access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni
+```json
+{
+  "type": "object",
+  "required": [
+    "token_type",
+    "expires_in",
+    "ext_expires_in",
+    "expires_on",
+    "not_before",
+    "resource",
+    "access_token"
+  ],
+  "properties": {
+    "token_type": {
+      "type": "string",
+      "description": "String containing the type for the Access Token.",
+      "example": "Bearer"
+    },
+    "expires_in": {
+      "type": "integer",
+      "description": "Token expiry time in seconds.",
+      "example": 3600
+    },
+    "ext_expires_in": {
+      "type": "integer",
+      "description": "Extra time added to expiry time. Currently disabled.",
+      "example": 3600
+    },
+    "expires_on": {
+      "type": "integer",
+      "description": "Token expiry time in epoch time format.",
+      "example": 1547823408
+    },
+    "not_before": {
+      "type": "integer",
+      "description": "Token creation time in epoch time format.",
+      "example": 1547819508
+    },
+    "resource": {
+      "type": "string",
+      "description": "A common resource object. Not used in token validation",
+      "example": "00000002-0000-0000-c000-000000000000"
+    },
+    "access_token": {
+      "type": "string",
+      "format": "byte",
+      "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni"
+    }
+  }
+}
 
 ```
 
@@ -3664,15 +7479,66 @@ access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni
 <a id="tocSfetchshippingcostresponse"></a>
 <a id="tocsfetchshippingcostresponse"></a>
 
-```yaml
-addressId: 0
-orderId: order123abc
-shippingDetails:
-  - isDefault: Y
-    priority: 0
-    shippingCost: 0
-    shippingMethod: Posten Servicepakke
-    shippingMethodId: string
+```json
+{
+  "type": "object",
+  "required": [
+    "addressId",
+    "orderId",
+    "shippingDetails"
+  ],
+  "properties": {
+    "addressId": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "orderId": {
+      "type": "string",
+      "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+      "example": "order123abc",
+      "pattern": "^[a-zA-Z0-9-]{1,30}$",
+      "maxLength": 30
+    },
+    "shippingDetails": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "isDefault",
+          "shippingCost",
+          "shippingMethod",
+          "shippingMethodId"
+        ],
+        "properties": {
+          "isDefault": {
+            "type": "string",
+            "enum": [
+              "Y",
+              "N"
+            ]
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "shippingCost": {
+            "type": "number",
+            "format": "double"
+          },
+          "shippingMethod": {
+            "type": "string",
+            "description": "Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.",
+            "example": "Posten Servicepakke",
+            "maxLength": 256
+          },
+          "shippingMethodId": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
 
 ```
 
@@ -3691,11 +7557,42 @@ shippingDetails:
 <a id="tocStransactionsummary"></a>
 <a id="tocstransactionsummary"></a>
 
-```yaml
-capturedAmount: 20000
-refundedAmount: 0
-remainingAmountToCapture: 0
-remainingAmountToRefund: 20000
+```json
+{
+  "type": "object",
+  "required": [
+    "capturedAmount",
+    "refundedAmount",
+    "remainingAmountToCapture",
+    "remainingAmountToRefund"
+  ],
+  "properties": {
+    "capturedAmount": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Total amount captured",
+      "example": 20000
+    },
+    "refundedAmount": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Total refunded amount of the order",
+      "example": 0
+    },
+    "remainingAmountToCapture": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Total remaining amount to capture",
+      "example": 0
+    },
+    "remainingAmountToRefund": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Total remaining amount to refund",
+      "example": 20000
+    }
+  }
+}
 
 ```
 
@@ -3715,37 +7612,307 @@ remainingAmountToRefund: 20000
 <a id="tocStransactionupdatecallbackoneof"></a>
 <a id="tocstransactionupdatecallbackoneof"></a>
 
-```yaml
-merchantSerialNumber: 123456
-orderId: order123abc
-shippingDetails:
-  address:
-    addressLine1: Dronning Eufemias gate 42
-    addressLine2: "Att: Rune Garborg"
-    city: Oslo
-    country: Norway
-    postCode: 191
-  shippingCost: 0
-  shippingMethod: Posten Servicepakke
-  shippingMethodId: string
-transactionInfo:
-  amount: 20000
-  status: RESERVE
-  timeStamp: 2018-12-12T11:18:38.246Z
-  transactionId: "5001420062"
-userDetails:
-  bankIdVerified: Y
-  dateOfBirth: 12-3-1988
-  email: user@example.com
-  firstName: Ada
-  lastName: Lovelace
-  mobileNumber: "12345678"
-  ssn: "12345678901"
-  userId: uiJskNQ6qNN1iwN891uuob==
-errorInfo:
-  errorCode: 45
-  errorGroup: PAYMENTS
-  errorMessage: User has cancelled or not acted upon the payment
+```json
+{
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "merchantSerialNumber",
+        "orderId",
+        "shippingDetails",
+        "userDetails",
+        "transactionInfo"
+      ],
+      "properties": {
+        "merchantSerialNumber": {
+          "type": "string",
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "minLength": 6,
+          "maxLength": 6,
+          "example": 123456,
+          "pattern": "^\\d{6}$"
+        },
+        "orderId": {
+          "type": "string",
+          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+          "example": "order123abc",
+          "pattern": "^[a-zA-Z0-9-]{1,30}$",
+          "maxLength": 30
+        },
+        "shippingDetails": {
+          "type": "object",
+          "required": [
+            "address",
+            "shippingCost",
+            "shippingMethod",
+            "shippingMethodId"
+          ],
+          "properties": {
+            "address": {
+              "type": "object",
+              "required": [
+                "addressLine1",
+                "city",
+                "country",
+                "postCode"
+              ],
+              "properties": {
+                "addressLine1": {
+                  "type": "string",
+                  "description": "Address Line 1",
+                  "example": "Dronning Eufemias gate 42"
+                },
+                "addressLine2": {
+                  "type": "string",
+                  "description": "Address Line 2",
+                  "example": "Att: Rune Garborg"
+                },
+                "city": {
+                  "type": "string",
+                  "description": "City",
+                  "example": "Oslo"
+                },
+                "country": {
+                  "type": "string",
+                  "description": "Country",
+                  "example": "Norway",
+                  "enum": [
+                    "Norway"
+                  ]
+                },
+                "postCode": {
+                  "type": "string",
+                  "description": "Post Code",
+                  "example": 191
+                }
+              }
+            },
+            "shippingCost": {
+              "type": "number",
+              "format": "double",
+              "description": "Shipping cost"
+            },
+            "shippingMethod": {
+              "type": "string",
+              "description": "Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.",
+              "example": "Posten Servicepakke",
+              "maxLength": 256
+            },
+            "shippingMethodId": {
+              "type": "string"
+            }
+          }
+        },
+        "transactionInfo": {
+          "type": "object",
+          "required": [
+            "amount",
+            "status",
+            "timeStamp",
+            "transactionId"
+          ],
+          "properties": {
+            "amount": {
+              "type": "number",
+              "format": "double",
+              "description": "Ordered amount in øre",
+              "example": 20000
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "RESERVE",
+                "SALE",
+                "CANCELLED",
+                "REJECTED",
+                "AUTO_CANCEL"
+              ],
+              "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#callbacks) for more information.",
+              "example": "RESERVE"
+            },
+            "timeStamp": {
+              "type": "string",
+              "description": "Timestamp in ISO-8601 representing when the operation was performed.",
+              "example": "2018-12-12T11:18:38.246Z"
+            },
+            "transactionId": {
+              "type": "string",
+              "description": "Vipps transaction id",
+              "example": "5001420062"
+            }
+          }
+        },
+        "userDetails": {
+          "type": "object",
+          "required": [
+            "email",
+            "firstName",
+            "lastName",
+            "mobileNumber",
+            "userId"
+          ],
+          "properties": {
+            "bankIdVerified": {
+              "type": "string",
+              "description": "Optional Y/N string indicating if the user in bankId vertified, must be requested during onboarding.",
+              "example": "Y",
+              "enum": [
+                "Y",
+                "N"
+              ]
+            },
+            "dateOfBirth": {
+              "type": "string",
+              "description": "Optional date of birth infomation, must be requested during onboarding.",
+              "example": "12-3-1988"
+            },
+            "email": {
+              "type": "string",
+              "description": "Email address",
+              "example": "user@example.com"
+            },
+            "firstName": {
+              "type": "string",
+              "description": "First name",
+              "example": "Ada"
+            },
+            "lastName": {
+              "type": "string",
+              "description": "Last name",
+              "example": "Lovelace"
+            },
+            "mobileNumber": {
+              "type": "string",
+              "description": "Mobile number",
+              "example": "12345678",
+              "minLength": 8,
+              "maxLength": 12,
+              "pattern": "^\\d{8,12}$"
+            },
+            "ssn": {
+              "type": "string",
+              "description": "Optional social security number for the user, must be requested during onboarding.",
+              "example": "12345678901",
+              "minLength": 11,
+              "maxLength": 11,
+              "pattern": "^\\d{11}$"
+            },
+            "userId": {
+              "type": "string",
+              "example": "uiJskNQ6qNN1iwN891uuob==",
+              "maxLength": 50,
+              "description": "Identifies a user in Vipps. Merchant is required to store this field for future references.",
+              "pattern": "^[\\d\\w\\/=+]+$"
+            }
+          }
+        },
+        "errorInfo": {
+          "type": "object",
+          "properties": {
+            "errorCode": {
+              "type": "integer",
+              "example": 45,
+              "description": "The number code for the error."
+            },
+            "errorGroup": {
+              "type": "string",
+              "example": "PAYMENTS"
+            },
+            "errorMessage": {
+              "type": "string",
+              "description": "Description of the error",
+              "example": "User has cancelled or not acted upon the payment"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "merchantSerialNumber",
+        "orderId",
+        "transactionInfo"
+      ],
+      "properties": {
+        "merchantSerialNumber": {
+          "type": "string",
+          "description": "Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.",
+          "minLength": 6,
+          "maxLength": 6,
+          "example": 123456,
+          "pattern": "^\\d{6}$"
+        },
+        "orderId": {
+          "type": "string",
+          "description": "Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.",
+          "example": "order123abc",
+          "pattern": "^[a-zA-Z0-9-]{1,30}$",
+          "maxLength": 30
+        },
+        "transactionInfo": {
+          "type": "object",
+          "required": [
+            "amount",
+            "status",
+            "timeStamp",
+            "transactionId"
+          ],
+          "properties": {
+            "amount": {
+              "type": "number",
+              "format": "double",
+              "description": "Ordered amount in øre",
+              "example": 20000
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "RESERVE",
+                "SALE",
+                "CANCELLED",
+                "REJECTED",
+                "AUTO_CANCEL"
+              ],
+              "description": "Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#callbacks) for more information.",
+              "example": "RESERVE"
+            },
+            "timeStamp": {
+              "type": "string",
+              "description": "Timestamp in ISO-8601 representing when the operation was performed.",
+              "example": "2018-12-12T11:18:38.246Z"
+            },
+            "transactionId": {
+              "type": "string",
+              "description": "Vipps transaction id",
+              "example": "5001420062"
+            }
+          }
+        },
+        "errorInfo": {
+          "type": "object",
+          "properties": {
+            "errorCode": {
+              "type": "integer",
+              "example": 45,
+              "description": "The number code for the error."
+            },
+            "errorGroup": {
+              "type": "string",
+              "example": "PAYMENTS"
+            },
+            "errorMessage": {
+              "type": "string",
+              "description": "Description of the error",
+              "example": "User has cancelled or not acted upon the payment"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
 
 ```
 
