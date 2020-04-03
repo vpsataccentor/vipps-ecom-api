@@ -26,20 +26,30 @@ jobs:
     - uses: actions/setup-ruby@v1
       with:
         ruby-version: '2.6'
-    - run: npm install widdershins -g
-    - run: widdershins docs/swagger.yaml -o docs/widdershins.html.md --expandBody
-    - run: |
+    - uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+    - name: widdershins
+      run: |
+        npm install widdershins -g
+        widdershins docs/swagger.yaml -o docs/widdershins.html.md --expandBody
+    - name: slate install
+      run: |
+        gem install bundler:2.0.2
+        bundle config path vendor/bundle
         git init ./slate
         cd ./slate
         git pull https://github.com/slatedocs/slate
         cp ../docs/widdershins.html.md ./source/index.html.md
-        gem install bundler:2.0.2
         bundle install
-    - run: |
+    - name: slate build
+      run: |
         cd ./slate
         bundle exec middleman build --clean
         cp -r build ../docs
-    - run: |
+    - name: git push
+      run: |
         git config --local user.email "actions@example.com"
         git config --local user.name "github actions"
         git remote -v
