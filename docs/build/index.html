@@ -934,6 +934,184 @@ curl -X POST https://apitest.vipps.no/ecomm/v2/payments <span class="se">\</span
 <td>true</td>
 <td>initiatePaymentCommand</td>
 </tr>
+<tr>
+<td>» customerInfo</td>
+<td>body</td>
+<td><a href="#schemacustomerinfodto">CustomerInfoDto</a></td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»» mobileNumber</td>
+<td>body</td>
+<td>string</td>
+<td>false</td>
+<td>Mobile number of the user who has to pay for the transation from Vipps. Allowed format: xxxxxxxx</td>
+</tr>
+<tr>
+<td>» merchantInfo</td>
+<td>body</td>
+<td><a href="#schemamerchantinfodto">MerchantInfoDto</a></td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»» authToken</td>
+<td>body</td>
+<td>string</td>
+<td>false</td>
+<td>Authorization token that the merchant could share to make callbacks more secure. If provided this token will be returned as an <code>Authorization</code> header for our callbacks. This includes shipping details and callback.</td>
+</tr>
+<tr>
+<td>»» callbackPrefix</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>This is an URL for receiving the callback after the payment request. Domain name and context path should be provided by merchant as the value for this parameter. Vipps will add <code>/v2/payments/{orderId}</code> to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons <a href="https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html">UrlValidator</a>. We don&#39;t send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.</td>
+</tr>
+<tr>
+<td>»» consentRemovalPrefix</td>
+<td>body</td>
+<td>string</td>
+<td>false</td>
+<td>Required for express checkout payments. This callback URL will be used by Vipps to inform the merchant that the user has revoked his/her consent: This Vipps user does do not want the merchant to store or use his/her personal information anymore. Required by GDPR. Vipps will add <code>/v2/consents/{userId}</code> to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons <a href="https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html">UrlValidator</a>. We don&#39;t send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.</td>
+</tr>
+<tr>
+<td>»» fallBack</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Vipps will use the fall back URL to redirect Merchant Page once Payment is completed in Vipps System URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons <a href="https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html">UrlValidator</a>.</td>
+</tr>
+<tr>
+<td>»» isApp</td>
+<td>body</td>
+<td>boolean</td>
+<td>false</td>
+<td>This parameter indicates whether payment request is triggered from Mobile App or Web browser. Based on this value, response will be redirect URL for Vipps landing page or deeplink URL to connect vipps App. When isApp is set to true, URLs passed to Vipps will not be validated as regular URLs.</td>
+</tr>
+<tr>
+<td>»» merchantSerialNumber</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Unique id for this merchant&#39;s sales channel: website, mobile app etc. Short name: MSN.</td>
+</tr>
+<tr>
+<td>»» paymentType</td>
+<td>body</td>
+<td>string</td>
+<td>false</td>
+<td>This parameter will identify difference between a regular ecomm payment and ecomm express payment. For express checkout, use: &quot;eComm Express Payment&quot;. Express checkouts require <code>consentRemovalPrefix</code>.</td>
+</tr>
+<tr>
+<td>»» shippingDetailsPrefix</td>
+<td>body</td>
+<td>string</td>
+<td>false</td>
+<td>In case of express checkout payment, merchant should pass this prefix to let Vipps fetch shipping cost and method related details. Vipps will add <code>/v2/payments/{orderId}/shippingDetails</code> to the end or this URL. We don&#39;t send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.</td>
+</tr>
+<tr>
+<td>»» staticShippingDetails</td>
+<td>body</td>
+<td>[<a href="#schemashippingdetails">ShippingDetails</a>]</td>
+<td>false</td>
+<td>If shipping method and cost are always a fixed value, for example 50kr,  then the method and price can be provided during the initiate call. The shippingDetailsPrefix callback will not be used if this value is provided.</td>
+</tr>
+<tr>
+<td>»»» isDefault</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»»» priority</td>
+<td>body</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»»» shippingCost</td>
+<td>body</td>
+<td>number(double)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»»» shippingMethod</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.</td>
+</tr>
+<tr>
+<td>»»» shippingMethodId</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>» transaction</td>
+<td>body</td>
+<td><a href="#schematransactioninfoinitiatedto">TransactionInfoInitiateDTO</a></td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»» amount</td>
+<td>body</td>
+<td>integer(int32)</td>
+<td>true</td>
+<td>Amount in øre. 32 bit Integer (2147483647)</td>
+</tr>
+<tr>
+<td>»» orderId</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and &#39;-&#39;.</td>
+</tr>
+<tr>
+<td>»» timeStamp</td>
+<td>body</td>
+<td>string(date-time)</td>
+<td>false</td>
+<td>ISO formatted date time string.</td>
+</tr>
+<tr>
+<td>»» transactionText</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Transaction text to be displayed in Vipps</td>
+</tr>
+</tbody></table>
+<h4 id='enumerated-values'>Enumerated Values</h4>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>»» paymentType</td>
+<td>eComm Regular Payment</td>
+</tr>
+<tr>
+<td>»» paymentType</td>
+<td>eComm Express Payment</td>
+</tr>
+<tr>
+<td>»»» isDefault</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>»»» isDefault</td>
+<td>N</td>
+</tr>
 </tbody></table>
 
 <blockquote>
@@ -1239,6 +1417,256 @@ curl -X POST https://apitest.vipps.no/ecomm/v2/payments <span class="se">\</span
 <td>false</td>
 <td>none</td>
 </tr>
+<tr>
+<td>» merchantSerialNumber</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Unique id for this merchant&#39;s sales channel: website, mobile app etc. Short name: MSN.</td>
+</tr>
+<tr>
+<td>» orderId</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and &#39;-&#39;.</td>
+</tr>
+<tr>
+<td>» shippingDetails</td>
+<td>body</td>
+<td><a href="#schemashippingdetailsrequest">ShippingDetailsRequest</a></td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»» address</td>
+<td>body</td>
+<td><a href="#schemaaddress">Address</a></td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»»» addressLine1</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Address Line 1</td>
+</tr>
+<tr>
+<td>»»» addressLine2</td>
+<td>body</td>
+<td>string</td>
+<td>false</td>
+<td>Address Line 2</td>
+</tr>
+<tr>
+<td>»»» city</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>City</td>
+</tr>
+<tr>
+<td>»»» country</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Country</td>
+</tr>
+<tr>
+<td>»»» postCode</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Post Code</td>
+</tr>
+<tr>
+<td>»» shippingCost</td>
+<td>body</td>
+<td>number(double)</td>
+<td>true</td>
+<td>Shipping cost</td>
+</tr>
+<tr>
+<td>»» shippingMethod</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.</td>
+</tr>
+<tr>
+<td>»» shippingMethodId</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>» transactionInfo</td>
+<td>body</td>
+<td><a href="#schemacallbacktransactioninfostatus">CallbackTransactionInfoStatus</a></td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»» amount</td>
+<td>body</td>
+<td>number(double)</td>
+<td>true</td>
+<td>Ordered amount in øre</td>
+</tr>
+<tr>
+<td>»» status</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Status which gives the current state of the payment within Vipps. See the <a href="https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#callbacks">API guide</a> for more information.</td>
+</tr>
+<tr>
+<td>»» timeStamp</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Timestamp in ISO-8601 representing when the operation was performed.</td>
+</tr>
+<tr>
+<td>»» transactionId</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Vipps transaction id</td>
+</tr>
+<tr>
+<td>» userDetails</td>
+<td>body</td>
+<td><a href="#schemauserdetails">UserDetails</a></td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»» bankIdVerified</td>
+<td>body</td>
+<td>string</td>
+<td>false</td>
+<td>Optional Y/N string indicating if the user in bankId vertified, must be requested during onboarding.</td>
+</tr>
+<tr>
+<td>»» dateOfBirth</td>
+<td>body</td>
+<td>string</td>
+<td>false</td>
+<td>Optional date of birth infomation, must be requested during onboarding.</td>
+</tr>
+<tr>
+<td>»» email</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Email address</td>
+</tr>
+<tr>
+<td>»» firstName</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>First name</td>
+</tr>
+<tr>
+<td>»» lastName</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Last name</td>
+</tr>
+<tr>
+<td>»» mobileNumber</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Mobile number</td>
+</tr>
+<tr>
+<td>»» ssn</td>
+<td>body</td>
+<td>string</td>
+<td>false</td>
+<td>Optional social security number for the user, must be requested during onboarding.</td>
+</tr>
+<tr>
+<td>»» userId</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Identifies a user in Vipps. Merchant is required to store this field for future references.</td>
+</tr>
+<tr>
+<td>» errorInfo</td>
+<td>body</td>
+<td><a href="#schemacallbackerrorinfo">callbackErrorInfo</a></td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»» errorCode</td>
+<td>body</td>
+<td>integer</td>
+<td>false</td>
+<td>The number code for the error.</td>
+</tr>
+<tr>
+<td>»» errorGroup</td>
+<td>body</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»» errorMessage</td>
+<td>body</td>
+<td>string</td>
+<td>false</td>
+<td>Description of the error</td>
+</tr>
+</tbody></table>
+<h4 id='enumerated-values-2'>Enumerated Values</h4>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>»»» country</td>
+<td>Norway</td>
+</tr>
+<tr>
+<td>»» status</td>
+<td>RESERVE</td>
+</tr>
+<tr>
+<td>»» status</td>
+<td>SALE</td>
+</tr>
+<tr>
+<td>»» status</td>
+<td>CANCELLED</td>
+</tr>
+<tr>
+<td>»» status</td>
+<td>REJECTED</td>
+</tr>
+<tr>
+<td>»» status</td>
+<td>AUTO_CANCEL</td>
+</tr>
+<tr>
+<td>»» bankIdVerified</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>»» bankIdVerified</td>
+<td>N</td>
+</tr>
 </tbody></table>
 
 <h3 id="initiatepaymentv3usingpost-responses">Responses</h3>
@@ -1498,6 +1926,41 @@ curl -X POST https://apitest.vipps.no/ecomm/v2/payments/<span class="o">{</span>
 <td><a href="#schemapaymentactionsrequest">PaymentActionsRequest</a></td>
 <td>true</td>
 <td>paymentActionsRequest</td>
+</tr>
+<tr>
+<td>» merchantInfo</td>
+<td>body</td>
+<td><a href="#schemamerchantinfopayment">MerchantInfoPayment</a></td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»» merchantSerialNumber</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Unique id for this merchant&#39;s sales channel: website, mobile app etc. Short name: MSN.</td>
+</tr>
+<tr>
+<td>» transaction</td>
+<td>body</td>
+<td><a href="#schematransaction">Transaction</a></td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»» amount</td>
+<td>body</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>Amount in øre, if amount is 0 or not provided then full capture will be performed. 32 Bit Integer (2147483647)</td>
+</tr>
+<tr>
+<td>»» transactionText</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Transaction text to be displayed in Vipps</td>
 </tr>
 </tbody></table>
 
@@ -1808,6 +2271,34 @@ curl -X PUT https://apitest.vipps.no/ecomm/v2/payments/<span class="o">{</span>o
 <td><a href="#schemacancelpaymentactionrequest">CancelPaymentActionRequest</a></td>
 <td>true</td>
 <td>paymentActionsRequest</td>
+</tr>
+<tr>
+<td>» merchantInfo</td>
+<td>body</td>
+<td><a href="#schemamerchantinfopayment">MerchantInfoPayment</a></td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»» merchantSerialNumber</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Unique id for this merchant&#39;s sales channel: website, mobile app etc. Short name: MSN.</td>
+</tr>
+<tr>
+<td>» transaction</td>
+<td>body</td>
+<td><a href="#schemacanceltransaction">CancelTransaction</a></td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»» transactionText</td>
+<td>body</td>
+<td>string</td>
+<td>false</td>
+<td>Transaction text to be displayed in Vipps</td>
 </tr>
 </tbody></table>
 
@@ -2134,6 +2625,41 @@ curl -X POST https://apitest.vipps.no/ecomm/v2/payments/<span class="o">{</span>
 <td><a href="#schemapaymentactionsrequest">PaymentActionsRequest</a></td>
 <td>true</td>
 <td>paymentActionsRequest</td>
+</tr>
+<tr>
+<td>» merchantInfo</td>
+<td>body</td>
+<td><a href="#schemamerchantinfopayment">MerchantInfoPayment</a></td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»» merchantSerialNumber</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Unique id for this merchant&#39;s sales channel: website, mobile app etc. Short name: MSN.</td>
+</tr>
+<tr>
+<td>» transaction</td>
+<td>body</td>
+<td><a href="#schematransaction">Transaction</a></td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>»» amount</td>
+<td>body</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>Amount in øre, if amount is 0 or not provided then full capture will be performed. 32 Bit Integer (2147483647)</td>
+</tr>
+<tr>
+<td>»» transactionText</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Transaction text to be displayed in Vipps</td>
 </tr>
 </tbody></table>
 
@@ -3125,6 +3651,55 @@ curl -X POST https://apitest.vipps.no[shippingDetailsPrefix]/v2/payments/<span c
 <td>true</td>
 <td>fetchShippingCostAndMethod</td>
 </tr>
+<tr>
+<td>» addressId</td>
+<td>body</td>
+<td>integer(int32)</td>
+<td>true</td>
+<td>Vipps Provided address Id. To be returned in response in the same field</td>
+</tr>
+<tr>
+<td>» addressLine1</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>» addressLine2</td>
+<td>body</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>» city</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>City</td>
+</tr>
+<tr>
+<td>» country</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>The only country supported is Norway</td>
+</tr>
+<tr>
+<td>» postCode</td>
+<td>body</td>
+<td>string</td>
+<td>true</td>
+<td>Four digits</td>
+</tr>
+<tr>
+<td>» addressType</td>
+<td>body</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+</tr>
 </tbody></table>
 
 <blockquote>
@@ -3538,7 +4113,7 @@ This operation does not require authentication
 <td>Post Code</td>
 </tr>
 </tbody></table>
-<h4 id='enumerated-values'>Enumerated Values</h4>
+<h4 id='enumerated-values-3'>Enumerated Values</h4>
 <table><thead>
 <tr>
 <th>Property</th>
@@ -3690,7 +4265,7 @@ This operation does not require authentication
 <td>Transaction text to be displayed in Vipps</td>
 </tr>
 </tbody></table>
-<h4 id='enumerated-values-2'>Enumerated Values</h4>
+<h4 id='enumerated-values-4'>Enumerated Values</h4>
 <table><thead>
 <tr>
 <th>Property</th>
@@ -3844,7 +4419,7 @@ This operation does not require authentication
 <td>Identifies a user in Vipps. Merchant is required to store this field for future references.</td>
 </tr>
 </tbody></table>
-<h4 id='enumerated-values-3'>Enumerated Values</h4>
+<h4 id='enumerated-values-5'>Enumerated Values</h4>
 <table><thead>
 <tr>
 <th>Property</th>
@@ -3962,7 +4537,7 @@ This operation does not require authentication
 <td>Vipps transaction id</td>
 </tr>
 </tbody></table>
-<h4 id='enumerated-values-4'>Enumerated Values</h4>
+<h4 id='enumerated-values-6'>Enumerated Values</h4>
 <table><thead>
 <tr>
 <th>Property</th>
@@ -4045,7 +4620,7 @@ This operation does not require authentication
 <td>Vipps transaction id</td>
 </tr>
 </tbody></table>
-<h4 id='enumerated-values-5'>Enumerated Values</h4>
+<h4 id='enumerated-values-7'>Enumerated Values</h4>
 <table><thead>
 <tr>
 <th>Property</th>
@@ -4156,7 +4731,7 @@ This operation does not require authentication
 <td>Transaction text to be displayed in Vipps</td>
 </tr>
 </tbody></table>
-<h4 id='enumerated-values-6'>Enumerated Values</h4>
+<h4 id='enumerated-values-8'>Enumerated Values</h4>
 <table><thead>
 <tr>
 <th>Property</th>
@@ -4231,7 +4806,7 @@ This operation does not require authentication
 <td>Transaction text to be displayed in Vipps</td>
 </tr>
 </tbody></table>
-<h4 id='enumerated-values-7'>Enumerated Values</h4>
+<h4 id='enumerated-values-9'>Enumerated Values</h4>
 <table><thead>
 <tr>
 <th>Property</th>
@@ -4306,7 +4881,7 @@ This operation does not require authentication
 <td>Transaction text to be displayed in Vipps</td>
 </tr>
 </tbody></table>
-<h4 id='enumerated-values-8'>Enumerated Values</h4>
+<h4 id='enumerated-values-10'>Enumerated Values</h4>
 <table><thead>
 <tr>
 <th>Property</th>
@@ -4784,7 +5359,7 @@ This operation does not require authentication
 <td>none</td>
 </tr>
 </tbody></table>
-<h4 id='enumerated-values-9'>Enumerated Values</h4>
+<h4 id='enumerated-values-11'>Enumerated Values</h4>
 <table><thead>
 <tr>
 <th>Property</th>
@@ -5030,7 +5605,7 @@ This operation does not require authentication
 <td>If shipping method and cost are always a fixed value, for example 50kr,  then the method and price can be provided during the initiate call. The shippingDetailsPrefix callback will not be used if this value is provided.</td>
 </tr>
 </tbody></table>
-<h4 id='enumerated-values-10'>Enumerated Values</h4>
+<h4 id='enumerated-values-12'>Enumerated Values</h4>
 <table><thead>
 <tr>
 <th>Property</th>
