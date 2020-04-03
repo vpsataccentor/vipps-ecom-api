@@ -36,7 +36,7 @@ jobs:
         widdershins docs/swagger.yaml -o docs/widdershins.html.md --expandBody
     - name: Install Slate
       run: |
-        cd ./slate
+        cd ../slate
         gem install bundler:2.0.2
         bundle config path ./vendor/bundle
         git init ../slate
