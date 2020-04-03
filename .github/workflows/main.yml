@@ -7,7 +7,9 @@ name: CI
 on:
   push:
     branches: [ master ]
-    paths: '.github/**', 'docs/swagger.yaml'
+    paths: 
+    - '.github/**' 
+    - 'docs/swagger.yaml'
   pull_request:
     branches: [ master ]
 
