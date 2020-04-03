@@ -6,7 +6,7 @@ info:
   version: 1.0.10
   title: Vipps eCommerce API
 tags:
-  - name: Authorization Service
+  - name: Authorization Service1
     description: Authorization Service
   - name: Vipps eCom API
     description: Functionality provided by the Vipps eCommerce API
