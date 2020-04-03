@@ -32,220 +32,6 @@ Base URLs:
 
 * <a href="https://api.vipps.no">https://api.vipps.no</a>
 
-<h1 id="vipps-ecommerce-api-authorization-service">Authorization Service</h1>
-
-Authorization Service
-
-## fetchAuthorizationTokenUsingPost
-
-<a id="opIdfetchAuthorizationTokenUsingPost"></a>
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X POST https://apitest.vipps.no/accesstoken/get \
-  -H 'Accept: application/json;charset=UTF-8' \
-  -H 'client_id: string' \
-  -H 'client_secret: string' \
-  -H 'Ocp-Apim-Subscription-Key: string'
-
-```
-
-```http
-POST https://apitest.vipps.no/accesstoken/get HTTP/1.1
-Host: apitest.vipps.no
-Accept: application/json;charset=UTF-8
-client_id: string
-client_secret: string
-Ocp-Apim-Subscription-Key: string
-
-```
-
-```javascript
-
-const headers = {
-  'Accept':'application/json;charset=UTF-8',
-  'client_id':'string',
-  'client_secret':'string',
-  'Ocp-Apim-Subscription-Key':'string'
-};
-
-fetch('https://apitest.vipps.no/accesstoken/get',
-{
-  method: 'POST',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Accept' => 'application/json;charset=UTF-8',
-  'client_id' => 'string',
-  'client_secret' => 'string',
-  'Ocp-Apim-Subscription-Key' => 'string'
-}
-
-result = RestClient.post 'https://apitest.vipps.no/accesstoken/get',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json;charset=UTF-8',
-  'client_id': 'string',
-  'client_secret': 'string',
-  'Ocp-Apim-Subscription-Key': 'string'
-}
-
-r = requests.post('https://apitest.vipps.no/accesstoken/get', headers = headers)
-
-print(r.json())
-
-```
-
-```php
-<?php
-
-require 'vendor/autoload.php';
-
-$headers = array(
-    'Accept' => 'application/json;charset=UTF-8',
-    'client_id' => 'string',
-    'client_secret' => 'string',
-    'Ocp-Apim-Subscription-Key' => 'string',
-);
-
-$client = new \GuzzleHttp\Client();
-
-// Define array of request body.
-$request_body = array();
-
-try {
-    $response = $client->request('POST','https://apitest.vipps.no/accesstoken/get', array(
-        'headers' => $headers,
-        'json' => $request_body,
-       )
-    );
-    print_r($response->getBody()->getContents());
- }
- catch (\GuzzleHttp\Exception\BadResponseException $e) {
-    // handle exception or api errors.
-    print_r($e->getMessage());
- }
-
- // ...
-
-```
-
-```java
-URL obj = new URL("https://apitest.vipps.no/accesstoken/get");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("POST");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"application/json;charset=UTF-8"},
-        "client_id": []string{"string"},
-        "client_secret": []string{"string"},
-        "Ocp-Apim-Subscription-Key": []string{"string"},
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://apitest.vipps.no/accesstoken/get", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`POST /accesstoken/get`
-
-*Fetch Authorization token*
-
-Authorization token API endpoint helps to get the JWT Bearer token that needs to be passed in every API request in the Authorization header. The merchant application use the API to get a JWT access token. JWT access token is a base 64 encoded string value that must be aquire first before making any Vipps api calls
-
-<h3 id="fetchauthorizationtokenusingpost-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|client_id|header|string(guid)|true|Client id is located in the [developer portal](https://apitest-portal.vipps.no/). Navigate to the ```Applications``` tab and click the ```View secrets``` button to display the client id. See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
-|client_secret|header|string|true|Client secret is located in the [developer portal](https://apitest-portal.vipps.no/). Navigate to the ```Applications``` tab and click the ```View secrets``` button to display the client id. See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
-|Ocp-Apim-Subscription-Key|header|string|true|The subscription-key for Authorization token is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. The ```DEFAULT_ACCESSTOKEN``` key is the value for subscription-key. See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "token_type": "Bearer",
-  "expires_in": 3600,
-  "ext_expires_in": 3600,
-  "expires_on": 1547823408,
-  "not_before": 1547819508,
-  "resource": "00000002-0000-0000-c000-000000000000",
-  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni"
-}
-```
-
-<h3 id="fetchauthorizationtokenusingpost-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[AuthorizationTokenResponse](#schemaauthorizationtokenresponse)|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request (Missing a required parameter or bad request format)|None|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|402|[Payment Required](https://tools.ietf.org/html/rfc7231#section-6.5.2)|Payment Failed|None|
-|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Request Forbidden|None|
-|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Resource Not Found|None|
-|405|[Method Not Allowed](https://tools.ietf.org/html/rfc7231#section-6.5.5)|Request method not supported|None|
-|415|[Unsupported Media Type](https://tools.ietf.org/html/rfc7231#section-6.5.13)|Unsupported media type|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Something went wrong from Vipps Server side|None|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
 <h1 id="vipps-ecommerce-api-vipps-ecom-api">Vipps eCom API</h1>
 
 Functionality provided by the Vipps eCommerce API
@@ -2693,6 +2479,218 @@ This API call allows Vipps to send the transaction details. During regular ecomm
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|All ok|None|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+<h1 id="vipps-ecommerce-api-authorization-service">Authorization Service</h1>
+
+## fetchAuthorizationTokenUsingPost
+
+<a id="opIdfetchAuthorizationTokenUsingPost"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://apitest.vipps.no/accesstoken/get \
+  -H 'Accept: application/json;charset=UTF-8' \
+  -H 'client_id: string' \
+  -H 'client_secret: string' \
+  -H 'Ocp-Apim-Subscription-Key: string'
+
+```
+
+```http
+POST https://apitest.vipps.no/accesstoken/get HTTP/1.1
+Host: apitest.vipps.no
+Accept: application/json;charset=UTF-8
+client_id: string
+client_secret: string
+Ocp-Apim-Subscription-Key: string
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json;charset=UTF-8',
+  'client_id':'string',
+  'client_secret':'string',
+  'Ocp-Apim-Subscription-Key':'string'
+};
+
+fetch('https://apitest.vipps.no/accesstoken/get',
+{
+  method: 'POST',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json;charset=UTF-8',
+  'client_id' => 'string',
+  'client_secret' => 'string',
+  'Ocp-Apim-Subscription-Key' => 'string'
+}
+
+result = RestClient.post 'https://apitest.vipps.no/accesstoken/get',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json;charset=UTF-8',
+  'client_id': 'string',
+  'client_secret': 'string',
+  'Ocp-Apim-Subscription-Key': 'string'
+}
+
+r = requests.post('https://apitest.vipps.no/accesstoken/get', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json;charset=UTF-8',
+    'client_id' => 'string',
+    'client_secret' => 'string',
+    'Ocp-Apim-Subscription-Key' => 'string',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://apitest.vipps.no/accesstoken/get', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://apitest.vipps.no/accesstoken/get");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json;charset=UTF-8"},
+        "client_id": []string{"string"},
+        "client_secret": []string{"string"},
+        "Ocp-Apim-Subscription-Key": []string{"string"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://apitest.vipps.no/accesstoken/get", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /accesstoken/get`
+
+*Fetch Authorization token*
+
+Authorization token API endpoint helps to get the JWT Bearer token that needs to be passed in every API request in the Authorization header. The merchant application use the API to get a JWT access token. JWT access token is a base 64 encoded string value that must be aquire first before making any Vipps api calls
+
+<h3 id="fetchauthorizationtokenusingpost-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|client_id|header|string(guid)|true|Client id is located in the [developer portal](https://apitest-portal.vipps.no/). Navigate to the ```Applications``` tab and click the ```View secrets``` button to display the client id. See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
+|client_secret|header|string|true|Client secret is located in the [developer portal](https://apitest-portal.vipps.no/). Navigate to the ```Applications``` tab and click the ```View secrets``` button to display the client id. See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
+|Ocp-Apim-Subscription-Key|header|string|true|The subscription-key for Authorization token is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. The ```DEFAULT_ACCESSTOKEN``` key is the value for subscription-key. See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "ext_expires_in": 3600,
+  "expires_on": 1547823408,
+  "not_before": 1547819508,
+  "resource": "00000002-0000-0000-c000-000000000000",
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni"
+}
+```
+
+<h3 id="fetchauthorizationtokenusingpost-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[AuthorizationTokenResponse](#schemaauthorizationtokenresponse)|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request (Missing a required parameter or bad request format)|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|402|[Payment Required](https://tools.ietf.org/html/rfc7231#section-6.5.2)|Payment Failed|None|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Request Forbidden|None|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Resource Not Found|None|
+|405|[Method Not Allowed](https://tools.ietf.org/html/rfc7231#section-6.5.5)|Request method not supported|None|
+|415|[Unsupported Media Type](https://tools.ietf.org/html/rfc7231#section-6.5.13)|Unsupported media type|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Something went wrong from Vipps Server side|None|
 
 <aside class="success">
 This operation does not require authentication
