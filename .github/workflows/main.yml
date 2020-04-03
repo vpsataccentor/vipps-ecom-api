@@ -33,7 +33,7 @@ jobs:
     - name: Install and run Widdershins
       run: |
         npm install widdershins -g
-        widdershins docs/swagger.yaml -o docs/widdershins.html.md --expandBody
+        widdershins docs/swagger.yaml -o docs/widdershins.html.md --expandBody --yaml
     - name: Install Slate
       run: |
         git init ../slate
