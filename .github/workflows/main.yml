@@ -39,7 +39,7 @@ jobs:
         gem install bundler:2.0.2
         bundle config path vendor/bundle
         git init ../slate
-        git -C ../slate pull https://github.com/slatedocs/slate ../slate
+        git -C ../slate pull https://github.com/slatedocs/slate
         cp ./docs/widdershins.html.md ../slate/source/index.html.md
         bundle install
     - name: Build Slate
