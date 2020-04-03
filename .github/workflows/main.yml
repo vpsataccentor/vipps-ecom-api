@@ -18,10 +18,6 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@master
- #   - name: files-filter
- #     uses: wcchristian/gh-pattern-filter-action@master
- #     with:
-#        args: .*\\.yaml$
     - uses: actions/checkout@v2
     - name: Use Node.js 12.x
       uses: actions/setup-node@v1
@@ -31,28 +27,27 @@ jobs:
       with:
         ruby-version: '2.6'
     - run: npm install widdershins -g
-    - run: widdershins docs/swagger.yaml -o docs/widdershins.html.md
-    - run: echo $PWD
+    - run: widdershins docs/swagger.yaml -o docs/widdershins.html.md --expandBody
     - run: |
-        git init ../slate
-        cd ../slate
+        git init ./slate
+        cd ./slate
         git pull https://github.com/slatedocs/slate
-        cp ../vipps-ecom-api/docs/widdershins.html.md ./source/index.html.md
-        ls
+        cp ../docs/widdershins.html.md ./source/index.html.md
         gem install bundler:2.0.2
         bundle install
+    - run: |
+        cd ./slate
         bundle exec middleman build --clean
         cp -r build ../vipps-ecom-api/docs
         ls source/
         echo now-build
         ls build/
     - run: |
-        git config --local user.email "you@example.com"
-        git config --local user.name "Your Name"
-        git status
+        git config --local user.email "actions@example.com"
+        git config --local user.name "github actions"
         git remote -v
         git branch -a
-        git add --all
+        git add ./docs
         git commit -m "fun"
         git push
       env:
