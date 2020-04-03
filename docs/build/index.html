@@ -4013,17 +4013,13 @@ This operation does not require authentication
 <a id="schema_PaymentActionsRequest"></a>
 <a id="tocSpaymentactionsrequest"></a>
 <a id="tocspaymentactionsrequest"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"merchantInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"merchantSerialNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"transaction"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"transactionText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"One pair of Vipps socks"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">merchantInfo</span><span class="pi">:</span>
+  <span class="na">merchantSerialNumber</span><span class="pi">:</span> <span class="s">123456</span>
+<span class="na">transaction</span><span class="pi">:</span>
+  <span class="na">amount</span><span class="pi">:</span> <span class="s">20000</span>
+  <span class="na">transactionText</span><span class="pi">:</span> <span class="s">One pair of Vipps socks</span>
 
-</span></code></pre><h3 id='properties'>Properties</h3>
+</code></pre><h3 id='properties'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -4057,15 +4053,13 @@ This operation does not require authentication
 <a id="schema_Address"></a>
 <a id="tocSaddress"></a>
 <a id="tocsaddress"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"addressLine1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dronning Eufemias gate 42"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"addressLine2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Att: Rune Garborg"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Oslo"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Norway"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"postCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">191</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">addressLine1</span><span class="pi">:</span> <span class="s">Dronning Eufemias gate 42</span>
+<span class="na">addressLine2</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Att:</span><span class="nv"> </span><span class="s">Rune</span><span class="nv"> </span><span class="s">Garborg"</span>
+<span class="na">city</span><span class="pi">:</span> <span class="s">Oslo</span>
+<span class="na">country</span><span class="pi">:</span> <span class="s">Norway</span>
+<span class="na">postCode</span><span class="pi">:</span> <span class="s">191</span>
 
-</span></code></pre><h3 id='properties-2'>Properties</h3>
+</code></pre><h3 id='properties-2'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -4132,20 +4126,17 @@ This operation does not require authentication
 <a id="schema_PaymentShippingDetails"></a>
 <a id="tocSpaymentshippingdetails"></a>
 <a id="tocspaymentshippingdetails"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"addressLine1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dronning Eufemias gate 42"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"addressLine2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Att: Rune Garborg"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Oslo"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Norway"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"postCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">191</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"shippingCost"</span><span class="p">:</span><span class="w"> </span><span class="mi">1500</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"shippingMethod"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Posten Servicepakke"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"shippingMethodId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">address</span><span class="pi">:</span>
+  <span class="na">addressLine1</span><span class="pi">:</span> <span class="s">Dronning Eufemias gate 42</span>
+  <span class="na">addressLine2</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Att:</span><span class="nv"> </span><span class="s">Rune</span><span class="nv"> </span><span class="s">Garborg"</span>
+  <span class="na">city</span><span class="pi">:</span> <span class="s">Oslo</span>
+  <span class="na">country</span><span class="pi">:</span> <span class="s">Norway</span>
+  <span class="na">postCode</span><span class="pi">:</span> <span class="s">191</span>
+<span class="na">shippingCost</span><span class="pi">:</span> <span class="s">1500</span>
+<span class="na">shippingMethod</span><span class="pi">:</span> <span class="s">Posten Servicepakke</span>
+<span class="na">shippingMethodId</span><span class="pi">:</span> <span class="s">string</span>
 
-</span></code></pre><h3 id='properties-3'>Properties</h3>
+</code></pre><h3 id='properties-3'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -4193,17 +4184,15 @@ This operation does not require authentication
 <a id="schema_TransactionLogHistory"></a>
 <a id="tocStransactionloghistory"></a>
 <a id="tocstransactionloghistory"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RESERVE"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"operationf"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"requestId"</span><span class="p">:</span><span class="w"> </span><span class="mi">12983921873981899000</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"timeStamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-02-05T12:27:42.311Z"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transactionId"</span><span class="p">:</span><span class="w"> </span><span class="mi">5001446662</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transactionText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"One pair of Vipps socks"</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">amount</span><span class="pi">:</span> <span class="s">0</span>
+<span class="na">operation</span><span class="pi">:</span> <span class="s">RESERVE</span>
+<span class="na">operationf</span><span class="pi">:</span> <span class="s">true</span>
+<span class="na">requestId</span><span class="pi">:</span> <span class="s">12983921873981899000</span>
+<span class="na">timeStamp</span><span class="pi">:</span> <span class="s">2019-02-05T12:27:42.311Z</span>
+<span class="na">transactionId</span><span class="pi">:</span> <span class="s">5001446662</span>
+<span class="na">transactionText</span><span class="pi">:</span> <span class="s">One pair of Vipps socks</span>
 
-</span></code></pre><h3 id='properties-4'>Properties</h3>
+</code></pre><h3 id='properties-4'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -4308,11 +4297,9 @@ This operation does not require authentication
 <a id="schema_CancelTransaction"></a>
 <a id="tocScanceltransaction"></a>
 <a id="tocscanceltransaction"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"transactionText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"One pair of Vipps socks"</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">transactionText</span><span class="pi">:</span> <span class="s">One pair of Vipps socks</span>
 
-</span></code></pre><h3 id='properties-5'>Properties</h3>
+</code></pre><h3 id='properties-5'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -4339,18 +4326,16 @@ This operation does not require authentication
 <a id="schema_UserDetails"></a>
 <a id="tocSuserdetails"></a>
 <a id="tocsuserdetails"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"bankIdVerified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Y"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"dateOfBirth"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12-3-1988"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user@example.com"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ada"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lovelace"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"mobileNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"ssn"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678901"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"userId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uiJskNQ6qNN1iwN891uuob=="</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">bankIdVerified</span><span class="pi">:</span> <span class="s">Y</span>
+<span class="na">dateOfBirth</span><span class="pi">:</span> <span class="s">12-3-1988</span>
+<span class="na">email</span><span class="pi">:</span> <span class="s">user@example.com</span>
+<span class="na">firstName</span><span class="pi">:</span> <span class="s">Ada</span>
+<span class="na">lastName</span><span class="pi">:</span> <span class="s">Lovelace</span>
+<span class="na">mobileNumber</span><span class="pi">:</span> <span class="s2">"</span><span class="s">12345678"</span>
+<span class="na">ssn</span><span class="pi">:</span> <span class="s2">"</span><span class="s">12345678901"</span>
+<span class="na">userId</span><span class="pi">:</span> <span class="s">uiJskNQ6qNN1iwN891uuob==</span>
 
-</span></code></pre><h3 id='properties-6'>Properties</h3>
+</code></pre><h3 id='properties-6'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -4442,13 +4427,11 @@ This operation does not require authentication
 <a id="schema_callbackErrorInfo"></a>
 <a id="tocScallbackerrorinfo"></a>
 <a id="tocscallbackerrorinfo"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"errorCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"errorGroup"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PAYMENTS"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"errorMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User has cancelled or not acted upon the payment"</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">errorCode</span><span class="pi">:</span> <span class="s">45</span>
+<span class="na">errorGroup</span><span class="pi">:</span> <span class="s">PAYMENTS</span>
+<span class="na">errorMessage</span><span class="pi">:</span> <span class="s">User has cancelled or not acted upon the payment</span>
 
-</span></code></pre><h3 id='properties-7'>Properties</h3>
+</code></pre><h3 id='properties-7'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -4489,14 +4472,12 @@ This operation does not require authentication
 <a id="schema_CallbackTransactionInfoStatus"></a>
 <a id="tocScallbacktransactioninfostatus"></a>
 <a id="tocscallbacktransactioninfostatus"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RESERVE"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"timeStamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-12-12T11:18:38.246Z"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5001420062"</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">amount</span><span class="pi">:</span> <span class="s">20000</span>
+<span class="na">status</span><span class="pi">:</span> <span class="s">RESERVE</span>
+<span class="na">timeStamp</span><span class="pi">:</span> <span class="s">2018-12-12T11:18:38.246Z</span>
+<span class="na">transactionId</span><span class="pi">:</span> <span class="s2">"</span><span class="s">5001420062"</span>
 
-</span></code></pre><h3 id='properties-8'>Properties</h3>
+</code></pre><h3 id='properties-8'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -4572,14 +4553,12 @@ This operation does not require authentication
 <a id="schema_OrderStatusInfoTransactionInfo"></a>
 <a id="tocSorderstatusinfotransactioninfo"></a>
 <a id="tocsorderstatusinfotransactioninfo"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RESERVE"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"timeStamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-12-12T11:18:38.246Z"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5001420062"</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">amount</span><span class="pi">:</span> <span class="s">20000</span>
+<span class="na">status</span><span class="pi">:</span> <span class="s">RESERVE</span>
+<span class="na">timeStamp</span><span class="pi">:</span> <span class="s">2018-12-12T11:18:38.246Z</span>
+<span class="na">transactionId</span><span class="pi">:</span> <span class="s2">"</span><span class="s">5001420062"</span>
 
-</span></code></pre><h3 id='properties-9'>Properties</h3>
+</code></pre><h3 id='properties-9'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -4675,15 +4654,13 @@ This operation does not require authentication
 <a id="schema_TransactionInfoCancel"></a>
 <a id="tocStransactioninfocancel"></a>
 <a id="tocstransactioninfocancel"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cancelled"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"timeStamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-12-12T11:18:38.246Z"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5001420062"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transactionText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"One pair of Vipps socks"</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">amount</span><span class="pi">:</span> <span class="s">20000</span>
+<span class="na">status</span><span class="pi">:</span> <span class="s">Cancelled</span>
+<span class="na">timeStamp</span><span class="pi">:</span> <span class="s">2018-12-12T11:18:38.246Z</span>
+<span class="na">transactionId</span><span class="pi">:</span> <span class="s2">"</span><span class="s">5001420062"</span>
+<span class="na">transactionText</span><span class="pi">:</span> <span class="s">One pair of Vipps socks</span>
 
-</span></code></pre><h3 id='properties-10'>Properties</h3>
+</code></pre><h3 id='properties-10'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -4750,15 +4727,13 @@ This operation does not require authentication
 <a id="schema_TransactionInfoRefund"></a>
 <a id="tocStransactioninforefund"></a>
 <a id="tocstransactioninforefund"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Refund"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"timeStamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-12-12T11:18:38.246Z"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5001420062"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transactionText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"One pair of Vipps socks"</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">amount</span><span class="pi">:</span> <span class="s">20000</span>
+<span class="na">status</span><span class="pi">:</span> <span class="s">Refund</span>
+<span class="na">timeStamp</span><span class="pi">:</span> <span class="s">2018-12-12T11:18:38.246Z</span>
+<span class="na">transactionId</span><span class="pi">:</span> <span class="s2">"</span><span class="s">5001420062"</span>
+<span class="na">transactionText</span><span class="pi">:</span> <span class="s">One pair of Vipps socks</span>
 
-</span></code></pre><h3 id='properties-11'>Properties</h3>
+</code></pre><h3 id='properties-11'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -4825,15 +4800,13 @@ This operation does not require authentication
 <a id="schema_TransactionInfoCapture"></a>
 <a id="tocStransactioninfocapture"></a>
 <a id="tocstransactioninfocapture"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Captured"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"timeStamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-12-12T11:18:38.246Z"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5001420062"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transactionText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"One pair of Vipps socks"</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">amount</span><span class="pi">:</span> <span class="s">20000</span>
+<span class="na">status</span><span class="pi">:</span> <span class="s">Captured</span>
+<span class="na">timeStamp</span><span class="pi">:</span> <span class="s">2018-12-12T11:18:38.246Z</span>
+<span class="na">transactionId</span><span class="pi">:</span> <span class="s2">"</span><span class="s">5001420062"</span>
+<span class="na">transactionText</span><span class="pi">:</span> <span class="s">One pair of Vipps socks</span>
 
-</span></code></pre><h3 id='properties-12'>Properties</h3>
+</code></pre><h3 id='properties-12'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -4900,50 +4873,41 @@ This operation does not require authentication
 <a id="schema_GetTransactionDetails"></a>
 <a id="tocSgettransactiondetails"></a>
 <a id="tocsgettransactiondetails"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order123abc"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"shippingDetails"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"addressLine1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dronning Eufemias gate 42"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"addressLine2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Att: Rune Garborg"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Oslo"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Norway"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"postCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">191</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"shippingCost"</span><span class="p">:</span><span class="w"> </span><span class="mi">1500</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"shippingMethod"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Posten Servicepakke"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"shippingMethodId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"transactionLogHistory"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RESERVE"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"operationf"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"requestId"</span><span class="p">:</span><span class="w"> </span><span class="mi">12983921873981899000</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"timeStamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-02-05T12:27:42.311Z"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"transactionId"</span><span class="p">:</span><span class="w"> </span><span class="mi">5001446662</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"transactionText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"One pair of Vipps socks"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"transactionSummary"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"capturedAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"refundedAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"remainingAmountToCapture"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"remainingAmountToRefund"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"userDetails"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"bankIdVerified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Y"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"dateOfBirth"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12-3-1988"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user@example.com"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ada"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lovelace"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"mobileNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"ssn"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678901"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"userId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uiJskNQ6qNN1iwN891uuob=="</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">orderId</span><span class="pi">:</span> <span class="s">order123abc</span>
+<span class="na">shippingDetails</span><span class="pi">:</span>
+  <span class="na">address</span><span class="pi">:</span>
+    <span class="na">addressLine1</span><span class="pi">:</span> <span class="s">Dronning Eufemias gate 42</span>
+    <span class="na">addressLine2</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Att:</span><span class="nv"> </span><span class="s">Rune</span><span class="nv"> </span><span class="s">Garborg"</span>
+    <span class="na">city</span><span class="pi">:</span> <span class="s">Oslo</span>
+    <span class="na">country</span><span class="pi">:</span> <span class="s">Norway</span>
+    <span class="na">postCode</span><span class="pi">:</span> <span class="s">191</span>
+  <span class="na">shippingCost</span><span class="pi">:</span> <span class="s">1500</span>
+  <span class="na">shippingMethod</span><span class="pi">:</span> <span class="s">Posten Servicepakke</span>
+  <span class="na">shippingMethodId</span><span class="pi">:</span> <span class="s">string</span>
+<span class="na">transactionLogHistory</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">amount</span><span class="pi">:</span> <span class="s">0</span>
+    <span class="na">operation</span><span class="pi">:</span> <span class="s">RESERVE</span>
+    <span class="na">operationf</span><span class="pi">:</span> <span class="s">true</span>
+    <span class="na">requestId</span><span class="pi">:</span> <span class="s">12983921873981899000</span>
+    <span class="na">timeStamp</span><span class="pi">:</span> <span class="s">2019-02-05T12:27:42.311Z</span>
+    <span class="na">transactionId</span><span class="pi">:</span> <span class="s">5001446662</span>
+    <span class="na">transactionText</span><span class="pi">:</span> <span class="s">One pair of Vipps socks</span>
+<span class="na">transactionSummary</span><span class="pi">:</span>
+  <span class="na">capturedAmount</span><span class="pi">:</span> <span class="s">20000</span>
+  <span class="na">refundedAmount</span><span class="pi">:</span> <span class="s">0</span>
+  <span class="na">remainingAmountToCapture</span><span class="pi">:</span> <span class="s">0</span>
+  <span class="na">remainingAmountToRefund</span><span class="pi">:</span> <span class="s">20000</span>
+<span class="na">userDetails</span><span class="pi">:</span>
+  <span class="na">bankIdVerified</span><span class="pi">:</span> <span class="s">Y</span>
+  <span class="na">dateOfBirth</span><span class="pi">:</span> <span class="s">12-3-1988</span>
+  <span class="na">email</span><span class="pi">:</span> <span class="s">user@example.com</span>
+  <span class="na">firstName</span><span class="pi">:</span> <span class="s">Ada</span>
+  <span class="na">lastName</span><span class="pi">:</span> <span class="s">Lovelace</span>
+  <span class="na">mobileNumber</span><span class="pi">:</span> <span class="s2">"</span><span class="s">12345678"</span>
+  <span class="na">ssn</span><span class="pi">:</span> <span class="s2">"</span><span class="s">12345678901"</span>
+  <span class="na">userId</span><span class="pi">:</span> <span class="s">uiJskNQ6qNN1iwN891uuob==</span>
 
-</span></code></pre><h3 id='properties-13'>Properties</h3>
+</code></pre><h3 id='properties-13'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -4998,12 +4962,10 @@ This operation does not require authentication
 <a id="schema_InitiatePaymentV2Representation"></a>
 <a id="tocSinitiatepaymentv2representation"></a>
 <a id="tocsinitiatepaymentv2representation"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order123abc"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com"</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">orderId</span><span class="pi">:</span> <span class="s">order123abc</span>
+<span class="na">url</span><span class="pi">:</span> <span class="s">https://example.com</span>
 
-</span></code></pre><h3 id='properties-14'>Properties</h3>
+</code></pre><h3 id='properties-14'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -5037,20 +4999,17 @@ This operation does not require authentication
 <a id="schema_ShippingDetailsRequest"></a>
 <a id="tocSshippingdetailsrequest"></a>
 <a id="tocsshippingdetailsrequest"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"addressLine1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dronning Eufemias gate 42"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"addressLine2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Att: Rune Garborg"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Oslo"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Norway"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"postCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">191</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"shippingCost"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"shippingMethod"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Posten Servicepakke"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"shippingMethodId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">address</span><span class="pi">:</span>
+  <span class="na">addressLine1</span><span class="pi">:</span> <span class="s">Dronning Eufemias gate 42</span>
+  <span class="na">addressLine2</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Att:</span><span class="nv"> </span><span class="s">Rune</span><span class="nv"> </span><span class="s">Garborg"</span>
+  <span class="na">city</span><span class="pi">:</span> <span class="s">Oslo</span>
+  <span class="na">country</span><span class="pi">:</span> <span class="s">Norway</span>
+  <span class="na">postCode</span><span class="pi">:</span> <span class="s">191</span>
+<span class="na">shippingCost</span><span class="pi">:</span> <span class="s">0</span>
+<span class="na">shippingMethod</span><span class="pi">:</span> <span class="s">Posten Servicepakke</span>
+<span class="na">shippingMethodId</span><span class="pi">:</span> <span class="s">string</span>
 
-</span></code></pre><h3 id='properties-15'>Properties</h3>
+</code></pre><h3 id='properties-15'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -5098,24 +5057,20 @@ This operation does not require authentication
 <a id="schema_TransactionResponseCancel"></a>
 <a id="tocStransactionresponsecancel"></a>
 <a id="tocstransactionresponsecancel"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order123abc"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transactionInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cancelled"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"timeStamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-12-12T11:18:38.246Z"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"transactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5001420062"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"transactionText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"One pair of Vipps socks"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"transactionSummary"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"capturedAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"refundedAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"remainingAmountToCapture"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"remainingAmountToRefund"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">orderId</span><span class="pi">:</span> <span class="s">order123abc</span>
+<span class="na">transactionInfo</span><span class="pi">:</span>
+  <span class="na">amount</span><span class="pi">:</span> <span class="s">20000</span>
+  <span class="na">status</span><span class="pi">:</span> <span class="s">Cancelled</span>
+  <span class="na">timeStamp</span><span class="pi">:</span> <span class="s">2018-12-12T11:18:38.246Z</span>
+  <span class="na">transactionId</span><span class="pi">:</span> <span class="s2">"</span><span class="s">5001420062"</span>
+  <span class="na">transactionText</span><span class="pi">:</span> <span class="s">One pair of Vipps socks</span>
+<span class="na">transactionSummary</span><span class="pi">:</span>
+  <span class="na">capturedAmount</span><span class="pi">:</span> <span class="s">20000</span>
+  <span class="na">refundedAmount</span><span class="pi">:</span> <span class="s">0</span>
+  <span class="na">remainingAmountToCapture</span><span class="pi">:</span> <span class="s">0</span>
+  <span class="na">remainingAmountToRefund</span><span class="pi">:</span> <span class="s">20000</span>
 
-</span></code></pre><h3 id='properties-16'>Properties</h3>
+</code></pre><h3 id='properties-16'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -5156,24 +5111,20 @@ This operation does not require authentication
 <a id="schema_TransactionResponseCapture"></a>
 <a id="tocStransactionresponsecapture"></a>
 <a id="tocstransactionresponsecapture"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order123abc"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transactionInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Captured"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"timeStamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-12-12T11:18:38.246Z"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"transactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5001420062"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"transactionText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"One pair of Vipps socks"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"transactionSummary"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"capturedAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"refundedAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"remainingAmountToCapture"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"remainingAmountToRefund"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">orderId</span><span class="pi">:</span> <span class="s">order123abc</span>
+<span class="na">transactionInfo</span><span class="pi">:</span>
+  <span class="na">amount</span><span class="pi">:</span> <span class="s">20000</span>
+  <span class="na">status</span><span class="pi">:</span> <span class="s">Captured</span>
+  <span class="na">timeStamp</span><span class="pi">:</span> <span class="s">2018-12-12T11:18:38.246Z</span>
+  <span class="na">transactionId</span><span class="pi">:</span> <span class="s2">"</span><span class="s">5001420062"</span>
+  <span class="na">transactionText</span><span class="pi">:</span> <span class="s">One pair of Vipps socks</span>
+<span class="na">transactionSummary</span><span class="pi">:</span>
+  <span class="na">capturedAmount</span><span class="pi">:</span> <span class="s">20000</span>
+  <span class="na">refundedAmount</span><span class="pi">:</span> <span class="s">0</span>
+  <span class="na">remainingAmountToCapture</span><span class="pi">:</span> <span class="s">0</span>
+  <span class="na">remainingAmountToRefund</span><span class="pi">:</span> <span class="s">20000</span>
 
-</span></code></pre><h3 id='properties-17'>Properties</h3>
+</code></pre><h3 id='properties-17'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -5214,24 +5165,20 @@ This operation does not require authentication
 <a id="schema_TransactionResponseRefund"></a>
 <a id="tocStransactionresponserefund"></a>
 <a id="tocstransactionresponserefund"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order123abc"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transaction"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Refund"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"timeStamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-12-12T11:18:38.246Z"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"transactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5001420062"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"transactionText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"One pair of Vipps socks"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"transactionSummary"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"capturedAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"refundedAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"remainingAmountToCapture"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"remainingAmountToRefund"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">orderId</span><span class="pi">:</span> <span class="s">order123abc</span>
+<span class="na">transaction</span><span class="pi">:</span>
+  <span class="na">amount</span><span class="pi">:</span> <span class="s">20000</span>
+  <span class="na">status</span><span class="pi">:</span> <span class="s">Refund</span>
+  <span class="na">timeStamp</span><span class="pi">:</span> <span class="s">2018-12-12T11:18:38.246Z</span>
+  <span class="na">transactionId</span><span class="pi">:</span> <span class="s2">"</span><span class="s">5001420062"</span>
+  <span class="na">transactionText</span><span class="pi">:</span> <span class="s">One pair of Vipps socks</span>
+<span class="na">transactionSummary</span><span class="pi">:</span>
+  <span class="na">capturedAmount</span><span class="pi">:</span> <span class="s">20000</span>
+  <span class="na">refundedAmount</span><span class="pi">:</span> <span class="s">0</span>
+  <span class="na">remainingAmountToCapture</span><span class="pi">:</span> <span class="s">0</span>
+  <span class="na">remainingAmountToRefund</span><span class="pi">:</span> <span class="s">20000</span>
 
-</span></code></pre><h3 id='properties-18'>Properties</h3>
+</code></pre><h3 id='properties-18'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -5272,11 +5219,9 @@ This operation does not require authentication
 <a id="schema_MerchantInfoPayment"></a>
 <a id="tocSmerchantinfopayment"></a>
 <a id="tocsmerchantinfopayment"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"merchantSerialNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">merchantSerialNumber</span><span class="pi">:</span> <span class="s">123456</span>
 
-</span></code></pre><h3 id='properties-19'>Properties</h3>
+</code></pre><h3 id='properties-19'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -5303,15 +5248,13 @@ This operation does not require authentication
 <a id="schema_ShippingDetails"></a>
 <a id="tocSshippingdetails"></a>
 <a id="tocsshippingdetails"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"isDefault"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Y"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"priority"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"shippingCost"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"shippingMethod"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Posten Servicepakke"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"shippingMethodId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">isDefault</span><span class="pi">:</span> <span class="s">Y</span>
+<span class="na">priority</span><span class="pi">:</span> <span class="s">0</span>
+<span class="na">shippingCost</span><span class="pi">:</span> <span class="s">0</span>
+<span class="na">shippingMethod</span><span class="pi">:</span> <span class="s">Posten Servicepakke</span>
+<span class="na">shippingMethodId</span><span class="pi">:</span> <span class="s">string</span>
 
-</span></code></pre><h3 id='properties-20'>Properties</h3>
+</code></pre><h3 id='properties-20'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -5382,38 +5325,30 @@ This operation does not require authentication
 <a id="schema_InitiatePaymentCommand"></a>
 <a id="tocSinitiatepaymentcommand"></a>
 <a id="tocsinitiatepaymentcommand"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"customerInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"mobileNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">91234567</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"merchantInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"authToken"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"callbackPrefix"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com/vipps/callbacks"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"consentRemovalPrefix"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com/vipps"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fallBack"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com/vipps/fallback/order123abc"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"isApp"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"merchantSerialNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"paymentType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eComm Regular Payment"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"shippingDetailsPrefix"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com/vipps/shipping/"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"staticShippingDetails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"isDefault"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Y"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"priority"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"shippingCost"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"shippingMethod"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Posten Servicepakke"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"shippingMethodId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-    </span><span class="p">]</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"transaction"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order123abc"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"timeStamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-11-14T15:44:26.590Z"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"transactionText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"One pair of Vipps socks"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">customerInfo</span><span class="pi">:</span>
+  <span class="na">mobileNumber</span><span class="pi">:</span> <span class="s">91234567</span>
+<span class="na">merchantInfo</span><span class="pi">:</span>
+  <span class="na">authToken</span><span class="pi">:</span> <span class="s">eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni</span>
+  <span class="na">callbackPrefix</span><span class="pi">:</span> <span class="s">https://example.com/vipps/callbacks</span>
+  <span class="na">consentRemovalPrefix</span><span class="pi">:</span> <span class="s">https://example.com/vipps</span>
+  <span class="na">fallBack</span><span class="pi">:</span> <span class="s">https://example.com/vipps/fallback/order123abc</span>
+  <span class="na">isApp</span><span class="pi">:</span> <span class="s">false</span>
+  <span class="na">merchantSerialNumber</span><span class="pi">:</span> <span class="s">123456</span>
+  <span class="na">paymentType</span><span class="pi">:</span> <span class="s">eComm Regular Payment</span>
+  <span class="na">shippingDetailsPrefix</span><span class="pi">:</span> <span class="s">https://example.com/vipps/shipping/</span>
+  <span class="na">staticShippingDetails</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">isDefault</span><span class="pi">:</span> <span class="s">Y</span>
+      <span class="na">priority</span><span class="pi">:</span> <span class="s">0</span>
+      <span class="na">shippingCost</span><span class="pi">:</span> <span class="s">0</span>
+      <span class="na">shippingMethod</span><span class="pi">:</span> <span class="s">Posten Servicepakke</span>
+      <span class="na">shippingMethodId</span><span class="pi">:</span> <span class="s">string</span>
+<span class="na">transaction</span><span class="pi">:</span>
+  <span class="na">amount</span><span class="pi">:</span> <span class="s">20000</span>
+  <span class="na">orderId</span><span class="pi">:</span> <span class="s">order123abc</span>
+  <span class="na">timeStamp</span><span class="pi">:</span> <span class="s">2018-11-14T15:44:26.590Z</span>
+  <span class="na">transactionText</span><span class="pi">:</span> <span class="s">One pair of Vipps socks</span>
 
-</span></code></pre><h3 id='properties-21'>Properties</h3>
+</code></pre><h3 id='properties-21'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -5454,14 +5389,12 @@ This operation does not require authentication
 <a id="schema_TransactionInfoInitiateDTO"></a>
 <a id="tocStransactioninfoinitiatedto"></a>
 <a id="tocstransactioninfoinitiatedto"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order123abc"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"timeStamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-11-14T15:44:26.590Z"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transactionText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"One pair of Vipps socks"</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">amount</span><span class="pi">:</span> <span class="s">20000</span>
+<span class="na">orderId</span><span class="pi">:</span> <span class="s">order123abc</span>
+<span class="na">timeStamp</span><span class="pi">:</span> <span class="s">2018-11-14T15:44:26.590Z</span>
+<span class="na">transactionText</span><span class="pi">:</span> <span class="s">One pair of Vipps socks</span>
 
-</span></code></pre><h3 id='properties-22'>Properties</h3>
+</code></pre><h3 id='properties-22'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -5509,27 +5442,22 @@ This operation does not require authentication
 <a id="schema_MerchantInfoDto"></a>
 <a id="tocSmerchantinfodto"></a>
 <a id="tocsmerchantinfodto"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"authToken"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"callbackPrefix"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com/vipps/callbacks"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"consentRemovalPrefix"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com/vipps"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"fallBack"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com/vipps/fallback/order123abc"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"isApp"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"merchantSerialNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"paymentType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eComm Regular Payment"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"shippingDetailsPrefix"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com/vipps/shipping/"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"staticShippingDetails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"isDefault"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Y"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"priority"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"shippingCost"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"shippingMethod"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Posten Servicepakke"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"shippingMethodId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">authToken</span><span class="pi">:</span> <span class="s">eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni</span>
+<span class="na">callbackPrefix</span><span class="pi">:</span> <span class="s">https://example.com/vipps/callbacks</span>
+<span class="na">consentRemovalPrefix</span><span class="pi">:</span> <span class="s">https://example.com/vipps</span>
+<span class="na">fallBack</span><span class="pi">:</span> <span class="s">https://example.com/vipps/fallback/order123abc</span>
+<span class="na">isApp</span><span class="pi">:</span> <span class="s">false</span>
+<span class="na">merchantSerialNumber</span><span class="pi">:</span> <span class="s">123456</span>
+<span class="na">paymentType</span><span class="pi">:</span> <span class="s">eComm Regular Payment</span>
+<span class="na">shippingDetailsPrefix</span><span class="pi">:</span> <span class="s">https://example.com/vipps/shipping/</span>
+<span class="na">staticShippingDetails</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">isDefault</span><span class="pi">:</span> <span class="s">Y</span>
+    <span class="na">priority</span><span class="pi">:</span> <span class="s">0</span>
+    <span class="na">shippingCost</span><span class="pi">:</span> <span class="s">0</span>
+    <span class="na">shippingMethod</span><span class="pi">:</span> <span class="s">Posten Servicepakke</span>
+    <span class="na">shippingMethodId</span><span class="pi">:</span> <span class="s">string</span>
 
-</span></code></pre><h3 id='properties-23'>Properties</h3>
+</code></pre><h3 id='properties-23'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -5628,17 +5556,14 @@ This operation does not require authentication
 <a id="schema_GetPaymentStatusResponse"></a>
 <a id="tocSgetpaymentstatusresponse"></a>
 <a id="tocsgetpaymentstatusresponse"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order123abc"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transactionInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RESERVE"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"timeStamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-12-12T11:18:38.246Z"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"transactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5001420062"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">orderId</span><span class="pi">:</span> <span class="s">order123abc</span>
+<span class="na">transactionInfo</span><span class="pi">:</span>
+  <span class="na">amount</span><span class="pi">:</span> <span class="s">20000</span>
+  <span class="na">status</span><span class="pi">:</span> <span class="s">RESERVE</span>
+  <span class="na">timeStamp</span><span class="pi">:</span> <span class="s">2018-12-12T11:18:38.246Z</span>
+  <span class="na">transactionId</span><span class="pi">:</span> <span class="s2">"</span><span class="s">5001420062"</span>
 
-</span></code></pre><h3 id='properties-24'>Properties</h3>
+</code></pre><h3 id='properties-24'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -5672,12 +5597,10 @@ This operation does not require authentication
 <a id="schema_Transaction"></a>
 <a id="tocStransaction"></a>
 <a id="tocstransaction"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transactionText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"One pair of Vipps socks"</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">amount</span><span class="pi">:</span> <span class="s">20000</span>
+<span class="na">transactionText</span><span class="pi">:</span> <span class="s">One pair of Vipps socks</span>
 
-</span></code></pre><h3 id='properties-25'>Properties</h3>
+</code></pre><h3 id='properties-25'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -5711,17 +5634,15 @@ This operation does not require authentication
 <a id="schema_FetchShippingCostAndMethod"></a>
 <a id="tocSfetchshippingcostandmethod"></a>
 <a id="tocsfetchshippingcostandmethod"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"addressId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"addressLine1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dronning Eufemias gate 42"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"addressLine2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Oslo"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NO"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"postCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0603"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"addressType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"H"</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">addressId</span><span class="pi">:</span> <span class="s">0</span>
+<span class="na">addressLine1</span><span class="pi">:</span> <span class="s">Dronning Eufemias gate 42</span>
+<span class="na">addressLine2</span><span class="pi">:</span> <span class="s">string</span>
+<span class="na">city</span><span class="pi">:</span> <span class="s">Oslo</span>
+<span class="na">country</span><span class="pi">:</span> <span class="s">NO</span>
+<span class="na">postCode</span><span class="pi">:</span> <span class="s2">"</span><span class="s">0603"</span>
+<span class="na">addressType</span><span class="pi">:</span> <span class="s">H</span>
 
-</span></code></pre><h3 id='properties-26'>Properties</h3>
+</code></pre><h3 id='properties-26'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -5790,11 +5711,9 @@ This operation does not require authentication
 <a id="schema_CustomerInfoDto"></a>
 <a id="tocScustomerinfodto"></a>
 <a id="tocscustomerinfodto"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"mobileNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">91234567</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">mobileNumber</span><span class="pi">:</span> <span class="s">91234567</span>
 
-</span></code></pre><h3 id='properties-27'>Properties</h3>
+</code></pre><h3 id='properties-27'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -5821,16 +5740,12 @@ This operation does not require authentication
 <a id="schema_CancelPaymentActionRequest"></a>
 <a id="tocScancelpaymentactionrequest"></a>
 <a id="tocscancelpaymentactionrequest"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"merchantInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"merchantSerialNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"transaction"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"transactionText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"One pair of Vipps socks"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">merchantInfo</span><span class="pi">:</span>
+  <span class="na">merchantSerialNumber</span><span class="pi">:</span> <span class="s">123456</span>
+<span class="na">transaction</span><span class="pi">:</span>
+  <span class="na">transactionText</span><span class="pi">:</span> <span class="s">One pair of Vipps socks</span>
 
-</span></code></pre><h3 id='properties-28'>Properties</h3>
+</code></pre><h3 id='properties-28'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -5864,45 +5779,38 @@ This operation does not require authentication
 <a id="schema_ExpressCheckOutPaymentRequest"></a>
 <a id="tocSexpresscheckoutpaymentrequest"></a>
 <a id="tocsexpresscheckoutpaymentrequest"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"merchantSerialNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order123abc"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"shippingDetails"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"addressLine1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dronning Eufemias gate 42"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"addressLine2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Att: Rune Garborg"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Oslo"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Norway"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"postCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">191</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"shippingCost"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"shippingMethod"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Posten Servicepakke"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"shippingMethodId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"transactionInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RESERVE"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"timeStamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-12-12T11:18:38.246Z"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"transactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5001420062"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"userDetails"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"bankIdVerified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Y"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"dateOfBirth"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12-3-1988"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user@example.com"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ada"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lovelace"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"mobileNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"ssn"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678901"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"userId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uiJskNQ6qNN1iwN891uuob=="</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"errorInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"errorCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"errorGroup"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PAYMENTS"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"errorMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User has cancelled or not acted upon the payment"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">merchantSerialNumber</span><span class="pi">:</span> <span class="s">123456</span>
+<span class="na">orderId</span><span class="pi">:</span> <span class="s">order123abc</span>
+<span class="na">shippingDetails</span><span class="pi">:</span>
+  <span class="na">address</span><span class="pi">:</span>
+    <span class="na">addressLine1</span><span class="pi">:</span> <span class="s">Dronning Eufemias gate 42</span>
+    <span class="na">addressLine2</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Att:</span><span class="nv"> </span><span class="s">Rune</span><span class="nv"> </span><span class="s">Garborg"</span>
+    <span class="na">city</span><span class="pi">:</span> <span class="s">Oslo</span>
+    <span class="na">country</span><span class="pi">:</span> <span class="s">Norway</span>
+    <span class="na">postCode</span><span class="pi">:</span> <span class="s">191</span>
+  <span class="na">shippingCost</span><span class="pi">:</span> <span class="s">0</span>
+  <span class="na">shippingMethod</span><span class="pi">:</span> <span class="s">Posten Servicepakke</span>
+  <span class="na">shippingMethodId</span><span class="pi">:</span> <span class="s">string</span>
+<span class="na">transactionInfo</span><span class="pi">:</span>
+  <span class="na">amount</span><span class="pi">:</span> <span class="s">20000</span>
+  <span class="na">status</span><span class="pi">:</span> <span class="s">RESERVE</span>
+  <span class="na">timeStamp</span><span class="pi">:</span> <span class="s">2018-12-12T11:18:38.246Z</span>
+  <span class="na">transactionId</span><span class="pi">:</span> <span class="s2">"</span><span class="s">5001420062"</span>
+<span class="na">userDetails</span><span class="pi">:</span>
+  <span class="na">bankIdVerified</span><span class="pi">:</span> <span class="s">Y</span>
+  <span class="na">dateOfBirth</span><span class="pi">:</span> <span class="s">12-3-1988</span>
+  <span class="na">email</span><span class="pi">:</span> <span class="s">user@example.com</span>
+  <span class="na">firstName</span><span class="pi">:</span> <span class="s">Ada</span>
+  <span class="na">lastName</span><span class="pi">:</span> <span class="s">Lovelace</span>
+  <span class="na">mobileNumber</span><span class="pi">:</span> <span class="s2">"</span><span class="s">12345678"</span>
+  <span class="na">ssn</span><span class="pi">:</span> <span class="s2">"</span><span class="s">12345678901"</span>
+  <span class="na">userId</span><span class="pi">:</span> <span class="s">uiJskNQ6qNN1iwN891uuob==</span>
+<span class="na">errorInfo</span><span class="pi">:</span>
+  <span class="na">errorCode</span><span class="pi">:</span> <span class="s">45</span>
+  <span class="na">errorGroup</span><span class="pi">:</span> <span class="s">PAYMENTS</span>
+  <span class="na">errorMessage</span><span class="pi">:</span> <span class="s">User has cancelled or not acted upon the payment</span>
 
-</span></code></pre><h3 id='properties-29'>Properties</h3>
+</code></pre><h3 id='properties-29'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -5964,23 +5872,19 @@ This operation does not require authentication
 <a id="schema_RegularCheckOutPaymentRequest"></a>
 <a id="tocSregularcheckoutpaymentrequest"></a>
 <a id="tocsregularcheckoutpaymentrequest"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"merchantSerialNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order123abc"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"transactionInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RESERVE"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"timeStamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-12-12T11:18:38.246Z"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"transactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5001420062"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"errorInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"errorCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"errorGroup"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PAYMENTS"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"errorMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User has cancelled or not acted upon the payment"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">merchantSerialNumber</span><span class="pi">:</span> <span class="s">123456</span>
+<span class="na">orderId</span><span class="pi">:</span> <span class="s">order123abc</span>
+<span class="na">transactionInfo</span><span class="pi">:</span>
+  <span class="na">amount</span><span class="pi">:</span> <span class="s">20000</span>
+  <span class="na">status</span><span class="pi">:</span> <span class="s">RESERVE</span>
+  <span class="na">timeStamp</span><span class="pi">:</span> <span class="s">2018-12-12T11:18:38.246Z</span>
+  <span class="na">transactionId</span><span class="pi">:</span> <span class="s2">"</span><span class="s">5001420062"</span>
+<span class="na">errorInfo</span><span class="pi">:</span>
+  <span class="na">errorCode</span><span class="pi">:</span> <span class="s">45</span>
+  <span class="na">errorGroup</span><span class="pi">:</span> <span class="s">PAYMENTS</span>
+  <span class="na">errorMessage</span><span class="pi">:</span> <span class="s">User has cancelled or not acted upon the payment</span>
 
-</span></code></pre><h3 id='properties-30'>Properties</h3>
+</code></pre><h3 id='properties-30'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -6028,17 +5932,15 @@ This operation does not require authentication
 <a id="schema_AuthorizationTokenResponse"></a>
 <a id="tocSauthorizationtokenresponse"></a>
 <a id="tocsauthorizationtokenresponse"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"token_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bearer"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"ext_expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"expires_on"</span><span class="p">:</span><span class="w"> </span><span class="mi">1547823408</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"not_before"</span><span class="p">:</span><span class="w"> </span><span class="mi">1547819508</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"00000002-0000-0000-c000-000000000000"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"access_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni"</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">token_type</span><span class="pi">:</span> <span class="s">Bearer</span>
+<span class="na">expires_in</span><span class="pi">:</span> <span class="s">3600</span>
+<span class="na">ext_expires_in</span><span class="pi">:</span> <span class="s">3600</span>
+<span class="na">expires_on</span><span class="pi">:</span> <span class="s">1547823408</span>
+<span class="na">not_before</span><span class="pi">:</span> <span class="s">1547819508</span>
+<span class="na">resource</span><span class="pi">:</span> <span class="s">00000002-0000-0000-c000-000000000000</span>
+<span class="na">access_token</span><span class="pi">:</span> <span class="s">eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni</span>
 
-</span></code></pre><h3 id='properties-31'>Properties</h3>
+</code></pre><h3 id='properties-31'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -6107,21 +6009,16 @@ This operation does not require authentication
 <a id="schema_FetchShippingCostResponse"></a>
 <a id="tocSfetchshippingcostresponse"></a>
 <a id="tocsfetchshippingcostresponse"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"addressId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order123abc"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"shippingDetails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"isDefault"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Y"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"priority"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"shippingCost"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"shippingMethod"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Posten Servicepakke"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"shippingMethodId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">addressId</span><span class="pi">:</span> <span class="s">0</span>
+<span class="na">orderId</span><span class="pi">:</span> <span class="s">order123abc</span>
+<span class="na">shippingDetails</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">isDefault</span><span class="pi">:</span> <span class="s">Y</span>
+    <span class="na">priority</span><span class="pi">:</span> <span class="s">0</span>
+    <span class="na">shippingCost</span><span class="pi">:</span> <span class="s">0</span>
+    <span class="na">shippingMethod</span><span class="pi">:</span> <span class="s">Posten Servicepakke</span>
+    <span class="na">shippingMethodId</span><span class="pi">:</span> <span class="s">string</span>
 
-</span></code></pre><h3 id='properties-32'>Properties</h3>
+</code></pre><h3 id='properties-32'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -6162,14 +6059,12 @@ This operation does not require authentication
 <a id="schema_TransactionSummary"></a>
 <a id="tocStransactionsummary"></a>
 <a id="tocstransactionsummary"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"capturedAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"refundedAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"remainingAmountToCapture"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"remainingAmountToRefund"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">capturedAmount</span><span class="pi">:</span> <span class="s">20000</span>
+<span class="na">refundedAmount</span><span class="pi">:</span> <span class="s">0</span>
+<span class="na">remainingAmountToCapture</span><span class="pi">:</span> <span class="s">0</span>
+<span class="na">remainingAmountToRefund</span><span class="pi">:</span> <span class="s">20000</span>
 
-</span></code></pre><h3 id='properties-33'>Properties</h3>
+</code></pre><h3 id='properties-33'>Properties</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -6217,45 +6112,38 @@ This operation does not require authentication
 <a id="schema_TransactionUpdateCallbackOneOf"></a>
 <a id="tocStransactionupdatecallbackoneof"></a>
 <a id="tocstransactionupdatecallbackoneof"></a></p>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"merchantSerialNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order123abc"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"shippingDetails"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"addressLine1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dronning Eufemias gate 42"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"addressLine2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Att: Rune Garborg"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Oslo"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Norway"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"postCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">191</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"shippingCost"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"shippingMethod"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Posten Servicepakke"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"shippingMethodId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"transactionInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RESERVE"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"timeStamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-12-12T11:18:38.246Z"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"transactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5001420062"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"userDetails"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"bankIdVerified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Y"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"dateOfBirth"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12-3-1988"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user@example.com"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ada"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lovelace"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"mobileNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"ssn"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678901"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"userId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uiJskNQ6qNN1iwN891uuob=="</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"errorInfo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"errorCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"errorGroup"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PAYMENTS"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"errorMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User has cancelled or not acted upon the payment"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight yaml tab-yaml"><code><span class="na">merchantSerialNumber</span><span class="pi">:</span> <span class="s">123456</span>
+<span class="na">orderId</span><span class="pi">:</span> <span class="s">order123abc</span>
+<span class="na">shippingDetails</span><span class="pi">:</span>
+  <span class="na">address</span><span class="pi">:</span>
+    <span class="na">addressLine1</span><span class="pi">:</span> <span class="s">Dronning Eufemias gate 42</span>
+    <span class="na">addressLine2</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Att:</span><span class="nv"> </span><span class="s">Rune</span><span class="nv"> </span><span class="s">Garborg"</span>
+    <span class="na">city</span><span class="pi">:</span> <span class="s">Oslo</span>
+    <span class="na">country</span><span class="pi">:</span> <span class="s">Norway</span>
+    <span class="na">postCode</span><span class="pi">:</span> <span class="s">191</span>
+  <span class="na">shippingCost</span><span class="pi">:</span> <span class="s">0</span>
+  <span class="na">shippingMethod</span><span class="pi">:</span> <span class="s">Posten Servicepakke</span>
+  <span class="na">shippingMethodId</span><span class="pi">:</span> <span class="s">string</span>
+<span class="na">transactionInfo</span><span class="pi">:</span>
+  <span class="na">amount</span><span class="pi">:</span> <span class="s">20000</span>
+  <span class="na">status</span><span class="pi">:</span> <span class="s">RESERVE</span>
+  <span class="na">timeStamp</span><span class="pi">:</span> <span class="s">2018-12-12T11:18:38.246Z</span>
+  <span class="na">transactionId</span><span class="pi">:</span> <span class="s2">"</span><span class="s">5001420062"</span>
+<span class="na">userDetails</span><span class="pi">:</span>
+  <span class="na">bankIdVerified</span><span class="pi">:</span> <span class="s">Y</span>
+  <span class="na">dateOfBirth</span><span class="pi">:</span> <span class="s">12-3-1988</span>
+  <span class="na">email</span><span class="pi">:</span> <span class="s">user@example.com</span>
+  <span class="na">firstName</span><span class="pi">:</span> <span class="s">Ada</span>
+  <span class="na">lastName</span><span class="pi">:</span> <span class="s">Lovelace</span>
+  <span class="na">mobileNumber</span><span class="pi">:</span> <span class="s2">"</span><span class="s">12345678"</span>
+  <span class="na">ssn</span><span class="pi">:</span> <span class="s2">"</span><span class="s">12345678901"</span>
+  <span class="na">userId</span><span class="pi">:</span> <span class="s">uiJskNQ6qNN1iwN891uuob==</span>
+<span class="na">errorInfo</span><span class="pi">:</span>
+  <span class="na">errorCode</span><span class="pi">:</span> <span class="s">45</span>
+  <span class="na">errorGroup</span><span class="pi">:</span> <span class="s">PAYMENTS</span>
+  <span class="na">errorMessage</span><span class="pi">:</span> <span class="s">User has cancelled or not acted upon the payment</span>
 
-</span></code></pre><h3 id='properties-34'>Properties</h3>
+</code></pre><h3 id='properties-34'>Properties</h3>
 <p>oneOf</p>
 
 <table><thead>

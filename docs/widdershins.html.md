@@ -2705,16 +2705,12 @@ This operation does not require authentication
 <a id="tocSpaymentactionsrequest"></a>
 <a id="tocspaymentactionsrequest"></a>
 
-```json
-{
-  "merchantInfo": {
-    "merchantSerialNumber": 123456
-  },
-  "transaction": {
-    "amount": 20000,
-    "transactionText": "One pair of Vipps socks"
-  }
-}
+```yaml
+merchantInfo:
+  merchantSerialNumber: 123456
+transaction:
+  amount: 20000
+  transactionText: One pair of Vipps socks
 
 ```
 
@@ -2732,14 +2728,12 @@ This operation does not require authentication
 <a id="tocSaddress"></a>
 <a id="tocsaddress"></a>
 
-```json
-{
-  "addressLine1": "Dronning Eufemias gate 42",
-  "addressLine2": "Att: Rune Garborg",
-  "city": "Oslo",
-  "country": "Norway",
-  "postCode": 191
-}
+```yaml
+addressLine1: Dronning Eufemias gate 42
+addressLine2: "Att: Rune Garborg"
+city: Oslo
+country: Norway
+postCode: 191
 
 ```
 
@@ -2766,19 +2760,16 @@ This operation does not require authentication
 <a id="tocSpaymentshippingdetails"></a>
 <a id="tocspaymentshippingdetails"></a>
 
-```json
-{
-  "address": {
-    "addressLine1": "Dronning Eufemias gate 42",
-    "addressLine2": "Att: Rune Garborg",
-    "city": "Oslo",
-    "country": "Norway",
-    "postCode": 191
-  },
-  "shippingCost": 1500,
-  "shippingMethod": "Posten Servicepakke",
-  "shippingMethodId": "string"
-}
+```yaml
+address:
+  addressLine1: Dronning Eufemias gate 42
+  addressLine2: "Att: Rune Garborg"
+  city: Oslo
+  country: Norway
+  postCode: 191
+shippingCost: 1500
+shippingMethod: Posten Servicepakke
+shippingMethodId: string
 
 ```
 
@@ -2798,16 +2789,14 @@ This operation does not require authentication
 <a id="tocStransactionloghistory"></a>
 <a id="tocstransactionloghistory"></a>
 
-```json
-{
-  "amount": 0,
-  "operation": "RESERVE",
-  "operationf": true,
-  "requestId": 12983921873981899000,
-  "timeStamp": "2019-02-05T12:27:42.311Z",
-  "transactionId": 5001446662,
-  "transactionText": "One pair of Vipps socks"
-}
+```yaml
+amount: 0
+operation: RESERVE
+operationf: true
+requestId: 12983921873981899000
+timeStamp: 2019-02-05T12:27:42.311Z
+transactionId: 5001446662
+transactionText: One pair of Vipps socks
 
 ```
 
@@ -2842,10 +2831,8 @@ This operation does not require authentication
 <a id="tocScanceltransaction"></a>
 <a id="tocscanceltransaction"></a>
 
-```json
-{
-  "transactionText": "One pair of Vipps socks"
-}
+```yaml
+transactionText: One pair of Vipps socks
 
 ```
 
@@ -2862,17 +2849,15 @@ This operation does not require authentication
 <a id="tocSuserdetails"></a>
 <a id="tocsuserdetails"></a>
 
-```json
-{
-  "bankIdVerified": "Y",
-  "dateOfBirth": "12-3-1988",
-  "email": "user@example.com",
-  "firstName": "Ada",
-  "lastName": "Lovelace",
-  "mobileNumber": "12345678",
-  "ssn": "12345678901",
-  "userId": "uiJskNQ6qNN1iwN891uuob=="
-}
+```yaml
+bankIdVerified: Y
+dateOfBirth: 12-3-1988
+email: user@example.com
+firstName: Ada
+lastName: Lovelace
+mobileNumber: "12345678"
+ssn: "12345678901"
+userId: uiJskNQ6qNN1iwN891uuob==
 
 ```
 
@@ -2903,12 +2888,10 @@ This operation does not require authentication
 <a id="tocScallbackerrorinfo"></a>
 <a id="tocscallbackerrorinfo"></a>
 
-```json
-{
-  "errorCode": 45,
-  "errorGroup": "PAYMENTS",
-  "errorMessage": "User has cancelled or not acted upon the payment"
-}
+```yaml
+errorCode: 45
+errorGroup: PAYMENTS
+errorMessage: User has cancelled or not acted upon the payment
 
 ```
 
@@ -2927,13 +2910,11 @@ This operation does not require authentication
 <a id="tocScallbacktransactioninfostatus"></a>
 <a id="tocscallbacktransactioninfostatus"></a>
 
-```json
-{
-  "amount": 20000,
-  "status": "RESERVE",
-  "timeStamp": "2018-12-12T11:18:38.246Z",
-  "transactionId": "5001420062"
-}
+```yaml
+amount: 20000
+status: RESERVE
+timeStamp: 2018-12-12T11:18:38.246Z
+transactionId: "5001420062"
 
 ```
 
@@ -2963,13 +2944,11 @@ This operation does not require authentication
 <a id="tocSorderstatusinfotransactioninfo"></a>
 <a id="tocsorderstatusinfotransactioninfo"></a>
 
-```json
-{
-  "amount": 20000,
-  "status": "RESERVE",
-  "timeStamp": "2018-12-12T11:18:38.246Z",
-  "transactionId": "5001420062"
-}
+```yaml
+amount: 20000
+status: RESERVE
+timeStamp: 2018-12-12T11:18:38.246Z
+transactionId: "5001420062"
 
 ```
 
@@ -3004,14 +2983,12 @@ This operation does not require authentication
 <a id="tocStransactioninfocancel"></a>
 <a id="tocstransactioninfocancel"></a>
 
-```json
-{
-  "amount": 20000,
-  "status": "Cancelled",
-  "timeStamp": "2018-12-12T11:18:38.246Z",
-  "transactionId": "5001420062",
-  "transactionText": "One pair of Vipps socks"
-}
+```yaml
+amount: 20000
+status: Cancelled
+timeStamp: 2018-12-12T11:18:38.246Z
+transactionId: "5001420062"
+transactionText: One pair of Vipps socks
 
 ```
 
@@ -3038,14 +3015,12 @@ This operation does not require authentication
 <a id="tocStransactioninforefund"></a>
 <a id="tocstransactioninforefund"></a>
 
-```json
-{
-  "amount": 20000,
-  "status": "Refund",
-  "timeStamp": "2018-12-12T11:18:38.246Z",
-  "transactionId": "5001420062",
-  "transactionText": "One pair of Vipps socks"
-}
+```yaml
+amount: 20000
+status: Refund
+timeStamp: 2018-12-12T11:18:38.246Z
+transactionId: "5001420062"
+transactionText: One pair of Vipps socks
 
 ```
 
@@ -3072,14 +3047,12 @@ This operation does not require authentication
 <a id="tocStransactioninfocapture"></a>
 <a id="tocstransactioninfocapture"></a>
 
-```json
-{
-  "amount": 20000,
-  "status": "Captured",
-  "timeStamp": "2018-12-12T11:18:38.246Z",
-  "transactionId": "5001420062",
-  "transactionText": "One pair of Vipps socks"
-}
+```yaml
+amount: 20000
+status: Captured
+timeStamp: 2018-12-12T11:18:38.246Z
+transactionId: "5001420062"
+transactionText: One pair of Vipps socks
 
 ```
 
@@ -3106,49 +3079,40 @@ This operation does not require authentication
 <a id="tocSgettransactiondetails"></a>
 <a id="tocsgettransactiondetails"></a>
 
-```json
-{
-  "orderId": "order123abc",
-  "shippingDetails": {
-    "address": {
-      "addressLine1": "Dronning Eufemias gate 42",
-      "addressLine2": "Att: Rune Garborg",
-      "city": "Oslo",
-      "country": "Norway",
-      "postCode": 191
-    },
-    "shippingCost": 1500,
-    "shippingMethod": "Posten Servicepakke",
-    "shippingMethodId": "string"
-  },
-  "transactionLogHistory": [
-    {
-      "amount": 0,
-      "operation": "RESERVE",
-      "operationf": true,
-      "requestId": 12983921873981899000,
-      "timeStamp": "2019-02-05T12:27:42.311Z",
-      "transactionId": 5001446662,
-      "transactionText": "One pair of Vipps socks"
-    }
-  ],
-  "transactionSummary": {
-    "capturedAmount": 20000,
-    "refundedAmount": 0,
-    "remainingAmountToCapture": 0,
-    "remainingAmountToRefund": 20000
-  },
-  "userDetails": {
-    "bankIdVerified": "Y",
-    "dateOfBirth": "12-3-1988",
-    "email": "user@example.com",
-    "firstName": "Ada",
-    "lastName": "Lovelace",
-    "mobileNumber": "12345678",
-    "ssn": "12345678901",
-    "userId": "uiJskNQ6qNN1iwN891uuob=="
-  }
-}
+```yaml
+orderId: order123abc
+shippingDetails:
+  address:
+    addressLine1: Dronning Eufemias gate 42
+    addressLine2: "Att: Rune Garborg"
+    city: Oslo
+    country: Norway
+    postCode: 191
+  shippingCost: 1500
+  shippingMethod: Posten Servicepakke
+  shippingMethodId: string
+transactionLogHistory:
+  - amount: 0
+    operation: RESERVE
+    operationf: true
+    requestId: 12983921873981899000
+    timeStamp: 2019-02-05T12:27:42.311Z
+    transactionId: 5001446662
+    transactionText: One pair of Vipps socks
+transactionSummary:
+  capturedAmount: 20000
+  refundedAmount: 0
+  remainingAmountToCapture: 0
+  remainingAmountToRefund: 20000
+userDetails:
+  bankIdVerified: Y
+  dateOfBirth: 12-3-1988
+  email: user@example.com
+  firstName: Ada
+  lastName: Lovelace
+  mobileNumber: "12345678"
+  ssn: "12345678901"
+  userId: uiJskNQ6qNN1iwN891uuob==
 
 ```
 
@@ -3169,11 +3133,9 @@ This operation does not require authentication
 <a id="tocSinitiatepaymentv2representation"></a>
 <a id="tocsinitiatepaymentv2representation"></a>
 
-```json
-{
-  "orderId": "order123abc",
-  "url": "https://example.com"
-}
+```yaml
+orderId: order123abc
+url: https://example.com
 
 ```
 
@@ -3191,19 +3153,16 @@ This operation does not require authentication
 <a id="tocSshippingdetailsrequest"></a>
 <a id="tocsshippingdetailsrequest"></a>
 
-```json
-{
-  "address": {
-    "addressLine1": "Dronning Eufemias gate 42",
-    "addressLine2": "Att: Rune Garborg",
-    "city": "Oslo",
-    "country": "Norway",
-    "postCode": 191
-  },
-  "shippingCost": 0,
-  "shippingMethod": "Posten Servicepakke",
-  "shippingMethodId": "string"
-}
+```yaml
+address:
+  addressLine1: Dronning Eufemias gate 42
+  addressLine2: "Att: Rune Garborg"
+  city: Oslo
+  country: Norway
+  postCode: 191
+shippingCost: 0
+shippingMethod: Posten Servicepakke
+shippingMethodId: string
 
 ```
 
@@ -3223,23 +3182,19 @@ This operation does not require authentication
 <a id="tocStransactionresponsecancel"></a>
 <a id="tocstransactionresponsecancel"></a>
 
-```json
-{
-  "orderId": "order123abc",
-  "transactionInfo": {
-    "amount": 20000,
-    "status": "Cancelled",
-    "timeStamp": "2018-12-12T11:18:38.246Z",
-    "transactionId": "5001420062",
-    "transactionText": "One pair of Vipps socks"
-  },
-  "transactionSummary": {
-    "capturedAmount": 20000,
-    "refundedAmount": 0,
-    "remainingAmountToCapture": 0,
-    "remainingAmountToRefund": 20000
-  }
-}
+```yaml
+orderId: order123abc
+transactionInfo:
+  amount: 20000
+  status: Cancelled
+  timeStamp: 2018-12-12T11:18:38.246Z
+  transactionId: "5001420062"
+  transactionText: One pair of Vipps socks
+transactionSummary:
+  capturedAmount: 20000
+  refundedAmount: 0
+  remainingAmountToCapture: 0
+  remainingAmountToRefund: 20000
 
 ```
 
@@ -3258,23 +3213,19 @@ This operation does not require authentication
 <a id="tocStransactionresponsecapture"></a>
 <a id="tocstransactionresponsecapture"></a>
 
-```json
-{
-  "orderId": "order123abc",
-  "transactionInfo": {
-    "amount": 20000,
-    "status": "Captured",
-    "timeStamp": "2018-12-12T11:18:38.246Z",
-    "transactionId": "5001420062",
-    "transactionText": "One pair of Vipps socks"
-  },
-  "transactionSummary": {
-    "capturedAmount": 20000,
-    "refundedAmount": 0,
-    "remainingAmountToCapture": 0,
-    "remainingAmountToRefund": 20000
-  }
-}
+```yaml
+orderId: order123abc
+transactionInfo:
+  amount: 20000
+  status: Captured
+  timeStamp: 2018-12-12T11:18:38.246Z
+  transactionId: "5001420062"
+  transactionText: One pair of Vipps socks
+transactionSummary:
+  capturedAmount: 20000
+  refundedAmount: 0
+  remainingAmountToCapture: 0
+  remainingAmountToRefund: 20000
 
 ```
 
@@ -3293,23 +3244,19 @@ This operation does not require authentication
 <a id="tocStransactionresponserefund"></a>
 <a id="tocstransactionresponserefund"></a>
 
-```json
-{
-  "orderId": "order123abc",
-  "transaction": {
-    "amount": 20000,
-    "status": "Refund",
-    "timeStamp": "2018-12-12T11:18:38.246Z",
-    "transactionId": "5001420062",
-    "transactionText": "One pair of Vipps socks"
-  },
-  "transactionSummary": {
-    "capturedAmount": 20000,
-    "refundedAmount": 0,
-    "remainingAmountToCapture": 0,
-    "remainingAmountToRefund": 20000
-  }
-}
+```yaml
+orderId: order123abc
+transaction:
+  amount: 20000
+  status: Refund
+  timeStamp: 2018-12-12T11:18:38.246Z
+  transactionId: "5001420062"
+  transactionText: One pair of Vipps socks
+transactionSummary:
+  capturedAmount: 20000
+  refundedAmount: 0
+  remainingAmountToCapture: 0
+  remainingAmountToRefund: 20000
 
 ```
 
@@ -3328,10 +3275,8 @@ This operation does not require authentication
 <a id="tocSmerchantinfopayment"></a>
 <a id="tocsmerchantinfopayment"></a>
 
-```json
-{
-  "merchantSerialNumber": 123456
-}
+```yaml
+merchantSerialNumber: 123456
 
 ```
 
@@ -3348,14 +3293,12 @@ This operation does not require authentication
 <a id="tocSshippingdetails"></a>
 <a id="tocsshippingdetails"></a>
 
-```json
-{
-  "isDefault": "Y",
-  "priority": 0,
-  "shippingCost": 0,
-  "shippingMethod": "Posten Servicepakke",
-  "shippingMethodId": "string"
-}
+```yaml
+isDefault: Y
+priority: 0
+shippingCost: 0
+shippingMethod: Posten Servicepakke
+shippingMethodId: string
 
 ```
 
@@ -3383,37 +3326,29 @@ This operation does not require authentication
 <a id="tocSinitiatepaymentcommand"></a>
 <a id="tocsinitiatepaymentcommand"></a>
 
-```json
-{
-  "customerInfo": {
-    "mobileNumber": 91234567
-  },
-  "merchantInfo": {
-    "authToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni",
-    "callbackPrefix": "https://example.com/vipps/callbacks",
-    "consentRemovalPrefix": "https://example.com/vipps",
-    "fallBack": "https://example.com/vipps/fallback/order123abc",
-    "isApp": false,
-    "merchantSerialNumber": 123456,
-    "paymentType": "eComm Regular Payment",
-    "shippingDetailsPrefix": "https://example.com/vipps/shipping/",
-    "staticShippingDetails": [
-      {
-        "isDefault": "Y",
-        "priority": 0,
-        "shippingCost": 0,
-        "shippingMethod": "Posten Servicepakke",
-        "shippingMethodId": "string"
-      }
-    ]
-  },
-  "transaction": {
-    "amount": 20000,
-    "orderId": "order123abc",
-    "timeStamp": "2018-11-14T15:44:26.590Z",
-    "transactionText": "One pair of Vipps socks"
-  }
-}
+```yaml
+customerInfo:
+  mobileNumber: 91234567
+merchantInfo:
+  authToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni
+  callbackPrefix: https://example.com/vipps/callbacks
+  consentRemovalPrefix: https://example.com/vipps
+  fallBack: https://example.com/vipps/fallback/order123abc
+  isApp: false
+  merchantSerialNumber: 123456
+  paymentType: eComm Regular Payment
+  shippingDetailsPrefix: https://example.com/vipps/shipping/
+  staticShippingDetails:
+    - isDefault: Y
+      priority: 0
+      shippingCost: 0
+      shippingMethod: Posten Servicepakke
+      shippingMethodId: string
+transaction:
+  amount: 20000
+  orderId: order123abc
+  timeStamp: 2018-11-14T15:44:26.590Z
+  transactionText: One pair of Vipps socks
 
 ```
 
@@ -3432,13 +3367,11 @@ This operation does not require authentication
 <a id="tocStransactioninfoinitiatedto"></a>
 <a id="tocstransactioninfoinitiatedto"></a>
 
-```json
-{
-  "amount": 20000,
-  "orderId": "order123abc",
-  "timeStamp": "2018-11-14T15:44:26.590Z",
-  "transactionText": "One pair of Vipps socks"
-}
+```yaml
+amount: 20000
+orderId: order123abc
+timeStamp: 2018-11-14T15:44:26.590Z
+transactionText: One pair of Vipps socks
 
 ```
 
@@ -3458,26 +3391,21 @@ This operation does not require authentication
 <a id="tocSmerchantinfodto"></a>
 <a id="tocsmerchantinfodto"></a>
 
-```json
-{
-  "authToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni",
-  "callbackPrefix": "https://example.com/vipps/callbacks",
-  "consentRemovalPrefix": "https://example.com/vipps",
-  "fallBack": "https://example.com/vipps/fallback/order123abc",
-  "isApp": false,
-  "merchantSerialNumber": 123456,
-  "paymentType": "eComm Regular Payment",
-  "shippingDetailsPrefix": "https://example.com/vipps/shipping/",
-  "staticShippingDetails": [
-    {
-      "isDefault": "Y",
-      "priority": 0,
-      "shippingCost": 0,
-      "shippingMethod": "Posten Servicepakke",
-      "shippingMethodId": "string"
-    }
-  ]
-}
+```yaml
+authToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni
+callbackPrefix: https://example.com/vipps/callbacks
+consentRemovalPrefix: https://example.com/vipps
+fallBack: https://example.com/vipps/fallback/order123abc
+isApp: false
+merchantSerialNumber: 123456
+paymentType: eComm Regular Payment
+shippingDetailsPrefix: https://example.com/vipps/shipping/
+staticShippingDetails:
+  - isDefault: Y
+    priority: 0
+    shippingCost: 0
+    shippingMethod: Posten Servicepakke
+    shippingMethodId: string
 
 ```
 
@@ -3509,16 +3437,13 @@ This operation does not require authentication
 <a id="tocSgetpaymentstatusresponse"></a>
 <a id="tocsgetpaymentstatusresponse"></a>
 
-```json
-{
-  "orderId": "order123abc",
-  "transactionInfo": {
-    "amount": 20000,
-    "status": "RESERVE",
-    "timeStamp": "2018-12-12T11:18:38.246Z",
-    "transactionId": "5001420062"
-  }
-}
+```yaml
+orderId: order123abc
+transactionInfo:
+  amount: 20000
+  status: RESERVE
+  timeStamp: 2018-12-12T11:18:38.246Z
+  transactionId: "5001420062"
 
 ```
 
@@ -3536,11 +3461,9 @@ This operation does not require authentication
 <a id="tocStransaction"></a>
 <a id="tocstransaction"></a>
 
-```json
-{
-  "amount": 20000,
-  "transactionText": "One pair of Vipps socks"
-}
+```yaml
+amount: 20000
+transactionText: One pair of Vipps socks
 
 ```
 
@@ -3558,16 +3481,14 @@ This operation does not require authentication
 <a id="tocSfetchshippingcostandmethod"></a>
 <a id="tocsfetchshippingcostandmethod"></a>
 
-```json
-{
-  "addressId": 0,
-  "addressLine1": "Dronning Eufemias gate 42",
-  "addressLine2": "string",
-  "city": "Oslo",
-  "country": "NO",
-  "postCode": "0603",
-  "addressType": "H"
-}
+```yaml
+addressId: 0
+addressLine1: Dronning Eufemias gate 42
+addressLine2: string
+city: Oslo
+country: NO
+postCode: "0603"
+addressType: H
 
 ```
 
@@ -3590,10 +3511,8 @@ This operation does not require authentication
 <a id="tocScustomerinfodto"></a>
 <a id="tocscustomerinfodto"></a>
 
-```json
-{
-  "mobileNumber": 91234567
-}
+```yaml
+mobileNumber: 91234567
 
 ```
 
@@ -3610,15 +3529,11 @@ This operation does not require authentication
 <a id="tocScancelpaymentactionrequest"></a>
 <a id="tocscancelpaymentactionrequest"></a>
 
-```json
-{
-  "merchantInfo": {
-    "merchantSerialNumber": 123456
-  },
-  "transaction": {
-    "transactionText": "One pair of Vipps socks"
-  }
-}
+```yaml
+merchantInfo:
+  merchantSerialNumber: 123456
+transaction:
+  transactionText: One pair of Vipps socks
 
 ```
 
@@ -3636,44 +3551,37 @@ This operation does not require authentication
 <a id="tocSexpresscheckoutpaymentrequest"></a>
 <a id="tocsexpresscheckoutpaymentrequest"></a>
 
-```json
-{
-  "merchantSerialNumber": 123456,
-  "orderId": "order123abc",
-  "shippingDetails": {
-    "address": {
-      "addressLine1": "Dronning Eufemias gate 42",
-      "addressLine2": "Att: Rune Garborg",
-      "city": "Oslo",
-      "country": "Norway",
-      "postCode": 191
-    },
-    "shippingCost": 0,
-    "shippingMethod": "Posten Servicepakke",
-    "shippingMethodId": "string"
-  },
-  "transactionInfo": {
-    "amount": 20000,
-    "status": "RESERVE",
-    "timeStamp": "2018-12-12T11:18:38.246Z",
-    "transactionId": "5001420062"
-  },
-  "userDetails": {
-    "bankIdVerified": "Y",
-    "dateOfBirth": "12-3-1988",
-    "email": "user@example.com",
-    "firstName": "Ada",
-    "lastName": "Lovelace",
-    "mobileNumber": "12345678",
-    "ssn": "12345678901",
-    "userId": "uiJskNQ6qNN1iwN891uuob=="
-  },
-  "errorInfo": {
-    "errorCode": 45,
-    "errorGroup": "PAYMENTS",
-    "errorMessage": "User has cancelled or not acted upon the payment"
-  }
-}
+```yaml
+merchantSerialNumber: 123456
+orderId: order123abc
+shippingDetails:
+  address:
+    addressLine1: Dronning Eufemias gate 42
+    addressLine2: "Att: Rune Garborg"
+    city: Oslo
+    country: Norway
+    postCode: 191
+  shippingCost: 0
+  shippingMethod: Posten Servicepakke
+  shippingMethodId: string
+transactionInfo:
+  amount: 20000
+  status: RESERVE
+  timeStamp: 2018-12-12T11:18:38.246Z
+  transactionId: "5001420062"
+userDetails:
+  bankIdVerified: Y
+  dateOfBirth: 12-3-1988
+  email: user@example.com
+  firstName: Ada
+  lastName: Lovelace
+  mobileNumber: "12345678"
+  ssn: "12345678901"
+  userId: uiJskNQ6qNN1iwN891uuob==
+errorInfo:
+  errorCode: 45
+  errorGroup: PAYMENTS
+  errorMessage: User has cancelled or not acted upon the payment
 
 ```
 
@@ -3695,22 +3603,18 @@ This operation does not require authentication
 <a id="tocSregularcheckoutpaymentrequest"></a>
 <a id="tocsregularcheckoutpaymentrequest"></a>
 
-```json
-{
-  "merchantSerialNumber": 123456,
-  "orderId": "order123abc",
-  "transactionInfo": {
-    "amount": 20000,
-    "status": "RESERVE",
-    "timeStamp": "2018-12-12T11:18:38.246Z",
-    "transactionId": "5001420062"
-  },
-  "errorInfo": {
-    "errorCode": 45,
-    "errorGroup": "PAYMENTS",
-    "errorMessage": "User has cancelled or not acted upon the payment"
-  }
-}
+```yaml
+merchantSerialNumber: 123456
+orderId: order123abc
+transactionInfo:
+  amount: 20000
+  status: RESERVE
+  timeStamp: 2018-12-12T11:18:38.246Z
+  transactionId: "5001420062"
+errorInfo:
+  errorCode: 45
+  errorGroup: PAYMENTS
+  errorMessage: User has cancelled or not acted upon the payment
 
 ```
 
@@ -3730,16 +3634,14 @@ This operation does not require authentication
 <a id="tocSauthorizationtokenresponse"></a>
 <a id="tocsauthorizationtokenresponse"></a>
 
-```json
-{
-  "token_type": "Bearer",
-  "expires_in": 3600,
-  "ext_expires_in": 3600,
-  "expires_on": 1547823408,
-  "not_before": 1547819508,
-  "resource": "00000002-0000-0000-c000-000000000000",
-  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni"
-}
+```yaml
+token_type: Bearer
+expires_in: 3600
+ext_expires_in: 3600
+expires_on: 1547823408
+not_before: 1547819508
+resource: 00000002-0000-0000-c000-000000000000
+access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni
 
 ```
 
@@ -3762,20 +3664,15 @@ This operation does not require authentication
 <a id="tocSfetchshippingcostresponse"></a>
 <a id="tocsfetchshippingcostresponse"></a>
 
-```json
-{
-  "addressId": 0,
-  "orderId": "order123abc",
-  "shippingDetails": [
-    {
-      "isDefault": "Y",
-      "priority": 0,
-      "shippingCost": 0,
-      "shippingMethod": "Posten Servicepakke",
-      "shippingMethodId": "string"
-    }
-  ]
-}
+```yaml
+addressId: 0
+orderId: order123abc
+shippingDetails:
+  - isDefault: Y
+    priority: 0
+    shippingCost: 0
+    shippingMethod: Posten Servicepakke
+    shippingMethodId: string
 
 ```
 
@@ -3794,13 +3691,11 @@ This operation does not require authentication
 <a id="tocStransactionsummary"></a>
 <a id="tocstransactionsummary"></a>
 
-```json
-{
-  "capturedAmount": 20000,
-  "refundedAmount": 0,
-  "remainingAmountToCapture": 0,
-  "remainingAmountToRefund": 20000
-}
+```yaml
+capturedAmount: 20000
+refundedAmount: 0
+remainingAmountToCapture: 0
+remainingAmountToRefund: 20000
 
 ```
 
@@ -3820,44 +3715,37 @@ This operation does not require authentication
 <a id="tocStransactionupdatecallbackoneof"></a>
 <a id="tocstransactionupdatecallbackoneof"></a>
 
-```json
-{
-  "merchantSerialNumber": 123456,
-  "orderId": "order123abc",
-  "shippingDetails": {
-    "address": {
-      "addressLine1": "Dronning Eufemias gate 42",
-      "addressLine2": "Att: Rune Garborg",
-      "city": "Oslo",
-      "country": "Norway",
-      "postCode": 191
-    },
-    "shippingCost": 0,
-    "shippingMethod": "Posten Servicepakke",
-    "shippingMethodId": "string"
-  },
-  "transactionInfo": {
-    "amount": 20000,
-    "status": "RESERVE",
-    "timeStamp": "2018-12-12T11:18:38.246Z",
-    "transactionId": "5001420062"
-  },
-  "userDetails": {
-    "bankIdVerified": "Y",
-    "dateOfBirth": "12-3-1988",
-    "email": "user@example.com",
-    "firstName": "Ada",
-    "lastName": "Lovelace",
-    "mobileNumber": "12345678",
-    "ssn": "12345678901",
-    "userId": "uiJskNQ6qNN1iwN891uuob=="
-  },
-  "errorInfo": {
-    "errorCode": 45,
-    "errorGroup": "PAYMENTS",
-    "errorMessage": "User has cancelled or not acted upon the payment"
-  }
-}
+```yaml
+merchantSerialNumber: 123456
+orderId: order123abc
+shippingDetails:
+  address:
+    addressLine1: Dronning Eufemias gate 42
+    addressLine2: "Att: Rune Garborg"
+    city: Oslo
+    country: Norway
+    postCode: 191
+  shippingCost: 0
+  shippingMethod: Posten Servicepakke
+  shippingMethodId: string
+transactionInfo:
+  amount: 20000
+  status: RESERVE
+  timeStamp: 2018-12-12T11:18:38.246Z
+  transactionId: "5001420062"
+userDetails:
+  bankIdVerified: Y
+  dateOfBirth: 12-3-1988
+  email: user@example.com
+  firstName: Ada
+  lastName: Lovelace
+  mobileNumber: "12345678"
+  ssn: "12345678901"
+  userId: uiJskNQ6qNN1iwN891uuob==
+errorInfo:
+  errorCode: 45
+  errorGroup: PAYMENTS
+  errorMessage: User has cancelled or not acted upon the payment
 
 ```
 
