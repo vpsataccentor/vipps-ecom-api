@@ -38,10 +38,7 @@ jobs:
     - run: |
         cd ./slate
         bundle exec middleman build --clean
-        cp -r build ../vipps-ecom-api/docs
-        ls source/
-        echo now-build
-        ls build/
+        cp -r build ../docs
     - run: |
         git config --local user.email "actions@example.com"
         git config --local user.name "github actions"
