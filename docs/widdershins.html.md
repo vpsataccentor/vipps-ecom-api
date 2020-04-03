@@ -1,5 +1,5 @@
 ---
-title: Vipps eCommerce APIs v1.0.4
+title: Vipps eCommerce API v1.0.10
 language_tabs:
   - shell: Shell
   - http: HTTP
@@ -19,7 +19,7 @@ headingLevel: 2
 
 <!-- Generator: Widdershins v4.0.1 -->
 
-<h1 id="vipps-ecommerce-apis">Vipps eCommerce APIs v1.0.4</h1>
+<h1 id="vipps-ecommerce-api">Vipps eCommerce API v1.0.10</h1>
 
 > Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
 
@@ -28,9 +28,11 @@ Additional API documentation: https://github.com/vippsas/vipps-ecom-api/
 
 Base URLs:
 
-* <a href="//apitest.vipps.no">//apitest.vipps.no</a>
+* <a href="https://apitest.vipps.no">https://apitest.vipps.no</a>
 
-<h1 id="vipps-ecommerce-apis-authorization-service">Authorization Service</h1>
+* <a href="https://api.vipps.no">https://api.vipps.no</a>
+
+<h1 id="vipps-ecommerce-api-authorization-service">Authorization Service</h1>
 
 Authorization Service
 
@@ -42,21 +44,21 @@ Authorization Service
 
 ```shell
 # You can also use wget
-curl -X POST /apitest.vipps.no/accesstoken/get \
+curl -X POST https://apitest.vipps.no/accesstoken/get \
   -H 'Accept: application/json;charset=UTF-8' \
   -H 'client_id: string' \
   -H 'client_secret: string' \
-  -H 'ocp-apim-subscription-key: string'
+  -H 'Ocp-Apim-Subscription-Key: string'
 
 ```
 
 ```http
-POST /apitest.vipps.no/accesstoken/get HTTP/1.1
-
+POST https://apitest.vipps.no/accesstoken/get HTTP/1.1
+Host: apitest.vipps.no
 Accept: application/json;charset=UTF-8
 client_id: string
 client_secret: string
-ocp-apim-subscription-key: string
+Ocp-Apim-Subscription-Key: string
 
 ```
 
@@ -66,10 +68,10 @@ const headers = {
   'Accept':'application/json;charset=UTF-8',
   'client_id':'string',
   'client_secret':'string',
-  'ocp-apim-subscription-key':'string'
+  'Ocp-Apim-Subscription-Key':'string'
 };
 
-fetch('/apitest.vipps.no/accesstoken/get',
+fetch('https://apitest.vipps.no/accesstoken/get',
 {
   method: 'POST',
 
@@ -91,10 +93,10 @@ headers = {
   'Accept' => 'application/json;charset=UTF-8',
   'client_id' => 'string',
   'client_secret' => 'string',
-  'ocp-apim-subscription-key' => 'string'
+  'Ocp-Apim-Subscription-Key' => 'string'
 }
 
-result = RestClient.post '/apitest.vipps.no/accesstoken/get',
+result = RestClient.post 'https://apitest.vipps.no/accesstoken/get',
   params: {
   }, headers: headers
 
@@ -108,10 +110,10 @@ headers = {
   'Accept': 'application/json;charset=UTF-8',
   'client_id': 'string',
   'client_secret': 'string',
-  'ocp-apim-subscription-key': 'string'
+  'Ocp-Apim-Subscription-Key': 'string'
 }
 
-r = requests.post('/apitest.vipps.no/accesstoken/get', headers = headers)
+r = requests.post('https://apitest.vipps.no/accesstoken/get', headers = headers)
 
 print(r.json())
 
@@ -126,7 +128,7 @@ $headers = array(
     'Accept' => 'application/json;charset=UTF-8',
     'client_id' => 'string',
     'client_secret' => 'string',
-    'ocp-apim-subscription-key' => 'string',
+    'Ocp-Apim-Subscription-Key' => 'string',
 );
 
 $client = new \GuzzleHttp\Client();
@@ -135,7 +137,7 @@ $client = new \GuzzleHttp\Client();
 $request_body = array();
 
 try {
-    $response = $client->request('POST','/apitest.vipps.no/accesstoken/get', array(
+    $response = $client->request('POST','https://apitest.vipps.no/accesstoken/get', array(
         'headers' => $headers,
         'json' => $request_body,
        )
@@ -152,7 +154,7 @@ try {
 ```
 
 ```java
-URL obj = new URL("/apitest.vipps.no/accesstoken/get");
+URL obj = new URL("https://apitest.vipps.no/accesstoken/get");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("POST");
 int responseCode = con.getResponseCode();
@@ -182,11 +184,11 @@ func main() {
         "Accept": []string{"application/json;charset=UTF-8"},
         "client_id": []string{"string"},
         "client_secret": []string{"string"},
-        "ocp-apim-subscription-key": []string{"string"},
+        "Ocp-Apim-Subscription-Key": []string{"string"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "/apitest.vipps.no/accesstoken/get", data)
+    req, err := http.NewRequest("POST", "https://apitest.vipps.no/accesstoken/get", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -198,15 +200,17 @@ func main() {
 
 `POST /accesstoken/get`
 
-*Fetch authorization token*
+*Fetch Authorization token*
+
+Authorization token API endpoint helps to get the JWT Bearer token that needs to be passed in every API request in the Authorization header. The merchant application use the API to get a JWT access token. JWT access token is a base 64 encoded string value that must be aquire first before making any Vipps api calls
 
 <h3 id="fetchauthorizationtokenusingpost-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|client_id|header|string(guid)|true|none|
+|client_id|header|string(guid)|true|Client id is located in the [developer portal](https://apitest-portal.vipps.no/). Navigate to the ```Applications``` tab and click the ```View secrets``` button to display the client id. See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
 |client_secret|header|string|true|Client secret is located in the [developer portal](https://apitest-portal.vipps.no/). Navigate to the ```Applications``` tab and click the ```View secrets``` button to display the client id. See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
-|ocp-apim-subscription-key|header|string|true|The subscription-key for authorization token is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. The ```DEFAULT_ACCESSTOKEN``` key is the value for subscription-key. See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
+|Ocp-Apim-Subscription-Key|header|string|true|The subscription-key for Authorization token is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. The ```DEFAULT_ACCESSTOKEN``` key is the value for subscription-key. See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
 
 > Example responses
 
@@ -220,7 +224,7 @@ func main() {
   "expires_on": 1547823408,
   "not_before": 1547819508,
   "resource": "00000002-0000-0000-c000-000000000000",
-  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni <snip>"
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni"
 }
 ```
 
@@ -242,7 +246,7 @@ func main() {
 This operation does not require authentication
 </aside>
 
-<h1 id="vipps-ecommerce-apis-vipps-ecom-api">Vipps eCom API</h1>
+<h1 id="vipps-ecommerce-api-vipps-ecom-api">Vipps eCom API</h1>
 
 Functionality provided by the Vipps eCommerce API
 
@@ -254,23 +258,23 @@ Functionality provided by the Vipps eCommerce API
 
 ```shell
 # You can also use wget
-curl -X POST /apitest.vipps.no/ecomm/v2/payments \
+curl -X POST https://apitest.vipps.no/ecomm/v2/payments \
   -H 'Content-Type: application/json;charset=UTF-8' \
   -H 'Accept: application/json;charset=UTF-8' \
-  -H 'authorization: string' \
-  -H 'content-type: string' \
-  -H 'ocp-apim-subscription-key: string'
+  -H 'Authorization: string' \
+  -H 'Content-Type: string' \
+  -H 'Ocp-Apim-Subscription-Key: string'
 
 ```
 
 ```http
-POST /apitest.vipps.no/ecomm/v2/payments HTTP/1.1
-
+POST https://apitest.vipps.no/ecomm/v2/payments HTTP/1.1
+Host: apitest.vipps.no
 Content-Type: application/json;charset=UTF-8
 Accept: application/json;charset=UTF-8
-authorization: string
-content-type: string
-ocp-apim-subscription-key: string
+Authorization: string
+Content-Type: string
+Ocp-Apim-Subscription-Key: string
 
 ```
 
@@ -280,19 +284,27 @@ const inputBody = '{
     "mobileNumber": 91234567
   },
   "merchantInfo": {
-    "authToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni <snip>",
+    "authToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni",
     "callbackPrefix": "https://example.com/vipps/callbacks",
     "consentRemovalPrefix": "https://example.com/vipps",
     "fallBack": "https://example.com/vipps/fallback/order123abc",
     "isApp": false,
     "merchantSerialNumber": 123456,
     "paymentType": "eComm Regular Payment",
-    "shippingDetailsPrefix": "https://example.com/vipps/shipping/"
+    "shippingDetailsPrefix": "https://example.com/vipps/shipping/",
+    "staticShippingDetails": [
+      {
+        "isDefault": "Y",
+        "priority": 0,
+        "shippingCost": 0,
+        "shippingMethod": "Posten Servicepakke",
+        "shippingMethodId": "string"
+      }
+    ]
   },
   "transaction": {
     "amount": 20000,
     "orderId": "order123abc",
-    "refOrderId": "merchantOrder123abc",
     "timeStamp": "2018-11-14T15:44:26.590Z",
     "transactionText": "One pair of Vipps socks"
   }
@@ -300,12 +312,12 @@ const inputBody = '{
 const headers = {
   'Content-Type':'application/json;charset=UTF-8',
   'Accept':'application/json;charset=UTF-8',
-  'authorization':'string',
-  'content-type':'string',
-  'ocp-apim-subscription-key':'string'
+  'Authorization':'string',
+  'Content-Type':'string',
+  'Ocp-Apim-Subscription-Key':'string'
 };
 
-fetch('/apitest.vipps.no/ecomm/v2/payments',
+fetch('https://apitest.vipps.no/ecomm/v2/payments',
 {
   method: 'POST',
   body: inputBody,
@@ -326,12 +338,12 @@ require 'json'
 headers = {
   'Content-Type' => 'application/json;charset=UTF-8',
   'Accept' => 'application/json;charset=UTF-8',
-  'authorization' => 'string',
-  'content-type' => 'string',
-  'ocp-apim-subscription-key' => 'string'
+  'Authorization' => 'string',
+  'Content-Type' => 'string',
+  'Ocp-Apim-Subscription-Key' => 'string'
 }
 
-result = RestClient.post '/apitest.vipps.no/ecomm/v2/payments',
+result = RestClient.post 'https://apitest.vipps.no/ecomm/v2/payments',
   params: {
   }, headers: headers
 
@@ -344,12 +356,12 @@ import requests
 headers = {
   'Content-Type': 'application/json;charset=UTF-8',
   'Accept': 'application/json;charset=UTF-8',
-  'authorization': 'string',
-  'content-type': 'string',
-  'ocp-apim-subscription-key': 'string'
+  'Authorization': 'string',
+  'Content-Type': 'string',
+  'Ocp-Apim-Subscription-Key': 'string'
 }
 
-r = requests.post('/apitest.vipps.no/ecomm/v2/payments', headers = headers)
+r = requests.post('https://apitest.vipps.no/ecomm/v2/payments', headers = headers)
 
 print(r.json())
 
@@ -363,9 +375,9 @@ require 'vendor/autoload.php';
 $headers = array(
     'Content-Type' => 'application/json;charset=UTF-8',
     'Accept' => 'application/json;charset=UTF-8',
-    'authorization' => 'string',
-    'content-type' => 'string',
-    'ocp-apim-subscription-key' => 'string',
+    'Authorization' => 'string',
+    'Content-Type' => 'string',
+    'Ocp-Apim-Subscription-Key' => 'string',
 );
 
 $client = new \GuzzleHttp\Client();
@@ -374,7 +386,7 @@ $client = new \GuzzleHttp\Client();
 $request_body = array();
 
 try {
-    $response = $client->request('POST','/apitest.vipps.no/ecomm/v2/payments', array(
+    $response = $client->request('POST','https://apitest.vipps.no/ecomm/v2/payments', array(
         'headers' => $headers,
         'json' => $request_body,
        )
@@ -391,7 +403,7 @@ try {
 ```
 
 ```java
-URL obj = new URL("/apitest.vipps.no/ecomm/v2/payments");
+URL obj = new URL("https://apitest.vipps.no/ecomm/v2/payments");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("POST");
 int responseCode = con.getResponseCode();
@@ -420,13 +432,13 @@ func main() {
     headers := map[string][]string{
         "Content-Type": []string{"application/json;charset=UTF-8"},
         "Accept": []string{"application/json;charset=UTF-8"},
-        "authorization": []string{"string"},
-        "content-type": []string{"string"},
-        "ocp-apim-subscription-key": []string{"string"},
+        "Authorization": []string{"string"},
+        "Content-Type": []string{"string"},
+        "Ocp-Apim-Subscription-Key": []string{"string"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "/apitest.vipps.no/ecomm/v2/payments", data)
+    req, err := http.NewRequest("POST", "https://apitest.vipps.no/ecomm/v2/payments", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -440,7 +452,7 @@ func main() {
 
 *Initiate Payment*
 
-This API call allows the merchants to initiate a payment flow by using Vipps. In order to identify which sales channel payments are coming from, a merchantSerialNumber is used to distinguish between them. Please note that a single payment is uniquely identified by a composite of merchantApplicationId (X-App-ID), merchantSerialNumber and orderId. The Merchant provided orderId must be unique per sales channel. Once the transaction is successfully initiated in Vipps, will you receive a redirect URL in response which has to be used by the merchant to open the Vipps landing page. The landing page will have functionality to identify and differentiate request coming from mobile browser/desktop browser. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).
+This API call allows the merchants to initiate a payment flow by using Vipps. In order to identify which sales channel payments are coming from, a merchantSerialNumber is used to distinguish between them. Please note that a single payment is uniquely identified by a composite of merchantSerialNumber and orderId. The Merchant provided orderId must be unique per sales channel. Once the transaction is successfully initiated in Vipps, you will receive a URL in response which will direct the customer to the landing page. The landing page will have functionality to identify and differentiate request coming from mobile browser/desktop browser. The merchant may also pass the 'isApp' parameter that will make Vipps respond with a app-switch deeplink that will take the customer directly to the Vipps app. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).
 
 > Body parameter
 
@@ -450,19 +462,27 @@ This API call allows the merchants to initiate a payment flow by using Vipps. In
     "mobileNumber": 91234567
   },
   "merchantInfo": {
-    "authToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni <snip>",
+    "authToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni",
     "callbackPrefix": "https://example.com/vipps/callbacks",
     "consentRemovalPrefix": "https://example.com/vipps",
     "fallBack": "https://example.com/vipps/fallback/order123abc",
     "isApp": false,
     "merchantSerialNumber": 123456,
     "paymentType": "eComm Regular Payment",
-    "shippingDetailsPrefix": "https://example.com/vipps/shipping/"
+    "shippingDetailsPrefix": "https://example.com/vipps/shipping/",
+    "staticShippingDetails": [
+      {
+        "isDefault": "Y",
+        "priority": 0,
+        "shippingCost": 0,
+        "shippingMethod": "Posten Servicepakke",
+        "shippingMethodId": "string"
+      }
+    ]
   },
   "transaction": {
     "amount": 20000,
     "orderId": "order123abc",
-    "refOrderId": "merchantOrder123abc",
     "timeStamp": "2018-11-14T15:44:26.590Z",
     "transactionText": "One pair of Vipps socks"
   }
@@ -473,14 +493,14 @@ This API call allows the merchants to initiate a payment flow by using Vipps. In
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|authorization|header|string|true|Authorization-token is obtained by running the /accesstoken/get request.|
-|content-type|header|string|true|application/json|
-|ocp-apim-subscription-key|header|string|true|The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
+|Authorization|header|string|true|Authorization-token is obtained by appending the access_token obtained by using the /accesstoken/get request to 'Bearer '.|
+|Content-Type|header|string|true|application/json|
+|Ocp-Apim-Subscription-Key|header|string|true|The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
 |body|body|[InitiatePaymentCommand](#schemainitiatepaymentcommand)|true|initiatePaymentCommand|
 
 > Example responses
 
-> 202 Response
+> 200 Response
 
 ```json
 {
@@ -493,7 +513,7 @@ This API call allows the merchants to initiate a payment flow by using Vipps. In
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|202|[Accepted](https://tools.ietf.org/html/rfc7231#section-6.3.3)|Response for Initiate Payment|[InitiatePaymentV2Representation](#schemainitiatepaymentv2representation)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Response for Initiate Payment|[InitiatePaymentV2Representation](#schemainitiatepaymentv2representation)|
 |400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request (Missing a required parameter or bad request format)|None|
 |401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 |402|[Payment Required](https://tools.ietf.org/html/rfc7231#section-6.5.2)|Payment Failed|None|
@@ -502,6 +522,260 @@ This API call allows the merchants to initiate a payment flow by using Vipps. In
 |405|[Method Not Allowed](https://tools.ietf.org/html/rfc7231#section-6.5.5)|Request method not supported|None|
 |415|[Unsupported Media Type](https://tools.ietf.org/html/rfc7231#section-6.5.13)|Unsupported media type|None|
 |500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Something went wrong from Vipps Server side|None|
+
+### Callbacks
+
+#### callbackExpress
+
+**{$request.body#/merchantInfo/callbackPrefix}/v2/payments/{$request.body#/transaction/orderId}**
+
+## initiatePaymentV3UsingPOST
+
+<a id="opIdInitiatePaymentTransactionUpdateCallbackForRegularPaymentUsingPOSTExpress"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://apitest.vipps.no/ecomm/v2/payments \
+  -H 'Content-Type: application/json;charset=UTF-8'
+
+```
+
+```http
+POST https://apitest.vipps.no/ecomm/v2/payments HTTP/1.1
+Host: apitest.vipps.no
+Content-Type: application/json;charset=UTF-8
+
+```
+
+```javascript
+const inputBody = '{
+  "merchantSerialNumber": 123456,
+  "orderId": "order123abc",
+  "shippingDetails": {
+    "address": {
+      "addressLine1": "Dronning Eufemias gate 42",
+      "addressLine2": "Att: Rune Garborg",
+      "city": "Oslo",
+      "country": "Norway",
+      "postCode": 191
+    },
+    "shippingCost": 0,
+    "shippingMethod": "Posten Servicepakke",
+    "shippingMethodId": "string"
+  },
+  "transactionInfo": {
+    "amount": 20000,
+    "status": "RESERVE",
+    "timeStamp": "2018-12-12T11:18:38.246Z",
+    "transactionId": "5001420062"
+  },
+  "userDetails": {
+    "bankIdVerified": "Y",
+    "dateOfBirth": "12-3-1988",
+    "email": "user@example.com",
+    "firstName": "Ada",
+    "lastName": "Lovelace",
+    "mobileNumber": "12345678",
+    "ssn": "12345678901",
+    "userId": "uiJskNQ6qNN1iwN891uuob=="
+  },
+  "errorInfo": {
+    "errorCode": 45,
+    "errorGroup": "PAYMENTS",
+    "errorMessage": "User has cancelled or not acted upon the payment"
+  }
+}';
+const headers = {
+  'Content-Type':'application/json;charset=UTF-8'
+};
+
+fetch('https://apitest.vipps.no/ecomm/v2/payments',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json;charset=UTF-8'
+}
+
+result = RestClient.post 'https://apitest.vipps.no/ecomm/v2/payments',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json;charset=UTF-8'
+}
+
+r = requests.post('https://apitest.vipps.no/ecomm/v2/payments', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json;charset=UTF-8',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://apitest.vipps.no/ecomm/v2/payments', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://apitest.vipps.no/ecomm/v2/payments");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json;charset=UTF-8"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://apitest.vipps.no/ecomm/v2/payments", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /ecomm/v2/payments`
+
+*Callback : Transaction Update*
+
+This API call allows Vipps to send the transaction details. During regular ecomm payment order and transaction details will be shared. During express checkout payment it will provide user details and shipping details addition to the order and transaction details. Vipps will add `/v2/payments/{orderId}` to the end of this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html). We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.
+
+> Body parameter
+
+```json
+{
+  "merchantSerialNumber": 123456,
+  "orderId": "order123abc",
+  "shippingDetails": {
+    "address": {
+      "addressLine1": "Dronning Eufemias gate 42",
+      "addressLine2": "Att: Rune Garborg",
+      "city": "Oslo",
+      "country": "Norway",
+      "postCode": 191
+    },
+    "shippingCost": 0,
+    "shippingMethod": "Posten Servicepakke",
+    "shippingMethodId": "string"
+  },
+  "transactionInfo": {
+    "amount": 20000,
+    "status": "RESERVE",
+    "timeStamp": "2018-12-12T11:18:38.246Z",
+    "transactionId": "5001420062"
+  },
+  "userDetails": {
+    "bankIdVerified": "Y",
+    "dateOfBirth": "12-3-1988",
+    "email": "user@example.com",
+    "firstName": "Ada",
+    "lastName": "Lovelace",
+    "mobileNumber": "12345678",
+    "ssn": "12345678901",
+    "userId": "uiJskNQ6qNN1iwN891uuob=="
+  },
+  "errorInfo": {
+    "errorCode": 45,
+    "errorGroup": "PAYMENTS",
+    "errorMessage": "User has cancelled or not acted upon the payment"
+  }
+}
+```
+
+<h3 id="initiatepaymentv3usingpost-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|orderId|path|string|true|orderId|
+|body|body|[ExpressCheckOutPaymentRequest](#schemaexpresscheckoutpaymentrequest)|false|none|
+
+<h3 id="initiatepaymentv3usingpost-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Vipps does not require a response for this request.|None|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+#### callbackRegular
+
+#### consentRemoval
+
+#### shippingDetails
 
 <aside class="success">
 This operation does not require authentication
@@ -515,23 +789,25 @@ This operation does not require authentication
 
 ```shell
 # You can also use wget
-curl -X POST /apitest.vipps.no/ecomm/v2/payments/{orderId}/capture \
+curl -X POST https://apitest.vipps.no/ecomm/v2/payments/{orderId}/capture \
   -H 'Content-Type: application/json;charset=UTF-8' \
   -H 'Accept: application/json;charset=UTF-8' \
-  -H 'authorization: string' \
-  -H 'content-type: string' \
-  -H 'ocp-apim-subscription-key: string'
+  -H 'Authorization: string' \
+  -H 'Content-Type: string' \
+  -H 'Ocp-Apim-Subscription-Key: string' \
+  -H 'X-Request-Id: string'
 
 ```
 
 ```http
-POST /apitest.vipps.no/ecomm/v2/payments/{orderId}/capture HTTP/1.1
-
+POST https://apitest.vipps.no/ecomm/v2/payments/{orderId}/capture HTTP/1.1
+Host: apitest.vipps.no
 Content-Type: application/json;charset=UTF-8
 Accept: application/json;charset=UTF-8
-authorization: string
-content-type: string
-ocp-apim-subscription-key: string
+Authorization: string
+Content-Type: string
+Ocp-Apim-Subscription-Key: string
+X-Request-Id: string
 
 ```
 
@@ -542,18 +818,19 @@ const inputBody = '{
   },
   "transaction": {
     "amount": 20000,
-    "transactionText": "string"
+    "transactionText": "One pair of Vipps socks"
   }
 }';
 const headers = {
   'Content-Type':'application/json;charset=UTF-8',
   'Accept':'application/json;charset=UTF-8',
-  'authorization':'string',
-  'content-type':'string',
-  'ocp-apim-subscription-key':'string'
+  'Authorization':'string',
+  'Content-Type':'string',
+  'Ocp-Apim-Subscription-Key':'string',
+  'X-Request-Id':'string'
 };
 
-fetch('/apitest.vipps.no/ecomm/v2/payments/{orderId}/capture',
+fetch('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/capture',
 {
   method: 'POST',
   body: inputBody,
@@ -574,12 +851,13 @@ require 'json'
 headers = {
   'Content-Type' => 'application/json;charset=UTF-8',
   'Accept' => 'application/json;charset=UTF-8',
-  'authorization' => 'string',
-  'content-type' => 'string',
-  'ocp-apim-subscription-key' => 'string'
+  'Authorization' => 'string',
+  'Content-Type' => 'string',
+  'Ocp-Apim-Subscription-Key' => 'string',
+  'X-Request-Id' => 'string'
 }
 
-result = RestClient.post '/apitest.vipps.no/ecomm/v2/payments/{orderId}/capture',
+result = RestClient.post 'https://apitest.vipps.no/ecomm/v2/payments/{orderId}/capture',
   params: {
   }, headers: headers
 
@@ -592,12 +870,13 @@ import requests
 headers = {
   'Content-Type': 'application/json;charset=UTF-8',
   'Accept': 'application/json;charset=UTF-8',
-  'authorization': 'string',
-  'content-type': 'string',
-  'ocp-apim-subscription-key': 'string'
+  'Authorization': 'string',
+  'Content-Type': 'string',
+  'Ocp-Apim-Subscription-Key': 'string',
+  'X-Request-Id': 'string'
 }
 
-r = requests.post('/apitest.vipps.no/ecomm/v2/payments/{orderId}/capture', headers = headers)
+r = requests.post('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/capture', headers = headers)
 
 print(r.json())
 
@@ -611,9 +890,10 @@ require 'vendor/autoload.php';
 $headers = array(
     'Content-Type' => 'application/json;charset=UTF-8',
     'Accept' => 'application/json;charset=UTF-8',
-    'authorization' => 'string',
-    'content-type' => 'string',
-    'ocp-apim-subscription-key' => 'string',
+    'Authorization' => 'string',
+    'Content-Type' => 'string',
+    'Ocp-Apim-Subscription-Key' => 'string',
+    'X-Request-Id' => 'string',
 );
 
 $client = new \GuzzleHttp\Client();
@@ -622,7 +902,7 @@ $client = new \GuzzleHttp\Client();
 $request_body = array();
 
 try {
-    $response = $client->request('POST','/apitest.vipps.no/ecomm/v2/payments/{orderId}/capture', array(
+    $response = $client->request('POST','https://apitest.vipps.no/ecomm/v2/payments/{orderId}/capture', array(
         'headers' => $headers,
         'json' => $request_body,
        )
@@ -639,7 +919,7 @@ try {
 ```
 
 ```java
-URL obj = new URL("/apitest.vipps.no/ecomm/v2/payments/{orderId}/capture");
+URL obj = new URL("https://apitest.vipps.no/ecomm/v2/payments/{orderId}/capture");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("POST");
 int responseCode = con.getResponseCode();
@@ -668,13 +948,14 @@ func main() {
     headers := map[string][]string{
         "Content-Type": []string{"application/json;charset=UTF-8"},
         "Accept": []string{"application/json;charset=UTF-8"},
-        "authorization": []string{"string"},
-        "content-type": []string{"string"},
-        "ocp-apim-subscription-key": []string{"string"},
+        "Authorization": []string{"string"},
+        "Content-Type": []string{"string"},
+        "Ocp-Apim-Subscription-Key": []string{"string"},
+        "X-Request-Id": []string{"string"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "/apitest.vipps.no/ecomm/v2/payments/{orderId}/capture", data)
+    req, err := http.NewRequest("POST", "https://apitest.vipps.no/ecomm/v2/payments/{orderId}/capture", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -699,7 +980,7 @@ This API call allows merchant to capture the reserved amount. Amount to capture 
   },
   "transaction": {
     "amount": 20000,
-    "transactionText": "string"
+    "transactionText": "One pair of Vipps socks"
   }
 }
 ```
@@ -709,9 +990,10 @@ This API call allows merchant to capture the reserved amount. Amount to capture 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |orderId|path|string|true|Order id specified in the request body of initiate payment.|
-|authorization|header|string|true|Authorization-token is obtained by running the /accesstoken/get request.|
-|content-type|header|string|true|`application/json`|
-|ocp-apim-subscription-key|header|string|true|The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
+|Authorization|header|string|true|Authorization-token is obtained by running the /accesstoken/get request.|
+|Content-Type|header|string|true|`application/json`|
+|Ocp-Apim-Subscription-Key|header|string|true|The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
+|X-Request-Id|header|string|false|Id used for making requests idempotent. Adding this ID will allow the merchant to retry requests without it making additional changes. Unique for orderId, merchantSerialNumber and endpoint. Max 30 characters.|
 |body|body|[PaymentActionsRequest](#schemapaymentactionsrequest)|true|paymentActionsRequest|
 
 > Example responses
@@ -763,23 +1045,23 @@ This operation does not require authentication
 
 ```shell
 # You can also use wget
-curl -X PUT /apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel \
+curl -X PUT https://apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel \
   -H 'Content-Type: application/json;charset=UTF-8' \
   -H 'Accept: application/json;charset=UTF-8' \
-  -H 'authorization: string' \
-  -H 'content-type: string' \
-  -H 'ocp-apim-subscription-key: string'
+  -H 'Authorization: string' \
+  -H 'Content-Type: string' \
+  -H 'Ocp-Apim-Subscription-Key: string'
 
 ```
 
 ```http
-PUT /apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel HTTP/1.1
-
+PUT https://apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel HTTP/1.1
+Host: apitest.vipps.no
 Content-Type: application/json;charset=UTF-8
 Accept: application/json;charset=UTF-8
-authorization: string
-content-type: string
-ocp-apim-subscription-key: string
+Authorization: string
+Content-Type: string
+Ocp-Apim-Subscription-Key: string
 
 ```
 
@@ -789,18 +1071,18 @@ const inputBody = '{
     "merchantSerialNumber": 123456
   },
   "transaction": {
-    "transactionText": "string"
+    "transactionText": "One pair of Vipps socks"
   }
 }';
 const headers = {
   'Content-Type':'application/json;charset=UTF-8',
   'Accept':'application/json;charset=UTF-8',
-  'authorization':'string',
-  'content-type':'string',
-  'ocp-apim-subscription-key':'string'
+  'Authorization':'string',
+  'Content-Type':'string',
+  'Ocp-Apim-Subscription-Key':'string'
 };
 
-fetch('/apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel',
+fetch('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel',
 {
   method: 'PUT',
   body: inputBody,
@@ -821,12 +1103,12 @@ require 'json'
 headers = {
   'Content-Type' => 'application/json;charset=UTF-8',
   'Accept' => 'application/json;charset=UTF-8',
-  'authorization' => 'string',
-  'content-type' => 'string',
-  'ocp-apim-subscription-key' => 'string'
+  'Authorization' => 'string',
+  'Content-Type' => 'string',
+  'Ocp-Apim-Subscription-Key' => 'string'
 }
 
-result = RestClient.put '/apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel',
+result = RestClient.put 'https://apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel',
   params: {
   }, headers: headers
 
@@ -839,12 +1121,12 @@ import requests
 headers = {
   'Content-Type': 'application/json;charset=UTF-8',
   'Accept': 'application/json;charset=UTF-8',
-  'authorization': 'string',
-  'content-type': 'string',
-  'ocp-apim-subscription-key': 'string'
+  'Authorization': 'string',
+  'Content-Type': 'string',
+  'Ocp-Apim-Subscription-Key': 'string'
 }
 
-r = requests.put('/apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel', headers = headers)
+r = requests.put('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel', headers = headers)
 
 print(r.json())
 
@@ -858,9 +1140,9 @@ require 'vendor/autoload.php';
 $headers = array(
     'Content-Type' => 'application/json;charset=UTF-8',
     'Accept' => 'application/json;charset=UTF-8',
-    'authorization' => 'string',
-    'content-type' => 'string',
-    'ocp-apim-subscription-key' => 'string',
+    'Authorization' => 'string',
+    'Content-Type' => 'string',
+    'Ocp-Apim-Subscription-Key' => 'string',
 );
 
 $client = new \GuzzleHttp\Client();
@@ -869,7 +1151,7 @@ $client = new \GuzzleHttp\Client();
 $request_body = array();
 
 try {
-    $response = $client->request('PUT','/apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel', array(
+    $response = $client->request('PUT','https://apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel', array(
         'headers' => $headers,
         'json' => $request_body,
        )
@@ -886,7 +1168,7 @@ try {
 ```
 
 ```java
-URL obj = new URL("/apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel");
+URL obj = new URL("https://apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("PUT");
 int responseCode = con.getResponseCode();
@@ -915,13 +1197,13 @@ func main() {
     headers := map[string][]string{
         "Content-Type": []string{"application/json;charset=UTF-8"},
         "Accept": []string{"application/json;charset=UTF-8"},
-        "authorization": []string{"string"},
-        "content-type": []string{"string"},
-        "ocp-apim-subscription-key": []string{"string"},
+        "Authorization": []string{"string"},
+        "Content-Type": []string{"string"},
+        "Ocp-Apim-Subscription-Key": []string{"string"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("PUT", "/apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel", data)
+    req, err := http.NewRequest("PUT", "https://apitest.vipps.no/ecomm/v2/payments/{orderId}/cancel", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -945,7 +1227,7 @@ The API call allows merchant to cancel the reserved transaction, The API will no
     "merchantSerialNumber": 123456
   },
   "transaction": {
-    "transactionText": "string"
+    "transactionText": "One pair of Vipps socks"
   }
 }
 ```
@@ -955,9 +1237,9 @@ The API call allows merchant to cancel the reserved transaction, The API will no
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |orderId|path|string|true|Order id specified in the request body of initiate payment.|
-|authorization|header|string|true|Authorization-token is obtained by running the /accesstoken/get request.|
-|content-type|header|string|true|`application/json`|
-|ocp-apim-subscription-key|header|string|true|The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
+|Authorization|header|string|true|Authorization-token is obtained by running the /accesstoken/get request.|
+|Content-Type|header|string|true|`application/json`|
+|Ocp-Apim-Subscription-Key|header|string|true|The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
 |body|body|[CancelPaymentActionRequest](#schemacancelpaymentactionrequest)|true|paymentActionsRequest|
 
 > Example responses
@@ -1009,23 +1291,25 @@ This operation does not require authentication
 
 ```shell
 # You can also use wget
-curl -X POST /apitest.vipps.no/ecomm/v2/payments/{orderId}/refund \
+curl -X POST https://apitest.vipps.no/ecomm/v2/payments/{orderId}/refund \
   -H 'Content-Type: application/json;charset=UTF-8' \
   -H 'Accept: application/json;charset=UTF-8' \
-  -H 'authorization: string' \
-  -H 'content-type: string' \
-  -H 'ocp-apim-subscription-key: string'
+  -H 'Authorization: string' \
+  -H 'Content-Type: string' \
+  -H 'Ocp-Apim-Subscription-Key: string' \
+  -H 'X-Request-Id: string'
 
 ```
 
 ```http
-POST /apitest.vipps.no/ecomm/v2/payments/{orderId}/refund HTTP/1.1
-
+POST https://apitest.vipps.no/ecomm/v2/payments/{orderId}/refund HTTP/1.1
+Host: apitest.vipps.no
 Content-Type: application/json;charset=UTF-8
 Accept: application/json;charset=UTF-8
-authorization: string
-content-type: string
-ocp-apim-subscription-key: string
+Authorization: string
+Content-Type: string
+Ocp-Apim-Subscription-Key: string
+X-Request-Id: string
 
 ```
 
@@ -1036,18 +1320,19 @@ const inputBody = '{
   },
   "transaction": {
     "amount": 20000,
-    "transactionText": "string"
+    "transactionText": "One pair of Vipps socks"
   }
 }';
 const headers = {
   'Content-Type':'application/json;charset=UTF-8',
   'Accept':'application/json;charset=UTF-8',
-  'authorization':'string',
-  'content-type':'string',
-  'ocp-apim-subscription-key':'string'
+  'Authorization':'string',
+  'Content-Type':'string',
+  'Ocp-Apim-Subscription-Key':'string',
+  'X-Request-Id':'string'
 };
 
-fetch('/apitest.vipps.no/ecomm/v2/payments/{orderId}/refund',
+fetch('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/refund',
 {
   method: 'POST',
   body: inputBody,
@@ -1068,12 +1353,13 @@ require 'json'
 headers = {
   'Content-Type' => 'application/json;charset=UTF-8',
   'Accept' => 'application/json;charset=UTF-8',
-  'authorization' => 'string',
-  'content-type' => 'string',
-  'ocp-apim-subscription-key' => 'string'
+  'Authorization' => 'string',
+  'Content-Type' => 'string',
+  'Ocp-Apim-Subscription-Key' => 'string',
+  'X-Request-Id' => 'string'
 }
 
-result = RestClient.post '/apitest.vipps.no/ecomm/v2/payments/{orderId}/refund',
+result = RestClient.post 'https://apitest.vipps.no/ecomm/v2/payments/{orderId}/refund',
   params: {
   }, headers: headers
 
@@ -1086,12 +1372,13 @@ import requests
 headers = {
   'Content-Type': 'application/json;charset=UTF-8',
   'Accept': 'application/json;charset=UTF-8',
-  'authorization': 'string',
-  'content-type': 'string',
-  'ocp-apim-subscription-key': 'string'
+  'Authorization': 'string',
+  'Content-Type': 'string',
+  'Ocp-Apim-Subscription-Key': 'string',
+  'X-Request-Id': 'string'
 }
 
-r = requests.post('/apitest.vipps.no/ecomm/v2/payments/{orderId}/refund', headers = headers)
+r = requests.post('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/refund', headers = headers)
 
 print(r.json())
 
@@ -1105,9 +1392,10 @@ require 'vendor/autoload.php';
 $headers = array(
     'Content-Type' => 'application/json;charset=UTF-8',
     'Accept' => 'application/json;charset=UTF-8',
-    'authorization' => 'string',
-    'content-type' => 'string',
-    'ocp-apim-subscription-key' => 'string',
+    'Authorization' => 'string',
+    'Content-Type' => 'string',
+    'Ocp-Apim-Subscription-Key' => 'string',
+    'X-Request-Id' => 'string',
 );
 
 $client = new \GuzzleHttp\Client();
@@ -1116,7 +1404,7 @@ $client = new \GuzzleHttp\Client();
 $request_body = array();
 
 try {
-    $response = $client->request('POST','/apitest.vipps.no/ecomm/v2/payments/{orderId}/refund', array(
+    $response = $client->request('POST','https://apitest.vipps.no/ecomm/v2/payments/{orderId}/refund', array(
         'headers' => $headers,
         'json' => $request_body,
        )
@@ -1133,7 +1421,7 @@ try {
 ```
 
 ```java
-URL obj = new URL("/apitest.vipps.no/ecomm/v2/payments/{orderId}/refund");
+URL obj = new URL("https://apitest.vipps.no/ecomm/v2/payments/{orderId}/refund");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("POST");
 int responseCode = con.getResponseCode();
@@ -1162,13 +1450,14 @@ func main() {
     headers := map[string][]string{
         "Content-Type": []string{"application/json;charset=UTF-8"},
         "Accept": []string{"application/json;charset=UTF-8"},
-        "authorization": []string{"string"},
-        "content-type": []string{"string"},
-        "ocp-apim-subscription-key": []string{"string"},
+        "Authorization": []string{"string"},
+        "Content-Type": []string{"string"},
+        "Ocp-Apim-Subscription-Key": []string{"string"},
+        "X-Request-Id": []string{"string"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "/apitest.vipps.no/ecomm/v2/payments/{orderId}/refund", data)
+    req, err := http.NewRequest("POST", "https://apitest.vipps.no/ecomm/v2/payments/{orderId}/refund", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -1193,7 +1482,7 @@ The API allows a merchant to do a refund of already captured transaction. There 
   },
   "transaction": {
     "amount": 20000,
-    "transactionText": "string"
+    "transactionText": "One pair of Vipps socks"
   }
 }
 ```
@@ -1203,9 +1492,10 @@ The API allows a merchant to do a refund of already captured transaction. There 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |orderId|path|string|true|Order id specified in the request body of initiate payment.|
-|authorization|header|string|true|Authorization-token is obtained by running the /accesstoken/get request.|
-|content-type|header|string|true|`application/json`|
-|ocp-apim-subscription-key|header|string|true|The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
+|Authorization|header|string|true|Authorization-token is obtained by running the /accesstoken/get request.|
+|Content-Type|header|string|true|`application/json`|
+|Ocp-Apim-Subscription-Key|header|string|true|The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
+|X-Request-Id|header|string|false|Id used for making requests idempotent. Adding this ID will allow the merchant to retry requests without it making additional changes. Unique for orderId, merchantSerialNumber and endpoint. Max 30 characters.|
 |body|body|[PaymentActionsRequest](#schemapaymentactionsrequest)|true|paymentActionsRequest|
 
 > Example responses
@@ -1257,21 +1547,21 @@ This operation does not require authentication
 
 ```shell
 # You can also use wget
-curl -X GET /apitest.vipps.no/ecomm/v2/payments/{orderId}/details \
+curl -X GET https://apitest.vipps.no/ecomm/v2/payments/{orderId}/details \
   -H 'Accept: application/json;charset=UTF-8' \
-  -H 'authorization: string' \
-  -H 'content-type: string' \
-  -H 'ocp-apim-subscription-key: string'
+  -H 'Authorization: string' \
+  -H 'Content-Type: string' \
+  -H 'Ocp-Apim-Subscription-Key: string'
 
 ```
 
 ```http
-GET /apitest.vipps.no/ecomm/v2/payments/{orderId}/details HTTP/1.1
-
+GET https://apitest.vipps.no/ecomm/v2/payments/{orderId}/details HTTP/1.1
+Host: apitest.vipps.no
 Accept: application/json;charset=UTF-8
-authorization: string
-content-type: string
-ocp-apim-subscription-key: string
+Authorization: string
+Content-Type: string
+Ocp-Apim-Subscription-Key: string
 
 ```
 
@@ -1279,12 +1569,12 @@ ocp-apim-subscription-key: string
 
 const headers = {
   'Accept':'application/json;charset=UTF-8',
-  'authorization':'string',
-  'content-type':'string',
-  'ocp-apim-subscription-key':'string'
+  'Authorization':'string',
+  'Content-Type':'string',
+  'Ocp-Apim-Subscription-Key':'string'
 };
 
-fetch('/apitest.vipps.no/ecomm/v2/payments/{orderId}/details',
+fetch('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/details',
 {
   method: 'GET',
 
@@ -1304,12 +1594,12 @@ require 'json'
 
 headers = {
   'Accept' => 'application/json;charset=UTF-8',
-  'authorization' => 'string',
-  'content-type' => 'string',
-  'ocp-apim-subscription-key' => 'string'
+  'Authorization' => 'string',
+  'Content-Type' => 'string',
+  'Ocp-Apim-Subscription-Key' => 'string'
 }
 
-result = RestClient.get '/apitest.vipps.no/ecomm/v2/payments/{orderId}/details',
+result = RestClient.get 'https://apitest.vipps.no/ecomm/v2/payments/{orderId}/details',
   params: {
   }, headers: headers
 
@@ -1321,12 +1611,12 @@ p JSON.parse(result)
 import requests
 headers = {
   'Accept': 'application/json;charset=UTF-8',
-  'authorization': 'string',
-  'content-type': 'string',
-  'ocp-apim-subscription-key': 'string'
+  'Authorization': 'string',
+  'Content-Type': 'string',
+  'Ocp-Apim-Subscription-Key': 'string'
 }
 
-r = requests.get('/apitest.vipps.no/ecomm/v2/payments/{orderId}/details', headers = headers)
+r = requests.get('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/details', headers = headers)
 
 print(r.json())
 
@@ -1339,9 +1629,9 @@ require 'vendor/autoload.php';
 
 $headers = array(
     'Accept' => 'application/json;charset=UTF-8',
-    'authorization' => 'string',
-    'content-type' => 'string',
-    'ocp-apim-subscription-key' => 'string',
+    'Authorization' => 'string',
+    'Content-Type' => 'string',
+    'Ocp-Apim-Subscription-Key' => 'string',
 );
 
 $client = new \GuzzleHttp\Client();
@@ -1350,7 +1640,7 @@ $client = new \GuzzleHttp\Client();
 $request_body = array();
 
 try {
-    $response = $client->request('GET','/apitest.vipps.no/ecomm/v2/payments/{orderId}/details', array(
+    $response = $client->request('GET','https://apitest.vipps.no/ecomm/v2/payments/{orderId}/details', array(
         'headers' => $headers,
         'json' => $request_body,
        )
@@ -1367,7 +1657,7 @@ try {
 ```
 
 ```java
-URL obj = new URL("/apitest.vipps.no/ecomm/v2/payments/{orderId}/details");
+URL obj = new URL("https://apitest.vipps.no/ecomm/v2/payments/{orderId}/details");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("GET");
 int responseCode = con.getResponseCode();
@@ -1395,13 +1685,13 @@ func main() {
 
     headers := map[string][]string{
         "Accept": []string{"application/json;charset=UTF-8"},
-        "authorization": []string{"string"},
-        "content-type": []string{"string"},
-        "ocp-apim-subscription-key": []string{"string"},
+        "Authorization": []string{"string"},
+        "Content-Type": []string{"string"},
+        "Ocp-Apim-Subscription-Key": []string{"string"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "/apitest.vipps.no/ecomm/v2/payments/{orderId}/details", data)
+    req, err := http.NewRequest("GET", "https://apitest.vipps.no/ecomm/v2/payments/{orderId}/details", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -1415,16 +1705,16 @@ func main() {
 
 *Get payment Details*
 
-This API call allows merchant to get the details of a payment transaction. Service call returns detailed transaction history of given payment where events are sorted by the time single transaction occurred.
+This API call allows merchant to get the details of a payment transaction. Service call returns detailed transaction history of given payment where events are sorted from newest to oldest for when the transaction occurred.
 
 <h3 id="getpaymentdetailsusingget-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |orderId|path|string|true|Order id specified in the request body of initiate payment.|
-|authorization|header|string|true|Authorization-token is obtained by running the `/accesstoken/get` request.|
-|content-type|header|string|true|`application/json`|
-|ocp-apim-subscription-key|header|string|true|The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
+|Authorization|header|string|true|Authorization-token is obtained by running the `/accesstoken/get` request.|
+|Content-Type|header|string|true|`application/json`|
+|Ocp-Apim-Subscription-Key|header|string|true|The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
 
 > Example responses
 
@@ -1438,21 +1728,22 @@ This API call allows merchant to get the details of a payment transaction. Servi
       "addressLine1": "Dronning Eufemias gate 42",
       "addressLine2": "Att: Rune Garborg",
       "city": "Oslo",
-      "country": "NO",
-      "zipCode": "0191"
+      "country": "Norway",
+      "postCode": 191
     },
     "shippingCost": 1500,
-    "shippingMethod": "Posten"
+    "shippingMethod": "Posten Servicepakke",
+    "shippingMethodId": "string"
   },
   "transactionLogHistory": [
     {
       "amount": 0,
       "operation": "RESERVE",
-      "operationSuccess": true,
-      "requestId": "string",
-      "timeStamp": "string",
-      "transactionId": "string",
-      "transactionText": "string"
+      "operationf": true,
+      "requestId": 12983921873981899000,
+      "timeStamp": "2019-02-05T12:27:42.311Z",
+      "transactionId": 5001446662,
+      "transactionText": "One pair of Vipps socks"
     }
   ],
   "transactionSummary": {
@@ -1462,14 +1753,14 @@ This API call allows merchant to get the details of a payment transaction. Servi
     "remainingAmountToRefund": 20000
   },
   "userDetails": {
-    "bankIdVerified": "string",
+    "bankIdVerified": "Y",
     "dateOfBirth": "12-3-1988",
     "email": "user@example.com",
     "firstName": "Ada",
     "lastName": "Lovelace",
-    "mobileNumber": "stringst",
-    "ssn": "stringstrin",
-    "userId": "1234567"
+    "mobileNumber": "12345678",
+    "ssn": "12345678901",
+    "userId": "uiJskNQ6qNN1iwN891uuob=="
   }
 }
 ```
@@ -1500,19 +1791,19 @@ This operation does not require authentication
 
 ```shell
 # You can also use wget
-curl -X GET /apitest.vipps.no/ecomm/v2/payments/{orderId}/status \
+curl -X GET https://apitest.vipps.no/ecomm/v2/payments/{orderId}/status \
   -H 'Accept: application/json;charset=UTF-8' \
-  -H 'authorization: string' \
-  -H 'ocp-apim-subscription-key: string'
+  -H 'Authorization: string' \
+  -H 'Ocp-Apim-Subscription-Key: string'
 
 ```
 
 ```http
-GET /apitest.vipps.no/ecomm/v2/payments/{orderId}/status HTTP/1.1
-
+GET https://apitest.vipps.no/ecomm/v2/payments/{orderId}/status HTTP/1.1
+Host: apitest.vipps.no
 Accept: application/json;charset=UTF-8
-authorization: string
-ocp-apim-subscription-key: string
+Authorization: string
+Ocp-Apim-Subscription-Key: string
 
 ```
 
@@ -1520,11 +1811,11 @@ ocp-apim-subscription-key: string
 
 const headers = {
   'Accept':'application/json;charset=UTF-8',
-  'authorization':'string',
-  'ocp-apim-subscription-key':'string'
+  'Authorization':'string',
+  'Ocp-Apim-Subscription-Key':'string'
 };
 
-fetch('/apitest.vipps.no/ecomm/v2/payments/{orderId}/status',
+fetch('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/status',
 {
   method: 'GET',
 
@@ -1544,11 +1835,11 @@ require 'json'
 
 headers = {
   'Accept' => 'application/json;charset=UTF-8',
-  'authorization' => 'string',
-  'ocp-apim-subscription-key' => 'string'
+  'Authorization' => 'string',
+  'Ocp-Apim-Subscription-Key' => 'string'
 }
 
-result = RestClient.get '/apitest.vipps.no/ecomm/v2/payments/{orderId}/status',
+result = RestClient.get 'https://apitest.vipps.no/ecomm/v2/payments/{orderId}/status',
   params: {
   }, headers: headers
 
@@ -1560,11 +1851,11 @@ p JSON.parse(result)
 import requests
 headers = {
   'Accept': 'application/json;charset=UTF-8',
-  'authorization': 'string',
-  'ocp-apim-subscription-key': 'string'
+  'Authorization': 'string',
+  'Ocp-Apim-Subscription-Key': 'string'
 }
 
-r = requests.get('/apitest.vipps.no/ecomm/v2/payments/{orderId}/status', headers = headers)
+r = requests.get('https://apitest.vipps.no/ecomm/v2/payments/{orderId}/status', headers = headers)
 
 print(r.json())
 
@@ -1577,8 +1868,8 @@ require 'vendor/autoload.php';
 
 $headers = array(
     'Accept' => 'application/json;charset=UTF-8',
-    'authorization' => 'string',
-    'ocp-apim-subscription-key' => 'string',
+    'Authorization' => 'string',
+    'Ocp-Apim-Subscription-Key' => 'string',
 );
 
 $client = new \GuzzleHttp\Client();
@@ -1587,7 +1878,7 @@ $client = new \GuzzleHttp\Client();
 $request_body = array();
 
 try {
-    $response = $client->request('GET','/apitest.vipps.no/ecomm/v2/payments/{orderId}/status', array(
+    $response = $client->request('GET','https://apitest.vipps.no/ecomm/v2/payments/{orderId}/status', array(
         'headers' => $headers,
         'json' => $request_body,
        )
@@ -1604,7 +1895,7 @@ try {
 ```
 
 ```java
-URL obj = new URL("/apitest.vipps.no/ecomm/v2/payments/{orderId}/status");
+URL obj = new URL("https://apitest.vipps.no/ecomm/v2/payments/{orderId}/status");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("GET");
 int responseCode = con.getResponseCode();
@@ -1632,12 +1923,12 @@ func main() {
 
     headers := map[string][]string{
         "Accept": []string{"application/json;charset=UTF-8"},
-        "authorization": []string{"string"},
-        "ocp-apim-subscription-key": []string{"string"},
+        "Authorization": []string{"string"},
+        "Ocp-Apim-Subscription-Key": []string{"string"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "/apitest.vipps.no/ecomm/v2/payments/{orderId}/status", data)
+    req, err := http.NewRequest("GET", "https://apitest.vipps.no/ecomm/v2/payments/{orderId}/status", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -1658,8 +1949,8 @@ This API call allows the merchant to get the status of the last payment transact
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |orderId|path|string|true|Order id specified in the request body of initiate payment.|
-|authorization|header|string|true|Authorization-token is obtained by running the /accesstoken/get request.|
-|ocp-apim-subscription-key|header|string|true|The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
+|Authorization|header|string|true|Authorization-token is obtained by running the /accesstoken/get request.|
+|Ocp-Apim-Subscription-Key|header|string|true|The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
 
 > Example responses
 
@@ -1695,7 +1986,7 @@ This API call allows the merchant to get the status of the last payment transact
 This operation does not require authentication
 </aside>
 
-<h1 id="vipps-ecommerce-apis-endpoints-required-by-vipps-from-the-merchant">Endpoints required by Vipps from the merchant</h1>
+<h1 id="vipps-ecommerce-api-endpoints-required-by-vipps-from-the-merchant">Endpoints required by Vipps from the merchant</h1>
 
 These endpoints must be implemented by the merchant, and are called by Vipps.
 
@@ -1707,18 +1998,19 @@ These endpoints must be implemented by the merchant, and are called by Vipps.
 
 ```shell
 # You can also use wget
-curl -X DELETE /apitest.vipps.no[consentRemovalPrefix]/v2/consents/{userId}
+curl -X DELETE https://apitest.vipps.no[consentRemovalPrefix]/v2/consents/{userId}
 
 ```
 
 ```http
-DELETE /apitest.vipps.no[consentRemovalPrefix]/v2/consents/{userId} HTTP/1.1
+DELETE https://apitest.vipps.no[consentRemovalPrefix]/v2/consents/{userId} HTTP/1.1
+Host: apitest.vipps.no
 
 ```
 
 ```javascript
 
-fetch('/apitest.vipps.no[consentRemovalPrefix]/v2/consents/{userId}',
+fetch('https://apitest.vipps.no[consentRemovalPrefix]/v2/consents/{userId}',
 {
   method: 'DELETE'
 
@@ -1735,7 +2027,7 @@ fetch('/apitest.vipps.no[consentRemovalPrefix]/v2/consents/{userId}',
 require 'rest-client'
 require 'json'
 
-result = RestClient.delete '/apitest.vipps.no[consentRemovalPrefix]/v2/consents/{userId}',
+result = RestClient.delete 'https://apitest.vipps.no[consentRemovalPrefix]/v2/consents/{userId}',
   params: {
   }
 
@@ -1746,7 +2038,7 @@ p JSON.parse(result)
 ```python
 import requests
 
-r = requests.delete('/apitest.vipps.no[consentRemovalPrefix]/v2/consents/{userId}')
+r = requests.delete('https://apitest.vipps.no[consentRemovalPrefix]/v2/consents/{userId}')
 
 print(r.json())
 
@@ -1763,7 +2055,7 @@ $client = new \GuzzleHttp\Client();
 $request_body = array();
 
 try {
-    $response = $client->request('DELETE','/apitest.vipps.no[consentRemovalPrefix]/v2/consents/{userId}', array(
+    $response = $client->request('DELETE','https://apitest.vipps.no[consentRemovalPrefix]/v2/consents/{userId}', array(
         'headers' => $headers,
         'json' => $request_body,
        )
@@ -1780,7 +2072,7 @@ try {
 ```
 
 ```java
-URL obj = new URL("/apitest.vipps.no[consentRemovalPrefix]/v2/consents/{userId}");
+URL obj = new URL("https://apitest.vipps.no[consentRemovalPrefix]/v2/consents/{userId}");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("DELETE");
 int responseCode = con.getResponseCode();
@@ -1807,7 +2099,7 @@ import (
 func main() {
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("DELETE", "/apitest.vipps.no[consentRemovalPrefix]/v2/consents/{userId}", data)
+    req, err := http.NewRequest("DELETE", "https://apitest.vipps.no[consentRemovalPrefix]/v2/consents/{userId}", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -1821,87 +2113,65 @@ func main() {
 
 *Remove User Consent (for express checkout)*
 
-This API endpoint on the merchant side allows Vipps to send consent removal requests to the merchant. When receiving requests the merchant is obliged to remove the user details permanently, as per the GDPR guidelines. Vipps will add `/v2/consents/{userId}` to the end of this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).
+This API endpoint on the merchant side allows Vipps to send consent removal requests to the merchant. When receiving requests the merchant is obliged to remove the user details permanently, as per the GDPR guidelines. Vipps will add `/v2/consents/{userId}` to the end of this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html). We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.
 
 <h3 id="removeuserconsentusingdelete-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|userId|path|string|true|The userId provided when requesting user information from Vipps. Received by callback or get detail request.|
+|userId|path|string|true|URL encoded userId provided when requesting user information from Vipps. Received by callback or get detail request.|
 
 <h3 id="removeuserconsentusingdelete-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Remove User Consent (for express checkout)|None|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request (Missing a required parameter or bad request format)|None|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Request Forbidden|None|
-|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Resource Not Found|None|
-|405|[Method Not Allowed](https://tools.ietf.org/html/rfc7231#section-6.5.5)|Request method not supported|None|
-|415|[Unsupported Media Type](https://tools.ietf.org/html/rfc7231#section-6.5.13)|Unsupported media type|None|
 
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-## transactionUpdateCallbackForRegularPaymentUsingPOST
+## fetchShippingCostUsingPOST
 
-<a id="opIdtransactionUpdateCallbackForRegularPaymentUsingPOST"></a>
+<a id="opIdfetchShippingCostUsingPOST"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X POST /apitest.vipps.no[callbackPrefix]/v2/payments/{orderId} \
-  -H 'Content-Type: application/json;charset=UTF-8'
+curl -X POST https://apitest.vipps.no[shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails \
+  -H 'Content-Type: application/json;charset=UTF-8' \
+  -H 'Accept: application/json;charset=UTF-8' \
+  -H 'Authorization: string'
 
 ```
 
 ```http
-POST /apitest.vipps.no[callbackPrefix]/v2/payments/{orderId} HTTP/1.1
-
+POST https://apitest.vipps.no[shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails HTTP/1.1
+Host: apitest.vipps.no
 Content-Type: application/json;charset=UTF-8
+Accept: application/json;charset=UTF-8
+Authorization: string
 
 ```
 
 ```javascript
 const inputBody = '{
-  "merchantSerialNumber": 123456,
-  "orderId": "order123abc",
-  "shippingDetails": {
-    "address": {
-      "addressLine1": "Dronning Eufemias gate 42",
-      "addressLine2": "Att: Rune Garborg",
-      "city": "Oslo",
-      "country": "NO",
-      "zipCode": "0191"
-    },
-    "shippingCost": 0,
-    "shippingMethod": "string"
-  },
-  "transactionInfo": {
-    "amount": 20000,
-    "status": "RESERVE",
-    "timeStamp": "2018-12-12T11:18:38.246Z",
-    "transactionId": "5001420062"
-  },
-  "userDetails": {
-    "bankIdVerified": "string",
-    "dateOfBirth": "12-3-1988",
-    "email": "user@example.com",
-    "firstName": "Ada",
-    "lastName": "Lovelace",
-    "mobileNumber": "stringst",
-    "ssn": "stringstrin",
-    "userId": "1234567"
-  }
+  "addressId": 0,
+  "addressLine1": "Dronning Eufemias gate 42",
+  "addressLine2": "string",
+  "city": "Oslo",
+  "country": "NO",
+  "postCode": "0603",
+  "addressType": "H"
 }';
 const headers = {
-  'Content-Type':'application/json;charset=UTF-8'
+  'Content-Type':'application/json;charset=UTF-8',
+  'Accept':'application/json;charset=UTF-8',
+  'Authorization':'string'
 };
 
-fetch('/apitest.vipps.no[callbackPrefix]/v2/payments/{orderId}',
+fetch('https://apitest.vipps.no[shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails',
 {
   method: 'POST',
   body: inputBody,
@@ -1920,10 +2190,12 @@ require 'rest-client'
 require 'json'
 
 headers = {
-  'Content-Type' => 'application/json;charset=UTF-8'
+  'Content-Type' => 'application/json;charset=UTF-8',
+  'Accept' => 'application/json;charset=UTF-8',
+  'Authorization' => 'string'
 }
 
-result = RestClient.post '/apitest.vipps.no[callbackPrefix]/v2/payments/{orderId}',
+result = RestClient.post 'https://apitest.vipps.no[shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails',
   params: {
   }, headers: headers
 
@@ -1934,10 +2206,12 @@ p JSON.parse(result)
 ```python
 import requests
 headers = {
-  'Content-Type': 'application/json;charset=UTF-8'
+  'Content-Type': 'application/json;charset=UTF-8',
+  'Accept': 'application/json;charset=UTF-8',
+  'Authorization': 'string'
 }
 
-r = requests.post('/apitest.vipps.no[callbackPrefix]/v2/payments/{orderId}', headers = headers)
+r = requests.post('https://apitest.vipps.no[shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails', headers = headers)
 
 print(r.json())
 
@@ -1950,6 +2224,8 @@ require 'vendor/autoload.php';
 
 $headers = array(
     'Content-Type' => 'application/json;charset=UTF-8',
+    'Accept' => 'application/json;charset=UTF-8',
+    'Authorization' => 'string',
 );
 
 $client = new \GuzzleHttp\Client();
@@ -1958,7 +2234,7 @@ $client = new \GuzzleHttp\Client();
 $request_body = array();
 
 try {
-    $response = $client->request('POST','/apitest.vipps.no[callbackPrefix]/v2/payments/{orderId}', array(
+    $response = $client->request('POST','https://apitest.vipps.no[shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails', array(
         'headers' => $headers,
         'json' => $request_body,
        )
@@ -1975,7 +2251,7 @@ try {
 ```
 
 ```java
-URL obj = new URL("/apitest.vipps.no[callbackPrefix]/v2/payments/{orderId}");
+URL obj = new URL("https://apitest.vipps.no[shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("POST");
 int responseCode = con.getResponseCode();
@@ -2003,10 +2279,255 @@ func main() {
 
     headers := map[string][]string{
         "Content-Type": []string{"application/json;charset=UTF-8"},
+        "Accept": []string{"application/json;charset=UTF-8"},
+        "Authorization": []string{"string"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "/apitest.vipps.no[callbackPrefix]/v2/payments/{orderId}", data)
+    req, err := http.NewRequest("POST", "https://apitest.vipps.no[shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST [shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails`
+
+*Fetch Shipping Cost & Method*
+
+This API endpoint on the merchant side allows Vipps to get the shipping cost and method based on the provided address and product details. The primary use of this service is Vipps Hurtigkasse (express checkout) where Vipps needs to present shipping cost and method to the Vipps user. Vipps will add `/v2/payments/{orderId}/shippingDetails` to the end of this URL. Vipps has a *10 second timeout* for these requests, and thus requires a quick reply from the merchant's server for successful payments. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html). We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.
+
+> Body parameter
+
+```json
+{
+  "addressId": 0,
+  "addressLine1": "Dronning Eufemias gate 42",
+  "addressLine2": "string",
+  "city": "Oslo",
+  "country": "NO",
+  "postCode": "0603",
+  "addressType": "H"
+}
+```
+
+<h3 id="fetchshippingcostusingpost-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|orderId|path|string|true|orderId|
+|Authorization|header|string|false|Token provided by the merchant in initiate payment request as `authToken`. Used so that the merchant may authenticate the request.|
+|body|body|[FetchShippingCostAndMethod](#schemafetchshippingcostandmethod)|true|fetchShippingCostAndMethod|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "addressId": 0,
+  "orderId": "order123abc",
+  "shippingDetails": [
+    {
+      "isDefault": "Y",
+      "priority": 0,
+      "shippingCost": 0,
+      "shippingMethod": "Posten Servicepakke",
+      "shippingMethodId": "string"
+    }
+  ]
+}
+```
+
+<h3 id="fetchshippingcostusingpost-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Fetch Shipping Cost & Method.|[FetchShippingCostResponse](#schemafetchshippingcostresponse)|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## transactionUpdateCallbackForRegularPaymentUsingPOST
+
+<a id="opIdtransactionUpdateCallbackForRegularPaymentUsingPOST"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://apitest.vipps.no[callbackPrefix]/v2/payments/{orderId} \
+  -H 'Content-Type: application/json;charset=UTF-8' \
+  -H 'Authorization: string'
+
+```
+
+```http
+POST https://apitest.vipps.no[callbackPrefix]/v2/payments/{orderId} HTTP/1.1
+Host: apitest.vipps.no
+Content-Type: application/json;charset=UTF-8
+
+Authorization: string
+
+```
+
+```javascript
+const inputBody = '{
+  "merchantSerialNumber": 123456,
+  "orderId": "order123abc",
+  "shippingDetails": {
+    "address": {
+      "addressLine1": "Dronning Eufemias gate 42",
+      "addressLine2": "Att: Rune Garborg",
+      "city": "Oslo",
+      "country": "Norway",
+      "postCode": 191
+    },
+    "shippingCost": 0,
+    "shippingMethod": "Posten Servicepakke",
+    "shippingMethodId": "string"
+  },
+  "transactionInfo": {
+    "amount": 20000,
+    "status": "RESERVE",
+    "timeStamp": "2018-12-12T11:18:38.246Z",
+    "transactionId": "5001420062"
+  },
+  "userDetails": {
+    "bankIdVerified": "Y",
+    "dateOfBirth": "12-3-1988",
+    "email": "user@example.com",
+    "firstName": "Ada",
+    "lastName": "Lovelace",
+    "mobileNumber": "12345678",
+    "ssn": "12345678901",
+    "userId": "uiJskNQ6qNN1iwN891uuob=="
+  },
+  "errorInfo": {
+    "errorCode": 45,
+    "errorGroup": "PAYMENTS",
+    "errorMessage": "User has cancelled or not acted upon the payment"
+  }
+}';
+const headers = {
+  'Content-Type':'application/json;charset=UTF-8',
+  'Authorization':'string'
+};
+
+fetch('https://apitest.vipps.no[callbackPrefix]/v2/payments/{orderId}',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json;charset=UTF-8',
+  'Authorization' => 'string'
+}
+
+result = RestClient.post 'https://apitest.vipps.no[callbackPrefix]/v2/payments/{orderId}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json;charset=UTF-8',
+  'Authorization': 'string'
+}
+
+r = requests.post('https://apitest.vipps.no[callbackPrefix]/v2/payments/{orderId}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json;charset=UTF-8',
+    'Authorization' => 'string',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://apitest.vipps.no[callbackPrefix]/v2/payments/{orderId}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://apitest.vipps.no[callbackPrefix]/v2/payments/{orderId}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json;charset=UTF-8"},
+        "Authorization": []string{"string"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://apitest.vipps.no[callbackPrefix]/v2/payments/{orderId}", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -2020,7 +2541,7 @@ func main() {
 
 *Callback : Transaction Update*
 
-This API call allows Vipps to send the transaction details. During regular ecomm payment order and transaction details will be shared. During express checkout payment it will provide user details and shipping details addition to the order and transaction details. Vipps will add `/v2/payments/{orderId}` to the end of this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).
+This API call allows Vipps to send the transaction details. During regular ecomm payment order and transaction details will be shared. During express checkout payment it will provide user details and shipping details addition to the order and transaction details. Vipps will add `/v2/payments/{orderId}` to the end of this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html). We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.
 
 > Body parameter
 
@@ -2033,11 +2554,12 @@ This API call allows Vipps to send the transaction details. During regular ecomm
       "addressLine1": "Dronning Eufemias gate 42",
       "addressLine2": "Att: Rune Garborg",
       "city": "Oslo",
-      "country": "NO",
-      "zipCode": "0191"
+      "country": "Norway",
+      "postCode": 191
     },
     "shippingCost": 0,
-    "shippingMethod": "string"
+    "shippingMethod": "Posten Servicepakke",
+    "shippingMethodId": "string"
   },
   "transactionInfo": {
     "amount": 20000,
@@ -2046,14 +2568,19 @@ This API call allows Vipps to send the transaction details. During regular ecomm
     "transactionId": "5001420062"
   },
   "userDetails": {
-    "bankIdVerified": "string",
+    "bankIdVerified": "Y",
     "dateOfBirth": "12-3-1988",
     "email": "user@example.com",
     "firstName": "Ada",
     "lastName": "Lovelace",
-    "mobileNumber": "stringst",
-    "ssn": "stringstrin",
-    "userId": "1234567"
+    "mobileNumber": "12345678",
+    "ssn": "12345678901",
+    "userId": "uiJskNQ6qNN1iwN891uuob=="
+  },
+  "errorInfo": {
+    "errorCode": 45,
+    "errorGroup": "PAYMENTS",
+    "errorMessage": "User has cancelled or not acted upon the payment"
   }
 }
 ```
@@ -2063,21 +2590,14 @@ This API call allows Vipps to send the transaction details. During regular ecomm
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |orderId|path|string|true|orderId|
-|body|body|[ExpressCheckOutPaymentRequest](#schemaexpresscheckoutpaymentrequest)|true|expressCheckOutPaymentRequest|
+|Authorization|header|string|false|Token provided by the merchant in initiate payment request as `authToken`. Used so that the merchant may authenticate the request.|
+|body|body|[TransactionUpdateCallbackOneOf](#schematransactionupdatecallbackoneof)|true|The body of the request made by Vipps. It will differ if the request is a regular or express payment.|
 
 <h3 id="transactionupdatecallbackforregularpaymentusingpost-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Callback : Transaction Update|None|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request (Missing a required parameter or bad request format)|None|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|402|[Payment Required](https://tools.ietf.org/html/rfc7231#section-6.5.2)|Payment Failed|None|
-|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Request Forbidden|None|
-|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Resource Not Found|None|
-|405|[Method Not Allowed](https://tools.ietf.org/html/rfc7231#section-6.5.5)|Request method not supported|None|
-|415|[Unsupported Media Type](https://tools.ietf.org/html/rfc7231#section-6.5.13)|Unsupported media type|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Something went wrong on the Vipps server side|None|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|All ok|None|
 
 <aside class="success">
 This operation does not require authentication
@@ -2099,7 +2619,7 @@ This operation does not require authentication
   },
   "transaction": {
     "amount": 20000,
-    "transactionText": "string"
+    "transactionText": "One pair of Vipps socks"
   }
 }
 
@@ -2124,8 +2644,8 @@ This operation does not require authentication
   "addressLine1": "Dronning Eufemias gate 42",
   "addressLine2": "Att: Rune Garborg",
   "city": "Oslo",
-  "country": "NO",
-  "zipCode": "0191"
+  "country": "Norway",
+  "postCode": 191
 }
 
 ```
@@ -2137,8 +2657,14 @@ This operation does not require authentication
 |addressLine1|string|true|none|Address Line 1|
 |addressLine2|string|false|none|Address Line 2|
 |city|string|true|none|City|
-|country|string|true|none|Country,default=NO|
-|zipCode|string|true|none|Zip Code|
+|country|string|true|none|Country|
+|postCode|string|true|none|Post Code|
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
+|country|Norway|
 
 <h2 id="tocS_PaymentShippingDetails">PaymentShippingDetails</h2>
 <!-- backwards compatibility -->
@@ -2153,11 +2679,12 @@ This operation does not require authentication
     "addressLine1": "Dronning Eufemias gate 42",
     "addressLine2": "Att: Rune Garborg",
     "city": "Oslo",
-    "country": "NO",
-    "zipCode": "0191"
+    "country": "Norway",
+    "postCode": 191
   },
   "shippingCost": 1500,
-  "shippingMethod": "Posten"
+  "shippingMethod": "Posten Servicepakke",
+  "shippingMethodId": "string"
 }
 
 ```
@@ -2168,7 +2695,8 @@ This operation does not require authentication
 |---|---|---|---|---|
 |address|[Address](#schemaaddress)|false|none|none|
 |shippingCost|number(double)|true|none|Shipping Cost|
-|shippingMethod|string|true|none|Shipping method|
+|shippingMethod|string|true|none|Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.|
+|shippingMethodId|string|true|none|none|
 
 <h2 id="tocS_TransactionLogHistory">TransactionLogHistory</h2>
 <!-- backwards compatibility -->
@@ -2181,11 +2709,11 @@ This operation does not require authentication
 {
   "amount": 0,
   "operation": "RESERVE",
-  "operationSuccess": true,
-  "requestId": "string",
-  "timeStamp": "string",
-  "transactionId": "string",
-  "transactionText": "string"
+  "operationf": true,
+  "requestId": 12983921873981899000,
+  "timeStamp": "2019-02-05T12:27:42.311Z",
+  "transactionId": 5001446662,
+  "transactionText": "One pair of Vipps socks"
 }
 
 ```
@@ -2194,13 +2722,13 @@ This operation does not require authentication
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|amount|integer(int32)|false|none|none|
-|operation|string|false|none|The operation that was performed for this log entry. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information.|
-|operationSuccess|boolean|false|none|none|
-|requestId|string|false|none|none|
-|timeStamp|string|false|none|none|
-|transactionId|string|false|none|none|
-|transactionText|string|false|none|none|
+|amount|integer(int32)|true|none|none|
+|operation|string|true|none|The operation that was performed for this log entry. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information.|
+|operationf|boolean|false|none|If the corrosponding operation was successfull.|
+|requestId|string|false|none|The idempotent request id provided by the merchant for the operation.|
+|timeStamp|string|false|none|Timestamp in ISO-8601 representing when the operation was perfomed.|
+|transactionId|string|false|none|Identifies the transaction|
+|transactionText|string|true|none|Transaction text to be displayed in Vipps|
 
 #### Enumerated Values
 
@@ -2223,7 +2751,7 @@ This operation does not require authentication
 
 ```json
 {
-  "transactionText": "string"
+  "transactionText": "One pair of Vipps socks"
 }
 
 ```
@@ -2232,7 +2760,7 @@ This operation does not require authentication
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|transactionText|string|false|none|none|
+|transactionText|string|false|none|Transaction text to be displayed in Vipps|
 
 <h2 id="tocS_UserDetails">UserDetails</h2>
 <!-- backwards compatibility -->
@@ -2243,14 +2771,14 @@ This operation does not require authentication
 
 ```json
 {
-  "bankIdVerified": "string",
+  "bankIdVerified": "Y",
   "dateOfBirth": "12-3-1988",
   "email": "user@example.com",
   "firstName": "Ada",
   "lastName": "Lovelace",
-  "mobileNumber": "stringst",
-  "ssn": "stringstrin",
-  "userId": "1234567"
+  "mobileNumber": "12345678",
+  "ssn": "12345678901",
+  "userId": "uiJskNQ6qNN1iwN891uuob=="
 }
 
 ```
@@ -2259,14 +2787,45 @@ This operation does not require authentication
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|bankIdVerified|string|false|none|none|
-|dateOfBirth|string|false|none|12-3-1988|
+|bankIdVerified|string|false|none|Optional Y/N string indicating if the user in bankId vertified, must be requested during onboarding.|
+|dateOfBirth|string|false|none|Optional date of birth infomation, must be requested during onboarding.|
 |email|string|true|none|Email address|
 |firstName|string|true|none|First name|
 |lastName|string|true|none|Last name|
-|mobileNumber|string|true|none|12345678|
-|ssn|string|false|none|12345678912|
-|userId|string|true|none|1234567|
+|mobileNumber|string|true|none|Mobile number|
+|ssn|string|false|none|Optional social security number for the user, must be requested during onboarding.|
+|userId|string|true|none|Identifies a user in Vipps. Merchant is required to store this field for future references.|
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
+|bankIdVerified|Y|
+|bankIdVerified|N|
+
+<h2 id="tocS_callbackErrorInfo">callbackErrorInfo</h2>
+<!-- backwards compatibility -->
+<a id="schemacallbackerrorinfo"></a>
+<a id="schema_callbackErrorInfo"></a>
+<a id="tocScallbackerrorinfo"></a>
+<a id="tocscallbackerrorinfo"></a>
+
+```json
+{
+  "errorCode": 45,
+  "errorGroup": "PAYMENTS",
+  "errorMessage": "User has cancelled or not acted upon the payment"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|errorCode|integer|false|none|The number code for the error.|
+|errorGroup|string|false|none|none|
+|errorMessage|string|false|none|Description of the error|
 
 <h2 id="tocS_CallbackTransactionInfoStatus">CallbackTransactionInfoStatus</h2>
 <!-- backwards compatibility -->
@@ -2291,7 +2850,7 @@ This operation does not require authentication
 |---|---|---|---|---|
 |amount|number(double)|true|none|Ordered amount in øre|
 |status|string|true|none|Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#callbacks) for more information.|
-|timeStamp|string|true|none|Timestamp in ISO-8601 representing when Vipps cancelled the transaction.|
+|timeStamp|string|true|none|Timestamp in ISO-8601 representing when the operation was performed.|
 |transactionId|string|true|none|Vipps transaction id|
 
 #### Enumerated Values
@@ -2302,6 +2861,7 @@ This operation does not require authentication
 |status|SALE|
 |status|CANCELLED|
 |status|REJECTED|
+|status|AUTO_CANCEL|
 
 <h2 id="tocS_OrderStatusInfoTransactionInfo">OrderStatusInfoTransactionInfo</h2>
 <!-- backwards compatibility -->
@@ -2326,7 +2886,7 @@ This operation does not require authentication
 |---|---|---|---|---|
 |amount|number(double)|true|none|Ordered amount in øre|
 |status|string|true|none|Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information.|
-|timeStamp|string|true|none|Timestamp in ISO-8601 representing when Vipps cancelled the transaction.|
+|timeStamp|string|true|none|Timestamp in ISO-8601 representing when the status operation was performed.|
 |transactionId|string|true|none|Vipps transaction id|
 
 #### Enumerated Values
@@ -2368,9 +2928,9 @@ This operation does not require authentication
 |---|---|---|---|---|
 |amount|number(double)|true|none|Ordered amount in øre|
 |status|string|true|none|Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information.|
-|timeStamp|string|true|none|Timestamp in ISO-8601 representing when vipps Cancelled transaction.|
+|timeStamp|string|true|none|Timestamp in ISO-8601 representing when the order was cancelled.|
 |transactionId|string|true|none|Vipps transaction id|
-|transactionText|string|true|none|Transaction text reference provided by merchant|
+|transactionText|string|true|none|Transaction text to be displayed in Vipps|
 
 #### Enumerated Values
 
@@ -2402,9 +2962,9 @@ This operation does not require authentication
 |---|---|---|---|---|
 |amount|number(double)|true|none|Ordered amount in øre|
 |status|string|true|none|Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information.|
-|timeStamp|string|true|none|Timestamp in ISO-8601 representing when vipps Cancelled transaction.|
+|timeStamp|string|true|none|Timestamp in ISO-8601 representing when the order was refunded.|
 |transactionId|string|true|none|Vipps transaction id|
-|transactionText|string|true|none|Transaction text reference provided by merchant|
+|transactionText|string|true|none|Transaction text to be displayed in Vipps|
 
 #### Enumerated Values
 
@@ -2436,9 +2996,9 @@ This operation does not require authentication
 |---|---|---|---|---|
 |amount|number(double)|true|none|Ordered amount in øre|
 |status|string|true|none|Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#responses-from-requests) for more information.|
-|timeStamp|string|true|none|Timestamp in ISO-8601 representing when vipps Cancelled transaction.|
+|timeStamp|string|true|none|Timestamp in ISO-8601 representing when the order was captured.|
 |transactionId|string|true|none|Vipps transaction id|
-|transactionText|string|true|none|Transaction text reference provided by merchant|
+|transactionText|string|true|none|Transaction text to be displayed in Vipps|
 
 #### Enumerated Values
 
@@ -2461,21 +3021,22 @@ This operation does not require authentication
       "addressLine1": "Dronning Eufemias gate 42",
       "addressLine2": "Att: Rune Garborg",
       "city": "Oslo",
-      "country": "NO",
-      "zipCode": "0191"
+      "country": "Norway",
+      "postCode": 191
     },
     "shippingCost": 1500,
-    "shippingMethod": "Posten"
+    "shippingMethod": "Posten Servicepakke",
+    "shippingMethodId": "string"
   },
   "transactionLogHistory": [
     {
       "amount": 0,
       "operation": "RESERVE",
-      "operationSuccess": true,
-      "requestId": "string",
-      "timeStamp": "string",
-      "transactionId": "string",
-      "transactionText": "string"
+      "operationf": true,
+      "requestId": 12983921873981899000,
+      "timeStamp": "2019-02-05T12:27:42.311Z",
+      "transactionId": 5001446662,
+      "transactionText": "One pair of Vipps socks"
     }
   ],
   "transactionSummary": {
@@ -2485,14 +3046,14 @@ This operation does not require authentication
     "remainingAmountToRefund": 20000
   },
   "userDetails": {
-    "bankIdVerified": "string",
+    "bankIdVerified": "Y",
     "dateOfBirth": "12-3-1988",
     "email": "user@example.com",
     "firstName": "Ada",
     "lastName": "Lovelace",
-    "mobileNumber": "stringst",
-    "ssn": "stringstrin",
-    "userId": "1234567"
+    "mobileNumber": "12345678",
+    "ssn": "12345678901",
+    "userId": "uiJskNQ6qNN1iwN891uuob=="
   }
 }
 
@@ -2502,9 +3063,9 @@ This operation does not require authentication
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|orderId|string|false|none|none|
+|orderId|string|false|none|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.|
 |shippingDetails|[PaymentShippingDetails](#schemapaymentshippingdetails)|false|none|none|
-|transactionLogHistory|[[TransactionLogHistory](#schematransactionloghistory)]|false|none|none|
+|transactionLogHistory|[[TransactionLogHistory](#schematransactionloghistory)]|false|none|Array of transaction operations. Sorted from newest to oldest.|
 |transactionSummary|[TransactionSummary](#schematransactionsummary)|false|none|none|
 |userDetails|[UserDetails](#schemauserdetails)|false|none|none|
 
@@ -2527,8 +3088,8 @@ This operation does not require authentication
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|orderId|string|true|none|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters.|
-|url|string|true|none|URL parameter will have URL to redirect the request to vipps gateway page in case request is trigger from web browser or deeplink URL to open vipps app incase request is triggered from Merchant Mobile App.|
+|orderId|string|true|none|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.|
+|url|string|true|none|URL to redirect the user to Vipps landing page or a deeplink URL to open Vipps app, if isApp was set as true. The landing page will also redirect a user to the app if the user is using a mobile browser. This link will timeout after 5 minutes.|
 
 <h2 id="tocS_ShippingDetailsRequest">ShippingDetailsRequest</h2>
 <!-- backwards compatibility -->
@@ -2543,11 +3104,12 @@ This operation does not require authentication
     "addressLine1": "Dronning Eufemias gate 42",
     "addressLine2": "Att: Rune Garborg",
     "city": "Oslo",
-    "country": "NO",
-    "zipCode": "0191"
+    "country": "Norway",
+    "postCode": 191
   },
   "shippingCost": 0,
-  "shippingMethod": "string"
+  "shippingMethod": "Posten Servicepakke",
+  "shippingMethodId": "string"
 }
 
 ```
@@ -2558,7 +3120,8 @@ This operation does not require authentication
 |---|---|---|---|---|
 |address|[Address](#schemaaddress)|true|none|none|
 |shippingCost|number(double)|true|none|Shipping cost|
-|shippingMethod|string|true|none|Shipping method which choosed for the payment|
+|shippingMethod|string|true|none|Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.|
+|shippingMethodId|string|true|none|none|
 
 <h2 id="tocS_TransactionResponseCancel">TransactionResponseCancel</h2>
 <!-- backwards compatibility -->
@@ -2591,7 +3154,7 @@ This operation does not require authentication
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|orderId|string|true|none|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters|
+|orderId|string|true|none|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.|
 |transactionInfo|[TransactionInfoCancel](#schematransactioninfocancel)|false|none|none|
 |transactionSummary|[TransactionSummary](#schematransactionsummary)|false|none|none|
 
@@ -2626,7 +3189,7 @@ This operation does not require authentication
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|orderId|string|true|none|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters|
+|orderId|string|true|none|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.|
 |transactionInfo|[TransactionInfoCapture](#schematransactioninfocapture)|false|none|none|
 |transactionSummary|[TransactionSummary](#schematransactionsummary)|false|none|none|
 
@@ -2661,7 +3224,7 @@ This operation does not require authentication
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|orderId|string|true|none|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters|
+|orderId|string|true|none|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.|
 |transaction|[TransactionInfoRefund](#schematransactioninforefund)|false|none|none|
 |transactionSummary|[TransactionSummary](#schematransactionsummary)|false|none|none|
 
@@ -2697,7 +3260,7 @@ This operation does not require authentication
   "isDefault": "Y",
   "priority": 0,
   "shippingCost": 0,
-  "shippingMethod": "string",
+  "shippingMethod": "Posten Servicepakke",
   "shippingMethodId": "string"
 }
 
@@ -2710,7 +3273,7 @@ This operation does not require authentication
 |isDefault|string|true|none|none|
 |priority|integer(int32)|false|none|none|
 |shippingCost|number(double)|true|none|none|
-|shippingMethod|string|true|none|none|
+|shippingMethod|string|true|none|Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.|
 |shippingMethodId|string|true|none|none|
 
 #### Enumerated Values
@@ -2733,19 +3296,27 @@ This operation does not require authentication
     "mobileNumber": 91234567
   },
   "merchantInfo": {
-    "authToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni <snip>",
+    "authToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni",
     "callbackPrefix": "https://example.com/vipps/callbacks",
     "consentRemovalPrefix": "https://example.com/vipps",
     "fallBack": "https://example.com/vipps/fallback/order123abc",
     "isApp": false,
     "merchantSerialNumber": 123456,
     "paymentType": "eComm Regular Payment",
-    "shippingDetailsPrefix": "https://example.com/vipps/shipping/"
+    "shippingDetailsPrefix": "https://example.com/vipps/shipping/",
+    "staticShippingDetails": [
+      {
+        "isDefault": "Y",
+        "priority": 0,
+        "shippingCost": 0,
+        "shippingMethod": "Posten Servicepakke",
+        "shippingMethodId": "string"
+      }
+    ]
   },
   "transaction": {
     "amount": 20000,
     "orderId": "order123abc",
-    "refOrderId": "merchantOrder123abc",
     "timeStamp": "2018-11-14T15:44:26.590Z",
     "transactionText": "One pair of Vipps socks"
   }
@@ -2772,7 +3343,6 @@ This operation does not require authentication
 {
   "amount": 20000,
   "orderId": "order123abc",
-  "refOrderId": "merchantOrder123abc",
   "timeStamp": "2018-11-14T15:44:26.590Z",
   "transactionText": "One pair of Vipps socks"
 }
@@ -2784,10 +3354,9 @@ This operation does not require authentication
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |amount|integer(int32)|true|none|Amount in øre. 32 bit Integer (2147483647)|
-|orderId|string|true|none|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters.|
-|refOrderId|string|false|none|Identifies if the payment references to some past orders registered with Vipps. If defined, transactions for this payment will show up as child transactions of the specified order.|
+|orderId|string|true|none|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.|
 |timeStamp|string(date-time)|false|none|ISO formatted date time string.|
-|transactionText|string|true|none|Transaction text that can be displayed to end user|
+|transactionText|string|true|none|Transaction text to be displayed in Vipps|
 
 <h2 id="tocS_MerchantInfoDto">MerchantInfoDto</h2>
 <!-- backwards compatibility -->
@@ -2798,14 +3367,23 @@ This operation does not require authentication
 
 ```json
 {
-  "authToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni <snip>",
+  "authToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni",
   "callbackPrefix": "https://example.com/vipps/callbacks",
   "consentRemovalPrefix": "https://example.com/vipps",
   "fallBack": "https://example.com/vipps/fallback/order123abc",
   "isApp": false,
   "merchantSerialNumber": 123456,
   "paymentType": "eComm Regular Payment",
-  "shippingDetailsPrefix": "https://example.com/vipps/shipping/"
+  "shippingDetailsPrefix": "https://example.com/vipps/shipping/",
+  "staticShippingDetails": [
+    {
+      "isDefault": "Y",
+      "priority": 0,
+      "shippingCost": 0,
+      "shippingMethod": "Posten Servicepakke",
+      "shippingMethodId": "string"
+    }
+  ]
 }
 
 ```
@@ -2814,14 +3392,15 @@ This operation does not require authentication
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|authToken|string|false|none|The Merchant should share this token if merchant has authentication mechanism in place which could be used for making callbacks secure.|
-|callbackPrefix|string|true|none|This is an URL for receiving the callback after the payment request. Domain name and context path should be provided by merchant as the value for this parameter. Vipps will add `/v2/payments/{orderId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).|
-|consentRemovalPrefix|string|false|none|Required for expess checkout payments. This callback URL will be used by Vipps to inform the merchant that the user has revoked his/her consent: This Vipps user does do not want the merchant to store or use his/her personal information anymore. Required by GDPR. Vipps will add `/v2/consents/{userId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).|
+|authToken|string|false|none|Authorization token that the merchant could share to make callbacks more secure. If provided this token will be returned as an `Authorization` header for our callbacks. This includes shipping details and callback.|
+|callbackPrefix|string|true|none|This is an URL for receiving the callback after the payment request. Domain name and context path should be provided by merchant as the value for this parameter. Vipps will add `/v2/payments/{orderId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html). We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.|
+|consentRemovalPrefix|string|false|none|Required for express checkout payments. This callback URL will be used by Vipps to inform the merchant that the user has revoked his/her consent: This Vipps user does do not want the merchant to store or use his/her personal information anymore. Required by GDPR. Vipps will add `/v2/consents/{userId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html). We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.|
 |fallBack|string|true|none|Vipps will use the fall back URL to redirect Merchant Page once Payment is completed in Vipps System URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).|
 |isApp|boolean|false|none|This parameter indicates whether payment request is triggered from Mobile App or Web browser. Based on this value, response will be redirect URL for Vipps landing page or deeplink URL to connect vipps App. When isApp is set to true, URLs passed to Vipps will not be validated as regular URLs.|
 |merchantSerialNumber|string|true|none|Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.|
-|paymentType|string|false|none|This parameter will identify difference between a regular ecomm payment and ecomm express payment. For express checkout, use: "eComm Express Payment". Express checkouts require consentRemovalPrefix.|
-|shippingDetailsPrefix|string|false|none|In case of express checkout payment, merchant should pass this prefix to let Vipps fetch shipping cost and method related details. Vipps will add `/v2/payments/{orderId}/shippingDetails` to the end or this URL.|
+|paymentType|string|false|none|This parameter will identify difference between a regular ecomm payment and ecomm express payment. For express checkout, use: "eComm Express Payment". Express checkouts require `consentRemovalPrefix`.|
+|shippingDetailsPrefix|string|false|none|In case of express checkout payment, merchant should pass this prefix to let Vipps fetch shipping cost and method related details. Vipps will add `/v2/payments/{orderId}/shippingDetails` to the end or this URL. We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.|
+|staticShippingDetails|[[ShippingDetails](#schemashippingdetails)]|false|none|If shipping method and cost are always a fixed value, for example 50kr,  then the method and price can be provided during the initiate call. The shippingDetailsPrefix callback will not be used if this value is provided.|
 
 #### Enumerated Values
 
@@ -2854,7 +3433,7 @@ This operation does not require authentication
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|orderId|string|false|none|none|
+|orderId|string|false|none|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.|
 |transactionInfo|[OrderStatusInfoTransactionInfo](#schemaorderstatusinfotransactioninfo)|false|none|none|
 
 <h2 id="tocS_Transaction">Transaction</h2>
@@ -2867,7 +3446,7 @@ This operation does not require authentication
 ```json
 {
   "amount": 20000,
-  "transactionText": "string"
+  "transactionText": "One pair of Vipps socks"
 }
 
 ```
@@ -2877,7 +3456,7 @@ This operation does not require authentication
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |amount|integer(int32)|false|none|Amount in øre, if amount is 0 or not provided then full capture will be performed. 32 Bit Integer (2147483647)|
-|transactionText|string|true|none|Proof of delivery|
+|transactionText|string|true|none|Transaction text to be displayed in Vipps|
 
 <h2 id="tocS_FetchShippingCostAndMethod">FetchShippingCostAndMethod</h2>
 <!-- backwards compatibility -->
@@ -2893,8 +3472,7 @@ This operation does not require authentication
   "addressLine2": "string",
   "city": "Oslo",
   "country": "NO",
-  "postCode": 191,
-  "postalCode": 191,
+  "postCode": "0603",
   "addressType": "H"
 }
 
@@ -2909,8 +3487,7 @@ This operation does not require authentication
 |addressLine2|string|false|none|none|
 |city|string|true|none|City|
 |country|string|true|none|The only country supported is Norway|
-|postCode|integer(int32)|true|none|Four digits|
-|postalCode|integer(int32)|false|none|Four digits|
+|postCode|string|true|none|Four digits|
 |addressType|string|false|none|none|
 
 <h2 id="tocS_CustomerInfoDto">CustomerInfoDto</h2>
@@ -2946,7 +3523,7 @@ This operation does not require authentication
     "merchantSerialNumber": 123456
   },
   "transaction": {
-    "transactionText": "string"
+    "transactionText": "One pair of Vipps socks"
   }
 }
 
@@ -2975,11 +3552,12 @@ This operation does not require authentication
       "addressLine1": "Dronning Eufemias gate 42",
       "addressLine2": "Att: Rune Garborg",
       "city": "Oslo",
-      "country": "NO",
-      "zipCode": "0191"
+      "country": "Norway",
+      "postCode": 191
     },
     "shippingCost": 0,
-    "shippingMethod": "string"
+    "shippingMethod": "Posten Servicepakke",
+    "shippingMethodId": "string"
   },
   "transactionInfo": {
     "amount": 20000,
@@ -2988,14 +3566,19 @@ This operation does not require authentication
     "transactionId": "5001420062"
   },
   "userDetails": {
-    "bankIdVerified": "string",
+    "bankIdVerified": "Y",
     "dateOfBirth": "12-3-1988",
     "email": "user@example.com",
     "firstName": "Ada",
     "lastName": "Lovelace",
-    "mobileNumber": "stringst",
-    "ssn": "stringstrin",
-    "userId": "1234567"
+    "mobileNumber": "12345678",
+    "ssn": "12345678901",
+    "userId": "uiJskNQ6qNN1iwN891uuob=="
+  },
+  "errorInfo": {
+    "errorCode": 45,
+    "errorGroup": "PAYMENTS",
+    "errorMessage": "User has cancelled or not acted upon the payment"
   }
 }
 
@@ -3006,10 +3589,46 @@ This operation does not require authentication
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |merchantSerialNumber|string|true|none|Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.|
-|orderId|string|true|none|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters|
+|orderId|string|true|none|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.|
 |shippingDetails|[ShippingDetailsRequest](#schemashippingdetailsrequest)|true|none|none|
-|transactionInfo|[CallbackTransactionInfoStatus](#schemacallbacktransactioninfostatus)|false|none|none|
+|transactionInfo|[CallbackTransactionInfoStatus](#schemacallbacktransactioninfostatus)|true|none|none|
 |userDetails|[UserDetails](#schemauserdetails)|true|none|none|
+|errorInfo|[callbackErrorInfo](#schemacallbackerrorinfo)|false|none|none|
+
+<h2 id="tocS_RegularCheckOutPaymentRequest">RegularCheckOutPaymentRequest</h2>
+<!-- backwards compatibility -->
+<a id="schemaregularcheckoutpaymentrequest"></a>
+<a id="schema_RegularCheckOutPaymentRequest"></a>
+<a id="tocSregularcheckoutpaymentrequest"></a>
+<a id="tocsregularcheckoutpaymentrequest"></a>
+
+```json
+{
+  "merchantSerialNumber": 123456,
+  "orderId": "order123abc",
+  "transactionInfo": {
+    "amount": 20000,
+    "status": "RESERVE",
+    "timeStamp": "2018-12-12T11:18:38.246Z",
+    "transactionId": "5001420062"
+  },
+  "errorInfo": {
+    "errorCode": 45,
+    "errorGroup": "PAYMENTS",
+    "errorMessage": "User has cancelled or not acted upon the payment"
+  }
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|merchantSerialNumber|string|true|none|Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.|
+|orderId|string|true|none|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.|
+|transactionInfo|[CallbackTransactionInfoStatus](#schemacallbacktransactioninfostatus)|true|none|none|
+|errorInfo|[callbackErrorInfo](#schemacallbackerrorinfo)|false|none|none|
 
 <h2 id="tocS_AuthorizationTokenResponse">AuthorizationTokenResponse</h2>
 <!-- backwards compatibility -->
@@ -3026,7 +3645,7 @@ This operation does not require authentication
   "expires_on": 1547823408,
   "not_before": 1547819508,
   "resource": "00000002-0000-0000-c000-000000000000",
-  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni <snip>"
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni"
 }
 
 ```
@@ -3035,29 +3654,13 @@ This operation does not require authentication
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|token_type|string|false|none|none|
-|expires_in|integer|false|none|none|
-|ext_expires_in|integer|false|none|none|
-|expires_on|integer|false|none|none|
-|not_before|integer|false|none|none|
-|resource|string|false|none|none|
-|access_token|string|false|none|none|
-
-<h2 id="tocS_AuthorizationTokenMethod">AuthorizationTokenMethod</h2>
-<!-- backwards compatibility -->
-<a id="schemaauthorizationtokenmethod"></a>
-<a id="schema_AuthorizationTokenMethod"></a>
-<a id="tocSauthorizationtokenmethod"></a>
-<a id="tocsauthorizationtokenmethod"></a>
-
-```json
-{}
-
-```
-
-### Properties
-
-*None*
+|token_type|string|true|none|String containing the type for the Access Token.|
+|expires_in|integer|true|none|Token expiry time in seconds.|
+|ext_expires_in|integer|true|none|Extra time added to expiry time. Currently disabled.|
+|expires_on|integer|true|none|Token expiry time in epoch time format.|
+|not_before|integer|true|none|Token creation time in epoch time format.|
+|resource|string|true|none|A common resource object. Not used in token validation|
+|access_token|string(byte)|true|none|none|
 
 <h2 id="tocS_FetchShippingCostResponse">FetchShippingCostResponse</h2>
 <!-- backwards compatibility -->
@@ -3075,7 +3678,7 @@ This operation does not require authentication
       "isDefault": "Y",
       "priority": 0,
       "shippingCost": 0,
-      "shippingMethod": "string",
+      "shippingMethod": "Posten Servicepakke",
       "shippingMethodId": "string"
     }
   ]
@@ -3088,7 +3691,7 @@ This operation does not require authentication
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |addressId|integer(int32)|true|none|none|
-|orderId|string|true|none|none|
+|orderId|string|true|none|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.|
 |shippingDetails|[[ShippingDetails](#schemashippingdetails)]|true|none|none|
 
 <h2 id="tocS_TransactionSummary">TransactionSummary</h2>
@@ -3116,4 +3719,66 @@ This operation does not require authentication
 |refundedAmount|integer(int32)|true|none|Total refunded amount of the order|
 |remainingAmountToCapture|integer(int32)|true|none|Total remaining amount to capture|
 |remainingAmountToRefund|integer(int32)|true|none|Total remaining amount to refund|
+
+<h2 id="tocS_TransactionUpdateCallbackOneOf">TransactionUpdateCallbackOneOf</h2>
+<!-- backwards compatibility -->
+<a id="schematransactionupdatecallbackoneof"></a>
+<a id="schema_TransactionUpdateCallbackOneOf"></a>
+<a id="tocStransactionupdatecallbackoneof"></a>
+<a id="tocstransactionupdatecallbackoneof"></a>
+
+```json
+{
+  "merchantSerialNumber": 123456,
+  "orderId": "order123abc",
+  "shippingDetails": {
+    "address": {
+      "addressLine1": "Dronning Eufemias gate 42",
+      "addressLine2": "Att: Rune Garborg",
+      "city": "Oslo",
+      "country": "Norway",
+      "postCode": 191
+    },
+    "shippingCost": 0,
+    "shippingMethod": "Posten Servicepakke",
+    "shippingMethodId": "string"
+  },
+  "transactionInfo": {
+    "amount": 20000,
+    "status": "RESERVE",
+    "timeStamp": "2018-12-12T11:18:38.246Z",
+    "transactionId": "5001420062"
+  },
+  "userDetails": {
+    "bankIdVerified": "Y",
+    "dateOfBirth": "12-3-1988",
+    "email": "user@example.com",
+    "firstName": "Ada",
+    "lastName": "Lovelace",
+    "mobileNumber": "12345678",
+    "ssn": "12345678901",
+    "userId": "uiJskNQ6qNN1iwN891uuob=="
+  },
+  "errorInfo": {
+    "errorCode": 45,
+    "errorGroup": "PAYMENTS",
+    "errorMessage": "User has cancelled or not acted upon the payment"
+  }
+}
+
+```
+
+### Properties
+
+oneOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|*anonymous*|[ExpressCheckOutPaymentRequest](#schemaexpresscheckoutpaymentrequest)|false|none|none|
+
+xor
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|*anonymous*|[RegularCheckOutPaymentRequest](#schemaregularcheckoutpaymentrequest)|false|none|none|
 
