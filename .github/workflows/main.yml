@@ -41,6 +41,7 @@ jobs:
         git init ../slate
         git -C ../slate pull https://github.com/slatedocs/slate
         cp ./docs/widdershins.html.md ../slate/source/index.html.md
+        cd ../slate
         bundle install
     - name: Build Slate
       run: |
