@@ -28,27 +28,29 @@ jobs:
         ruby-version: '2.6'
     - uses: actions/cache@v1
       with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        path: ../slate/vendor/bundle
+        key: ${{ runner.os }}-slate-
     - name: Install and run Widdershins
       run: |
         npm install widdershins -g
         widdershins docs/swagger.yaml -o docs/widdershins.html.md --expandBody
     - name: Install Slate
       run: |
+        cd ./slate
         gem install bundler:2.0.2
-        bundle config path vendor/bundle
+        bundle config path ./vendor/bundle
         git init ../slate
-        git -C ../slate pull https://github.com/slatedocs/slate
-        cp ./docs/widdershins.html.md ../slate/source/index.html.md
-        cd ../slate
+        git pull https://github.com/slatedocs/slate
         bundle install
     - name: Build Slate
       run: |
+        cp ./docs/widdershins.html.md ../slate/source/index.html.md
         cd ../slate
+        ls
         bundle exec middleman build --clean
     - name: Push new build
       run: |
+        ls
         cp -R ../slate/build ./docs/
         git config --local user.email "actions@example.com"
         git config --local user.name "github actions"
