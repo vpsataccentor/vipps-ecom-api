@@ -1,2 +1,11 @@
 from,to
 fetchAuthorizationTokenUsingPost,Access Token
+initiatePaymentV3UsingPOST,Initiate Payment
+capturePaymentUsingPOST,Capture Payment
+cancelPaymentRequestUsingPUT,Cancel Payment
+refundPaymentUsingPOST,Refund Payment
+getPaymentDetailsUsingGET,Payment Details
+getOrderStatusUsingGET,Deprecated: Order Status
+removeUserConsentUsingDELETE,Remove Consent
+fetchShippingCostUsingPOST,Shipping Cost
+transactionUpdateCallbackForRegularPaymentUsingPOST,Callback
