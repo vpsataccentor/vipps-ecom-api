@@ -235,25 +235,25 @@
             <a href="#vipps-ecommerce-api-vipps-ecom-api" class="toc-h1 toc-link" data-title="Vipps eCom API">Vipps eCom API</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#initiatepaymentv3usingpost" class="toc-h2 toc-link" data-title="initiatePaymentV3UsingPOST">initiatePaymentV3UsingPOST</a>
+                    <a href="#initiate-payment" class="toc-h2 toc-link" data-title="Initiate Payment">Initiate Payment</a>
                   </li>
                   <li>
-                    <a href="#initiatepaymentv3usingpost-2" class="toc-h2 toc-link" data-title="initiatePaymentV3UsingPOST">initiatePaymentV3UsingPOST</a>
+                    <a href="#initiate-payment-2" class="toc-h2 toc-link" data-title="Initiate Payment">Initiate Payment</a>
                   </li>
                   <li>
-                    <a href="#capturepaymentusingpost" class="toc-h2 toc-link" data-title="capturePaymentUsingPOST">capturePaymentUsingPOST</a>
+                    <a href="#capture-payment" class="toc-h2 toc-link" data-title="Capture Payment">Capture Payment</a>
                   </li>
                   <li>
-                    <a href="#cancelpaymentrequestusingput" class="toc-h2 toc-link" data-title="cancelPaymentRequestUsingPUT">cancelPaymentRequestUsingPUT</a>
+                    <a href="#cancel-payment" class="toc-h2 toc-link" data-title="Cancel Payment">Cancel Payment</a>
                   </li>
                   <li>
-                    <a href="#refundpaymentusingpost" class="toc-h2 toc-link" data-title="refundPaymentUsingPOST">refundPaymentUsingPOST</a>
+                    <a href="#refund-payment" class="toc-h2 toc-link" data-title="Refund Payment">Refund Payment</a>
                   </li>
                   <li>
-                    <a href="#getpaymentdetailsusingget" class="toc-h2 toc-link" data-title="getPaymentDetailsUsingGET">getPaymentDetailsUsingGET</a>
+                    <a href="#payment-details" class="toc-h2 toc-link" data-title="Payment Details">Payment Details</a>
                   </li>
                   <li>
-                    <a href="#getorderstatususingget" class="toc-h2 toc-link" data-title="getOrderStatusUsingGET">getOrderStatusUsingGET</a>
+                    <a href="#deprecated-order-status" class="toc-h2 toc-link" data-title="Deprecated: Order Status">Deprecated: Order Status</a>
                   </li>
               </ul>
           </li>
@@ -261,13 +261,13 @@
             <a href="#vipps-ecommerce-api-endpoints-required-by-vipps-from-the-merchant" class="toc-h1 toc-link" data-title="Endpoints required by Vipps from the merchant">Endpoints required by Vipps from the merchant</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#removeuserconsentusingdelete" class="toc-h2 toc-link" data-title="removeUserConsentUsingDELETE">removeUserConsentUsingDELETE</a>
+                    <a href="#remove-consent" class="toc-h2 toc-link" data-title="Remove Consent">Remove Consent</a>
                   </li>
                   <li>
-                    <a href="#fetchshippingcostusingpost" class="toc-h2 toc-link" data-title="fetchShippingCostUsingPOST">fetchShippingCostUsingPOST</a>
+                    <a href="#shipping-cost" class="toc-h2 toc-link" data-title="Shipping Cost">Shipping Cost</a>
                   </li>
                   <li>
-                    <a href="#transactionupdatecallbackforregularpaymentusingpost" class="toc-h2 toc-link" data-title="transactionUpdateCallbackForRegularPaymentUsingPOST">transactionUpdateCallbackForRegularPaymentUsingPOST</a>
+                    <a href="#callback" class="toc-h2 toc-link" data-title="Callback">Callback</a>
                   </li>
               </ul>
           </li>
@@ -413,7 +413,7 @@
 <h1 id="vipps-ecommerce-api-vipps-ecom-api">Vipps eCom API</h1>
 
 <p>Functionality provided by the Vipps eCommerce API</p>
-<h2 id='initiatepaymentv3usingpost'>initiatePaymentV3UsingPOST</h2>
+<h2 id='initiate-payment'>Initiate Payment</h2>
 <p><a id="opIdinitiatePaymentV3UsingPOST"></a></p>
 
 <blockquote>
@@ -746,7 +746,7 @@ curl -X POST https://apitest.vipps.no/ecomm/v2/payments <span class="se">\</span
 </tbody></table>
 <h3 id='callbacks'>Callbacks</h3><h4 id='callbackexpress'>callbackExpress</h4>
 <p><strong>{$request.body#/merchantInfo/callbackPrefix}/v2/payments/{$request.body#/transaction/orderId}</strong></p>
-<h2 id='initiatepaymentv3usingpost-2'>initiatePaymentV3UsingPOST</h2>
+<h2 id='initiate-payment-2'>Initiate Payment</h2>
 <p><a id="opIdInitiatePaymentTransactionUpdateCallbackForRegularPaymentUsingPOSTExpress"></a></p>
 
 <blockquote>
@@ -999,7 +999,7 @@ This operation does not require authentication
 <aside class="success">
 This operation does not require authentication
 </aside>
-<h2 id='capturepaymentusingpost'>capturePaymentUsingPOST</h2>
+<h2 id='capture-payment'>Capture Payment</h2>
 <p><a id="opIdcapturePaymentUsingPOST"></a></p>
 
 <blockquote>
@@ -1325,7 +1325,7 @@ curl -X POST https://apitest.vipps.no/ecomm/v2/payments/<span class="o">{</span>
 <aside class="success">
 This operation does not require authentication
 </aside>
-<h2 id='cancelpaymentrequestusingput'>cancelPaymentRequestUsingPUT</h2>
+<h2 id='cancel-payment'>Cancel Payment</h2>
 <p><a id="opIdcancelPaymentRequestUsingPUT"></a></p>
 
 <blockquote>
@@ -1635,7 +1635,7 @@ curl -X PUT https://apitest.vipps.no/ecomm/v2/payments/<span class="o">{</span>o
 <aside class="success">
 This operation does not require authentication
 </aside>
-<h2 id='refundpaymentusingpost'>refundPaymentUsingPOST</h2>
+<h2 id='refund-payment'>Refund Payment</h2>
 <p><a id="opIdrefundPaymentUsingPOST"></a></p>
 
 <blockquote>
@@ -1961,7 +1961,7 @@ curl -X POST https://apitest.vipps.no/ecomm/v2/payments/<span class="o">{</span>
 <aside class="success">
 This operation does not require authentication
 </aside>
-<h2 id='getpaymentdetailsusingget'>getPaymentDetailsUsingGET</h2>
+<h2 id='payment-details'>Payment Details</h2>
 <p><a id="opIdgetPaymentDetailsUsingGET"></a></p>
 
 <blockquote>
@@ -2264,7 +2264,7 @@ curl -X GET https://apitest.vipps.no/ecomm/v2/payments/<span class="o">{</span>o
 <aside class="success">
 This operation does not require authentication
 </aside>
-<h2 id='getorderstatususingget'>getOrderStatusUsingGET</h2>
+<h2 id='deprecated-order-status'>Deprecated: Order Status</h2>
 <p><a id="opIdgetOrderStatusUsingGET"></a></p>
 
 <blockquote>
@@ -2524,7 +2524,7 @@ This operation does not require authentication
 <h1 id="vipps-ecommerce-api-endpoints-required-by-vipps-from-the-merchant">Endpoints required by Vipps from the merchant</h1>
 
 <p>These endpoints must be implemented by the merchant, and are called by Vipps.</p>
-<h2 id='removeuserconsentusingdelete'>removeUserConsentUsingDELETE</h2>
+<h2 id='remove-consent'>Remove Consent</h2>
 <p><a id="opIdremoveUserConsentUsingDELETE"></a></p>
 
 <blockquote>
@@ -2667,7 +2667,7 @@ curl -X DELETE https://apitest.vipps.no[consentRemovalPrefix]/v2/consents/<span 
 <aside class="success">
 This operation does not require authentication
 </aside>
-<h2 id='fetchshippingcostusingpost'>fetchShippingCostUsingPOST</h2>
+<h2 id='shipping-cost'>Shipping Cost</h2>
 <p><a id="opIdfetchShippingCostUsingPOST"></a></p>
 
 <blockquote>
@@ -2900,7 +2900,7 @@ curl -X POST https://apitest.vipps.no[shippingDetailsPrefix]/v2/payments/<span c
 <aside class="success">
 This operation does not require authentication
 </aside>
-<h2 id='transactionupdatecallbackforregularpaymentusingpost'>transactionUpdateCallbackForRegularPaymentUsingPOST</h2>
+<h2 id='callback'>Callback</h2>
 <p><a id="opIdtransactionUpdateCallbackForRegularPaymentUsingPOST"></a></p>
 
 <blockquote>
