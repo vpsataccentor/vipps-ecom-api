@@ -26,6 +26,9 @@ jobs:
     - uses: actions/setup-ruby@v1
       with:
         ruby-version: '2.6'
+    - uses: actions/setup-python@v1
+      with:
+        python-version: '3.7'
     - uses: actions/cache@v1
       with:
         path: ../slate/vendor/bundle
@@ -33,7 +36,7 @@ jobs:
     - name: Install and run Widdershins
       run: |
         npm install widdershins -g
-        widdershins docs/swagger.yaml -o docs/widdershins.html.md
+        widdershins ./docs/swagger.yaml -o docs/index.html.md
     - name: Install Slate
       run: |
         git init ../slate
@@ -42,9 +45,13 @@ jobs:
         bundle config path ./vendor/bundle
         git pull https://github.com/slatedocs/slate
         bundle install
+    - name: Python find replace
+      run: |
+        cd ./docs/
+        python find_replace.py
     - name: Build Slate
       run: |
-        cp ./docs/widdershins.html.md ../slate/source/index.html.md
+        cp ./docs/index.html.md ../slate/source/index.html.md
         cd ../slate
         ls
         bundle exec middleman build --clean
@@ -61,8 +68,3 @@ jobs:
         git push
       env:
         CI: true
-#    - name: Deploy to GitHub Pages
-#      uses: docker://maxheld83/ghpages@v0.2.1
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        BUILD_DIR: test-documentation/build/
