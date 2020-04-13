@@ -53,7 +53,6 @@ jobs:
       run: |
         cp ./docs/index.html.md ../slate/source/index.html.md
         cd ../slate
-        ls
         bundle exec middleman build --clean
     - name: Push new build
       run: |
