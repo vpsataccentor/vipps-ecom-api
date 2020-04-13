@@ -51,7 +51,7 @@ jobs:
         python find_replace.py
     - name: Build Slate
       run: |
-        cp ./docs/widdershins.html.md ../slate/source/index.html.md
+        cp ./docs/index.html.md ../slate/source/index.html.md
         cd ../slate
         ls
         bundle exec middleman build --clean
