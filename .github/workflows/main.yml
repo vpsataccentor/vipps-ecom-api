@@ -37,15 +37,15 @@ jobs:
       run: |
         npm install widdershins -g
         widdershins ./docs/swagger.yaml -o docs/index.html.md --expandBody
-        echo $PWD
-    - name: actions test
-      uses: vpsataccentor/openapi2slate@master
-      with:
-        filepath: ./docs/swagger.yaml
+    - name: Clone openapi2slate
+      run: |
+        git pull https://github.com/vpsataccentor/openapi2slate ../o2s
+# remember to change find_replace to take in path
     - name: Python find replace
       run: |
+        cp ../o2s/find_replace.py ./docs/find_replace.py
         cd ./docs/
-        python find_replace.py
+        python ./find_replace.py
     - name: Install Slate
       run: |
         git init ../slate
@@ -57,10 +57,11 @@ jobs:
     - name: Build Slate
       run: |
         cp ./docs/index.html.md ../slate/source/index.html.md
-        cp ./images/logo.png ../slate/source/images/logo.png
+        cp ../o2s/logo.png ../slate/source/images/logo.png
         cd ../slate
         bundle exec middleman build --clean
     - name: Push new build
+#  FIXME: git add exact
       run: |
         ls
         cp -R ../slate/build ./docs/
@@ -68,7 +69,7 @@ jobs:
         git config --local user.name "github actions"
         git remote -v
         git branch -a
-        git add ./docs
+        git add ./docs/build
         git commit -m "fun"
         git push
       env:
