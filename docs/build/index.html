@@ -581,8 +581,6 @@ curl -X POST https://apitest.vipps.no/ecomm/v2/payments <span class="se">\</span
 </span></code></pre>
 <p><code>POST /ecomm/v2/payments</code></p>
 
-<p><em>Initiate Payment</em></p>
-
 <p>This API call allows the merchants to initiate a payment flow by using Vipps. In order to identify which sales channel payments are coming from, a merchantSerialNumber is used to distinguish between them. Please note that a single payment is uniquely identified by a composite of merchantSerialNumber and orderId. The Merchant provided orderId must be unique per sales channel. Once the transaction is successfully initiated in Vipps, you will receive a URL in response which will direct the customer to the landing page. The landing page will have functionality to identify and differentiate request coming from mobile browser/desktop browser. The merchant may also pass the &#39;isApp&#39; parameter that will make Vipps respond with a app-switch deeplink that will take the customer directly to the Vipps app. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons <a href="https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html">UrlValidator</a>.</p>
 
 <blockquote>
@@ -1070,8 +1068,6 @@ curl -X POST https://apitest.vipps.no/ecomm/v2/payments <span class="se">\</span
 
 </span></code></pre>
 <p><code>POST /ecomm/v2/payments</code></p>
-
-<p><em>Callback : Transaction Update</em></p>
 
 <p>This API call allows Vipps to send the transaction details. During regular ecomm payment order and transaction details will be shared. During express checkout payment it will provide user details and shipping details addition to the order and transaction details. Vipps will add <code>/v2/payments/{orderId}</code> to the end of this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons <a href="https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html">UrlValidator</a>. We don&#39;t send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.</p>
 
@@ -1581,8 +1577,6 @@ curl -X POST https://apitest.vipps.no/ecomm/v2/payments/<span class="o">{</span>
 </span></code></pre>
 <p><code>POST /ecomm/v2/payments/{orderId}/capture</code></p>
 
-<p>*Capture Payment *</p>
-
 <p>This API call allows merchant to capture the reserved amount. Amount to capture cannot be higher than reserved. The API also allows capturing partial amount of the reserved amount. Partial capture can be called as many times as required so long there is reserved amount to capture. Transaction text is not optional and is used as a proof of delivery (tracking code, consignment number etc.). In a case of direct capture, both fund reservation and capture are executed in a single operation.</p>
 
 <blockquote>
@@ -1934,8 +1928,6 @@ curl -X PUT https://apitest.vipps.no/ecomm/v2/payments/<span class="o">{</span>o
 </span></code></pre>
 <p><code>PUT /ecomm/v2/payments/{orderId}/cancel</code></p>
 
-<p><em>Cancel Payment</em></p>
-
 <p>The API call allows merchant to cancel the reserved transaction, The API will not allow partial cancellation which has the consequence that partially captured transactions cannot be cancelled. Please note that in a case of communication errors during initiate payment service call between Vipps and PSP/Acquirer/Issuer; even in a case that customer has confirmed a payment, the payment will be cancelled by Vipps. Note this means you can not cancel a captured payment.</p>
 
 <blockquote>
@@ -2280,8 +2272,6 @@ curl -X POST https://apitest.vipps.no/ecomm/v2/payments/<span class="o">{</span>
 </span></code></pre>
 <p><code>POST /ecomm/v2/payments/{orderId}/refund</code></p>
 
-<p>*Refund Payment *</p>
-
 <p>The API allows a merchant to do a refund of already captured transaction. There is an option to do a partial refund of the captured amount. Refunded amount cannot be larger than captured. Timeframe for issuing a refund for a payment is 365 days from the date payment has been captured. If the refund payment service call is called after the refund timeframe, service call will respond with an error. Refunded funds will be transferred from the merchant account to the customer credit card that was used in payment flow. Pay attention that in order to perform refund, there must be enough funds at merchant settlements account.</p>
 
 <blockquote>
@@ -2619,8 +2609,6 @@ curl -X GET https://apitest.vipps.no/ecomm/v2/payments/<span class="o">{</span>o
 </span></code></pre>
 <p><code>GET /ecomm/v2/payments/{orderId}/details</code></p>
 
-<p><em>Get payment Details</em></p>
-
 <p>This API call allows merchant to get the details of a payment transaction. Service call returns detailed transaction history of given payment where events are sorted from newest to oldest for when the transaction occurred.</p>
 
 <h3 id="getpaymentdetailsusingget-parameters">Parameters</h3>
@@ -2915,8 +2903,6 @@ curl -X GET https://apitest.vipps.no/ecomm/v2/payments/<span class="o">{</span>o
 </span></code></pre>
 <p><code>GET /ecomm/v2/payments/{orderId}/status</code></p>
 
-<p><em>Get order status</em></p>
-
 <p>This API call allows the merchant to get the status of the last payment transaction. Primarily use of this service is meant for inApp where simple response to check order status is preferred.</p>
 
 <h3 id="getorderstatususingget-parameters">Parameters</h3>
@@ -3139,8 +3125,6 @@ curl -X DELETE https://apitest.vipps.no[consentRemovalPrefix]/v2/consents/<span 
 </span></code></pre>
 <p><code>DELETE [consentRemovalPrefix]/v2/consents/{userId}</code></p>
 
-<p><em>Remove User Consent (for express checkout)</em></p>
-
 <p>This API endpoint on the merchant side allows Vipps to send consent removal requests to the merchant. When receiving requests the merchant is obliged to remove the user details permanently, as per the GDPR guidelines. Vipps will add <code>/v2/consents/{userId}</code> to the end of this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons <a href="https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html">UrlValidator</a>. We don&#39;t send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.</p>
 
 <h3 id="removeuserconsentusingdelete-parameters">Parameters</h3>
@@ -3325,8 +3309,6 @@ curl -X POST https://apitest.vipps.no[shippingDetailsPrefix]/v2/payments/<span c
 
 </span></code></pre>
 <p><code>POST [shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails</code></p>
-
-<p><em>Fetch Shipping Cost &amp; Method</em></p>
 
 <p>This API endpoint on the merchant side allows Vipps to get the shipping cost and method based on the provided address and product details. The primary use of this service is Vipps Hurtigkasse (express checkout) where Vipps needs to present shipping cost and method to the Vipps user. Vipps will add <code>/v2/payments/{orderId}/shippingDetails</code> to the end of this URL. Vipps has a <em>10 second timeout</em> for these requests, and thus requires a quick reply from the merchant&#39;s server for successful payments. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons <a href="https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html">UrlValidator</a>. We don&#39;t send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.</p>
 
@@ -3630,8 +3612,6 @@ curl -X POST https://apitest.vipps.no[callbackPrefix]/v2/payments/<span class="o
 </span></code></pre>
 <p><code>POST [callbackPrefix]/v2/payments/{orderId}</code></p>
 
-<p><em>Callback : Transaction Update</em></p>
-
 <p>This API call allows Vipps to send the transaction details. During regular ecomm payment order and transaction details will be shared. During express checkout payment it will provide user details and shipping details addition to the order and transaction details. Vipps will add <code>/v2/payments/{orderId}</code> to the end of this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons <a href="https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html">UrlValidator</a>. We don&#39;t send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.</p>
 
 <blockquote>
@@ -3872,8 +3852,6 @@ curl -X POST https://apitest.vipps.no/accesstoken/get <span class="se">\</span>
 
 </span></code></pre>
 <p><code>POST /accesstoken/get</code></p>
-
-<p><em>Fetch Authorization token</em></p>
 
 <p>Authorization token API endpoint helps to get the JWT Bearer token that needs to be passed in every API request in the Authorization header. The merchant application use the API to get a JWT access token. JWT access token is a base 64 encoded string value that must be aquire first before making any Vipps api calls</p>
 
