@@ -283,6 +283,37 @@ This API call allows the merchants to initiate a payment flow by using Vipps. In
 |Content-Type|header|string|true|application/json|
 |Ocp-Apim-Subscription-Key|header|string|true|The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
 |body|body|[InitiatePaymentCommand](#schemainitiatepaymentcommand)|true|initiatePaymentCommand|
+|» customerInfo|body|[CustomerInfoDto](#schemacustomerinfodto)|true|none|
+|»» mobileNumber|body|string|false|Mobile number of the user who has to pay for the transation from Vipps. Allowed format: xxxxxxxx|
+|» merchantInfo|body|[MerchantInfoDto](#schemamerchantinfodto)|true|none|
+|»» authToken|body|string|false|Authorization token that the merchant could share to make callbacks more secure. If provided this token will be returned as an `Authorization` header for our callbacks. This includes shipping details and callback.|
+|»» callbackPrefix|body|string|true|This is an URL for receiving the callback after the payment request. Domain name and context path should be provided by merchant as the value for this parameter. Vipps will add `/v2/payments/{orderId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html). We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.|
+|»» consentRemovalPrefix|body|string|false|Required for express checkout payments. This callback URL will be used by Vipps to inform the merchant that the user has revoked his/her consent: This Vipps user does do not want the merchant to store or use his/her personal information anymore. Required by GDPR. Vipps will add `/v2/consents/{userId}` to the end or this URL. URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html). We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.|
+|»» fallBack|body|string|true|Vipps will use the fall back URL to redirect Merchant Page once Payment is completed in Vipps System URLs passed to Vipps should be URL-encoded, and must validate with the Apache Commons [UrlValidator](https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html).|
+|»» isApp|body|boolean|false|This parameter indicates whether payment request is triggered from Mobile App or Web browser. Based on this value, response will be redirect URL for Vipps landing page or deeplink URL to connect vipps App. When isApp is set to true, URLs passed to Vipps will not be validated as regular URLs.|
+|»» merchantSerialNumber|body|string|true|Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.|
+|»» paymentType|body|string|false|This parameter will identify difference between a regular ecomm payment and ecomm express payment. For express checkout, use: "eComm Express Payment". Express checkouts require `consentRemovalPrefix`.|
+|»» shippingDetailsPrefix|body|string|false|In case of express checkout payment, merchant should pass this prefix to let Vipps fetch shipping cost and method related details. Vipps will add `/v2/payments/{orderId}/shippingDetails` to the end or this URL. We don't send requests to all ports, so to be safe use common ports such as: 80, 443, 8080.|
+|»» staticShippingDetails|body|[[ShippingDetails](#schemashippingdetails)]|false|If shipping method and cost are always a fixed value, for example 50kr,  then the method and price can be provided during the initiate call. The shippingDetailsPrefix callback will not be used if this value is provided.|
+|»»» isDefault|body|string|true|none|
+|»»» priority|body|integer(int32)|false|none|
+|»»» shippingCost|body|number(double)|true|none|
+|»»» shippingMethod|body|string|true|Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.|
+|»»» shippingMethodId|body|string|true|none|
+|» transaction|body|[TransactionInfoInitiateDTO](#schematransactioninfoinitiatedto)|true|none|
+|»» amount|body|integer(int32)|true|Amount in øre. 32 bit Integer (2147483647)|
+|»» orderId|body|string|true|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.|
+|»» timeStamp|body|string(date-time)|false|ISO formatted date time string.|
+|»» transactionText|body|string|true|Transaction text to be displayed in Vipps|
+
+#### Enumerated Values
+
+|Parameter|Value|
+|---|---|
+|»» paymentType|eComm Regular Payment|
+|»» paymentType|eComm Express Payment|
+|»»» isDefault|Y|
+|»»» isDefault|N|
 
 > Example responses
 
@@ -546,6 +577,49 @@ This API call allows Vipps to send the transaction details. During regular ecomm
 |---|---|---|---|---|
 |orderId|path|string|true|orderId|
 |body|body|[ExpressCheckOutPaymentRequest](#schemaexpresscheckoutpaymentrequest)|false|none|
+|» merchantSerialNumber|body|string|true|Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.|
+|» orderId|body|string|true|Id which uniquely identifies a payment. Maximum length is 30 alphanumeric characters: a-z, A-Z, 0-9 and '-'.|
+|» shippingDetails|body|[ShippingDetailsRequest](#schemashippingdetailsrequest)|true|none|
+|»» address|body|[Address](#schemaaddress)|true|none|
+|»»» addressLine1|body|string|true|Address Line 1|
+|»»» addressLine2|body|string|false|Address Line 2|
+|»»» city|body|string|true|City|
+|»»» country|body|string|true|Country|
+|»»» postCode|body|string|true|Post Code|
+|»» shippingCost|body|number(double)|true|Shipping cost|
+|»» shippingMethod|body|string|true|Shipping method. Max length: 256 characters. Recommended length for readability on most screens: 25 characters.|
+|»» shippingMethodId|body|string|true|none|
+|» transactionInfo|body|[CallbackTransactionInfoStatus](#schemacallbacktransactioninfostatus)|true|none|
+|»» amount|body|number(double)|true|Ordered amount in øre|
+|»» status|body|string|true|Status which gives the current state of the payment within Vipps. See the [API guide](https://github.com/vippsas/vipps-ecom-api/blob/master/vipps-ecom-api.md#callbacks) for more information.|
+|»» timeStamp|body|string|true|Timestamp in ISO-8601 representing when the operation was performed.|
+|»» transactionId|body|string|true|Vipps transaction id|
+|» userDetails|body|[UserDetails](#schemauserdetails)|true|none|
+|»» bankIdVerified|body|string|false|Optional Y/N string indicating if the user in bankId vertified, must be requested during onboarding.|
+|»» dateOfBirth|body|string|false|Optional date of birth infomation, must be requested during onboarding.|
+|»» email|body|string|true|Email address|
+|»» firstName|body|string|true|First name|
+|»» lastName|body|string|true|Last name|
+|»» mobileNumber|body|string|true|Mobile number|
+|»» ssn|body|string|false|Optional social security number for the user, must be requested during onboarding.|
+|»» userId|body|string|true|Identifies a user in Vipps. Merchant is required to store this field for future references.|
+|» errorInfo|body|[callbackErrorInfo](#schemacallbackerrorinfo)|false|none|
+|»» errorCode|body|integer|false|The number code for the error.|
+|»» errorGroup|body|string|false|none|
+|»» errorMessage|body|string|false|Description of the error|
+
+#### Enumerated Values
+
+|Parameter|Value|
+|---|---|
+|»»» country|Norway|
+|»» status|RESERVE|
+|»» status|SALE|
+|»» status|CANCELLED|
+|»» status|REJECTED|
+|»» status|AUTO_CANCEL|
+|»» bankIdVerified|Y|
+|»» bankIdVerified|N|
 
 <h3 id="initiatepaymentv3usingpost-responses">Responses</h3>
 
@@ -781,6 +855,11 @@ This API call allows merchant to capture the reserved amount. Amount to capture 
 |Ocp-Apim-Subscription-Key|header|string|true|The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
 |X-Request-Id|header|string|false|Id used for making requests idempotent. Adding this ID will allow the merchant to retry requests without it making additional changes. Unique for orderId, merchantSerialNumber and endpoint. Max 30 characters.|
 |body|body|[PaymentActionsRequest](#schemapaymentactionsrequest)|true|paymentActionsRequest|
+|» merchantInfo|body|[MerchantInfoPayment](#schemamerchantinfopayment)|false|none|
+|»» merchantSerialNumber|body|string|true|Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.|
+|» transaction|body|[Transaction](#schematransaction)|false|none|
+|»» amount|body|integer(int32)|false|Amount in øre, if amount is 0 or not provided then full capture will be performed. 32 Bit Integer (2147483647)|
+|»» transactionText|body|string|true|Transaction text to be displayed in Vipps|
 
 > Example responses
 
@@ -1027,6 +1106,10 @@ The API call allows merchant to cancel the reserved transaction, The API will no
 |Content-Type|header|string|true|`application/json`|
 |Ocp-Apim-Subscription-Key|header|string|true|The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
 |body|body|[CancelPaymentActionRequest](#schemacancelpaymentactionrequest)|true|paymentActionsRequest|
+|» merchantInfo|body|[MerchantInfoPayment](#schemamerchantinfopayment)|false|none|
+|»» merchantSerialNumber|body|string|true|Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.|
+|» transaction|body|[CancelTransaction](#schemacanceltransaction)|false|none|
+|»» transactionText|body|string|false|Transaction text to be displayed in Vipps|
 
 > Example responses
 
@@ -1283,6 +1366,11 @@ The API allows a merchant to do a refund of already captured transaction. There 
 |Ocp-Apim-Subscription-Key|header|string|true|The subscription-key for your product is located in the [developer portal](https://apitest-portal.vipps.no/). Click the username to the right on the page and select ```Profile``` from the dropdown. Find the relevant salesunit and copy the primary key.  See the [getting started guide](https://github.com/vippsas/vipps-developers/blob/master/vipps-developer-portal-getting-started.md) for full guide with images.|
 |X-Request-Id|header|string|false|Id used for making requests idempotent. Adding this ID will allow the merchant to retry requests without it making additional changes. Unique for orderId, merchantSerialNumber and endpoint. Max 30 characters.|
 |body|body|[PaymentActionsRequest](#schemapaymentactionsrequest)|true|paymentActionsRequest|
+|» merchantInfo|body|[MerchantInfoPayment](#schemamerchantinfopayment)|false|none|
+|»» merchantSerialNumber|body|string|true|Unique id for this merchant's sales channel: website, mobile app etc. Short name: MSN.|
+|» transaction|body|[Transaction](#schematransaction)|false|none|
+|»» amount|body|integer(int32)|false|Amount in øre, if amount is 0 or not provided then full capture will be performed. 32 Bit Integer (2147483647)|
+|»» transactionText|body|string|true|Transaction text to be displayed in Vipps|
 
 > Example responses
 
@@ -2107,6 +2195,13 @@ This API endpoint on the merchant side allows Vipps to get the shipping cost and
 |orderId|path|string|true|orderId|
 |Authorization|header|string|false|Token provided by the merchant in initiate payment request as `authToken`. Used so that the merchant may authenticate the request.|
 |body|body|[FetchShippingCostAndMethod](#schemafetchshippingcostandmethod)|true|fetchShippingCostAndMethod|
+|» addressId|body|integer(int32)|true|Vipps Provided address Id. To be returned in response in the same field|
+|» addressLine1|body|string|true|none|
+|» addressLine2|body|string|false|none|
+|» city|body|string|true|City|
+|» country|body|string|true|The only country supported is Norway|
+|» postCode|body|string|true|Four digits|
+|» addressType|body|string|false|none|
 
 > Example responses
 
