@@ -33,15 +33,15 @@ jobs:
       with:
         path: ../slate/vendor/bundle
         key: ${{ runner.os }}-slate-
-    - name: Install and run Widdershins
-      run: |
-        npm install widdershins -g
-        widdershins ./docs/swagger.yaml -o docs/index.html.md --expandBody
     - name: Clone openapi2slate
       run: |
         git init ../o2s
         cd ../o2s
         git pull https://github.com/vpsataccentor/openapi2slate
+    - name: Install and run Widdershins
+      run: |
+        npm install widdershins -g
+        widdershins ./docs/swagger.yaml -o docs/index.html.md --expandBody --user_templates ../o2s/templates/openapi3
 # remember to change find_replace to take in path
     - name: Python find replace
       run: |
