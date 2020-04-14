@@ -37,6 +37,11 @@ jobs:
       run: |
         npm install widdershins -g
         widdershins ./docs/swagger.yaml -o docs/index.html.md --expandBody
+        echo $PWD
+    - name: actions test
+      uses: vpsataccentor/openapi2slate@master
+      with:
+        filepath: ./docs/swagger.yaml
     - name: Python find replace
       run: |
         cd ./docs/
