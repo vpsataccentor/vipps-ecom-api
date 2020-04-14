@@ -36,7 +36,7 @@ Base URLs:
 
 Functionality provided by the Vipps eCommerce API
 
-## initiatePaymentV3UsingPOST
+## Initiate Payment
 
 <a id="opIdinitiatePaymentV3UsingPOST"></a>
 
@@ -315,7 +315,7 @@ This API call allows the merchants to initiate a payment flow by using Vipps. In
 
 **{$request.body#/merchantInfo/callbackPrefix}/v2/payments/{$request.body#/transaction/orderId}**
 
-## initiatePaymentV3UsingPOST
+## Initiate Payment
 
 <a id="opIdInitiatePaymentTransactionUpdateCallbackForRegularPaymentUsingPOSTExpress"></a>
 
@@ -567,7 +567,7 @@ This operation does not require authentication
 This operation does not require authentication
 </aside>
 
-## capturePaymentUsingPOST
+## Capture Payment
 
 <a id="opIdcapturePaymentUsingPOST"></a>
 
@@ -823,7 +823,7 @@ This API call allows merchant to capture the reserved amount. Amount to capture 
 This operation does not require authentication
 </aside>
 
-## cancelPaymentRequestUsingPUT
+## Cancel Payment
 
 <a id="opIdcancelPaymentRequestUsingPUT"></a>
 
@@ -1069,7 +1069,7 @@ The API call allows merchant to cancel the reserved transaction, The API will no
 This operation does not require authentication
 </aside>
 
-## refundPaymentUsingPOST
+## Refund Payment
 
 <a id="opIdrefundPaymentUsingPOST"></a>
 
@@ -1325,7 +1325,7 @@ The API allows a merchant to do a refund of already captured transaction. There 
 This operation does not require authentication
 </aside>
 
-## getPaymentDetailsUsingGET
+## Payment Details
 
 <a id="opIdgetPaymentDetailsUsingGET"></a>
 
@@ -1569,7 +1569,7 @@ This API call allows merchant to get the details of a payment transaction. Servi
 This operation does not require authentication
 </aside>
 
-## getOrderStatusUsingGET
+## Deprecated: Order Status
 
 <a id="opIdgetOrderStatusUsingGET"></a>
 
@@ -1776,7 +1776,7 @@ This operation does not require authentication
 
 These endpoints must be implemented by the merchant, and are called by Vipps.
 
-## removeUserConsentUsingDELETE
+## Remove Consent
 
 <a id="opIdremoveUserConsentUsingDELETE"></a>
 
@@ -1917,7 +1917,7 @@ This API endpoint on the merchant side allows Vipps to send consent removal requ
 This operation does not require authentication
 </aside>
 
-## fetchShippingCostUsingPOST
+## Shipping Cost
 
 <a id="opIdfetchShippingCostUsingPOST"></a>
 
@@ -2138,7 +2138,7 @@ This API endpoint on the merchant side allows Vipps to get the shipping cost and
 This operation does not require authentication
 </aside>
 
-## transactionUpdateCallbackForRegularPaymentUsingPOST
+## Callback
 
 <a id="opIdtransactionUpdateCallbackForRegularPaymentUsingPOST"></a>
 

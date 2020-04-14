@@ -36,7 +36,11 @@ jobs:
     - name: Install and run Widdershins
       run: |
         npm install widdershins -g
-        widdershins ./docs/swagger.yaml -o docs/index.html.md
+        widdershins ./docs/swagger.yaml -o docs/index.html.md --expandBody
+    - name: Python find replace
+      run: |
+        cd ./docs/
+        python find_replace.py
     - name: Install Slate
       run: |
         git init ../slate
@@ -45,15 +49,11 @@ jobs:
         bundle config path ./vendor/bundle
         git pull https://github.com/slatedocs/slate
         bundle install
-    - name: Python find replace
-      run: |
-        cd ./docs/
-        python find_replace.py
     - name: Build Slate
       run: |
         cp ./docs/index.html.md ../slate/source/index.html.md
+        cp ./images/logo.png ../slate/source/images/logo.png
         cd ../slate
-        ls
         bundle exec middleman build --clean
     - name: Push new build
       run: |
