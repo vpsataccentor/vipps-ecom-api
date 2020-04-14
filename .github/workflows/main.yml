@@ -42,7 +42,7 @@ jobs:
       run: |
         npm install widdershins -g
         widdershins ./docs/swagger.yaml -o docs/index.html.md --expandBody --user_templates ../o2s/templates/openapi3
-# remember to change find_replace to take in path
+# remember to change find_replace to take in path-
     - name: Python find replace
       run: |
         cp ../o2s/find_replace.py ./docs/find_replace.py
