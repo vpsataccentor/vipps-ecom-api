@@ -167,7 +167,7 @@ paths:
   /ecomm/v2/payments:
     post:
       tags:
-        - Vipps eCom API
+        - Vipps eCom API Endpoints
       summary: Initiate Payment
       description: >-
         This API call allows the merchants to initiate a payment flow by using
@@ -363,7 +363,7 @@ paths:
   '[callbackPrefix]/v2/payments/{orderId}':
     post:
       tags:
-        - Endpoints required by Vipps from the merchant
+        - Merchant Endpoints
       summary: 'Callback : Transaction Update'
       description: >-
         This API call allows Vipps to send the transaction details. During
@@ -717,7 +717,7 @@ paths:
     get:
       tags:
         - Vipps eCom API
-      summary: Get order status
+      summary: Deprecated: Get order status
       description: >-
         This API call allows the merchant to get the status of the last payment
         transaction. Primarily use of this service is meant for inApp where
