@@ -26,9 +26,9 @@ jobs:
     - uses: actions/setup-ruby@v1
       with:
         ruby-version: '2.6'
-    - uses: actions/setup-python@v1
-      with:
-        python-version: '3.7'
+#    - uses: actions/setup-python@v1
+#      with:
+#        python-version: '3.7'
     - uses: actions/cache@v1
       with:
         path: ../slate/vendor/bundle
@@ -43,10 +43,10 @@ jobs:
         npm install widdershins -g
         widdershins ./docs/swagger.yaml -o docs/index.html.md --expandBody --user_templates ../o2s/templates/openapi3 --summary
 # remember to change find_replace to take in path
-    - name: Python find replace
-      run: |
-        cp ../o2s/find_replace.py ./docs/find_replace.py
-        cd ./docs/
+#    - name: Python find replace
+#      run: |
+#        cp ../o2s/find_replace.py ./docs/find_replace.py
+#        cd ./docs/
 #        python ./find_replace.py
     - name: Install Slate
       run: |
@@ -63,16 +63,13 @@ jobs:
         cd ../slate
         bundle exec middleman build --clean
     - name: Push new build
-#  FIXME: git add exact
       run: |
         ls
-        cp -R ../slate/build ./docs/
+        cp -r ../slate/build ./docs/slate
         git config --local user.email "actions@example.com"
         git config --local user.name "github actions"
-        git remote -v
-        git branch -a
-        git add ./docs/build
-        git commit -m "fun"
+        git add ./docs/slate
+        git commit -m "Slate update"
         git push
       env:
         CI: true
