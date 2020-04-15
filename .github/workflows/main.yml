@@ -41,13 +41,13 @@ jobs:
     - name: Install and run Widdershins
       run: |
         npm install widdershins -g
-        widdershins ./docs/swagger.yaml -o docs/index.html.md --expandBody --user_templates ../o2s/templates/openapi3
+        widdershins ./docs/swagger.yaml -o docs/index.html.md --expandBody --user_templates ../o2s/templates/openapi3 --summary
 # remember to change find_replace to take in path
     - name: Python find replace
       run: |
         cp ../o2s/find_replace.py ./docs/find_replace.py
         cd ./docs/
-        python ./find_replace.py
+#        python ./find_replace.py
     - name: Install Slate
       run: |
         git init ../slate
