@@ -18,7 +18,6 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@master
-#    - uses: actions/checkout@v2
     - name: Use Node.js 12.x
       uses: actions/setup-node@v1
       with:
@@ -26,9 +25,6 @@ jobs:
     - uses: actions/setup-ruby@v1
       with:
         ruby-version: '2.6'
-#    - uses: actions/setup-python@v1
-#      with:
-#        python-version: '3.7'
     - uses: actions/cache@v1
       with:
         path: ../slate/vendor/bundle
@@ -41,13 +37,7 @@ jobs:
     - name: Install and run Widdershins
       run: |
         npm install widdershins -g
-        widdershins ./docs/swagger.yaml -o docs/index.html.md --expandBody --user_templates ../o2s/openapi3/ --summary
-# remember to change find_replace to take in path
-#    - name: Python find replace
-#      run: |
-#        cp ../o2s/find_replace.py ./docs/find_replace.py
-#        cd ./docs/
-#        python ./find_replace.py
+        widdershins ./docs/swagger.yaml -o docs/inde
     - name: Install Slate
       run: |
         git init ../slate
