@@ -37,7 +37,7 @@ jobs:
     - name: Install and run Widdershins
       run: |
         npm install widdershins -g
-        widdershins ./docs/swagger.yaml -o docs/inde
+        widdershins ./docs/swagger.yaml -o ./docs/index.html.md --expandBody --user_templates ../o2s/openapi3 --summary
     - name: Install Slate
       run: |
         git init ../slate
