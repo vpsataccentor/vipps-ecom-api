@@ -8,9 +8,9 @@ info:
 tags:
   - name: Authorization Service1
     description: Authorization Service
-  - name: Vipps eCom API
+  - name: Vipps eCom API Endpoints
     description: Functionality provided by the Vipps eCommerce API
-  - name: Endpoints required by Vipps from the merchant
+  - name: Merchant Endpoints
     description: >-
       These endpoints must be implemented by the merchant, and are called by Vipps.
 servers:
@@ -94,7 +94,7 @@ paths:
   '[consentRemovalPrefix]/v2/consents/{userId}':
     delete:
       tags:
-        - Endpoints required by Vipps from the merchant
+        - Merchant Endpoints
       summary: Remove User Consent (for express checkout)
       description: >-
         This API endpoint on the merchant side allows Vipps to send consent
@@ -120,7 +120,7 @@ paths:
   '[shippingDetailsPrefix]/v2/payments/{orderId}/shippingDetails':
     post:
       tags:
-        - Endpoints required by Vipps from the merchant
+        - Merchant Endpoints
       summary: Fetch Shipping Cost & Method
       description: >-
         This API endpoint on the merchant side allows Vipps to get the shipping
@@ -403,7 +403,7 @@ paths:
   '/ecomm/v2/payments/{orderId}/capture':
     post:
       tags:
-        - Vipps eCom API
+        - Vipps eCom API Endpoints
       summary: 'Capture Payment '
       description: >-
         This API call allows merchant to capture the reserved amount. Amount to
@@ -485,7 +485,7 @@ paths:
   '/ecomm/v2/payments/{orderId}/cancel':
     put:
       tags:
-        - Vipps eCom API
+        - Vipps eCom API Endpoints
       summary: Cancel Payment
       description: >-
         The API call allows merchant to cancel the reserved transaction, The API
@@ -563,7 +563,7 @@ paths:
   '/ecomm/v2/payments/{orderId}/refund':
     post:
       tags:
-        - Vipps eCom API
+        - Vipps eCom API Endpoints
       summary: 'Refund Payment '
       description: >-
         The API allows a merchant to do a refund of already captured
@@ -648,7 +648,7 @@ paths:
   '/ecomm/v2/payments/{orderId}/details':
     get:
       tags:
-        - Vipps eCom API
+        - Vipps eCom API Endpoints
       summary: Get payment Details
       description: >-
         This API call allows merchant to get the details of a payment
@@ -716,7 +716,7 @@ paths:
   '/ecomm/v2/payments/{orderId}/status':
     get:
       tags:
-        - Vipps eCom API
+        - Vipps eCom API Endpoints
       summary: 'Deprecated: Get order status'
       description: >-
         This API call allows the merchant to get the status of the last payment
