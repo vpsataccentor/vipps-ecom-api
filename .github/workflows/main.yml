@@ -41,7 +41,7 @@ jobs:
     - name: Install and run Widdershins
       run: |
         npm install widdershins -g
-        widdershins ./docs/swagger.yaml -o docs/index.html.md --expandBody --user_templates ../o2s/templates/openapi3 --summary
+        widdershins ./docs/swagger.yaml -o docs/index.html.md --expandBody --user_templates ../o2s/openapi3 --summary
 # remember to change find_replace to take in path
 #    - name: Python find replace
 #      run: |
@@ -64,7 +64,6 @@ jobs:
         bundle exec middleman build --clean
     - name: Push new build
       run: |
-        ls
         cp -r ../slate/build ./docs/slate
         git config --local user.email "actions@example.com"
         git config --local user.name "github actions"
