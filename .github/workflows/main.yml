@@ -12,6 +12,9 @@ on:
     - 'docs/swagger.yaml'
   pull_request:
     branches: [ master ]
+    paths: 
+    - '.github/**' 
+    - 'docs/swagger.yaml'
 
 jobs:
   action-filter:
@@ -50,7 +53,9 @@ jobs:
       run: |
         cp ./docs/index.html.md ../slate/source/index.html.md
         cp ../o2s/logo.png ../slate/source/images/logo.png
+        cp ../o2s/stylesheets ../slate/source/stylesheets
         cd ../slate
+        ls ./source/stylesheets
         bundle exec middleman build --clean
     - name: Push new build
       run: |
