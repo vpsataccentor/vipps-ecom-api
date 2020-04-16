@@ -19,6 +19,7 @@ jobs:
     env:
         openapi_path: ./docs/swagger.yaml
         slate_output_path: ./docs/slate
+        slate_resources_path: ./docs/slate/resources
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@master
@@ -33,15 +34,15 @@ jobs:
       with:
         path: ../slate/vendor/bundle
         key: ${{ runner.os }}-slate-
-    - name: Clone openapi2slate
-      run: |
-        git init ../o2s
-        cd ../o2s
-        git pull https://github.com/vpsataccentor/openapi2slate
+#    - name: Clone slate resources
+#      run: |
+#        git init $slate_resources_path
+#        cd $slate_resources_path
+#        git pull _
     - name: Install and run Widdershins
       run: |
         npm install widdershins -g
-        widdershins $openapi_path -o ./docs/index.html.md --expandBody --user_templates ../o2s/openapi3 --summary
+        widdershins $openapi_path -o ./docs/index.html.md --expandBody --user_templates $slate_resources_path/openapi3 --summary
     - name: Install Slate
       run: |
         git init ../slate
@@ -53,8 +54,8 @@ jobs:
     - name: Build Slate
       run: |
         cp ./docs/index.html.md ../slate/source/index.html.md
-        cp ../o2s/other/logo.png ../slate/source/images/logo.png
-        cp -r ../o2s/stylesheets/. ../slate/source/stylesheets
+        cp $slate_resources_path/other/logo.png ../slate/source/images/logo.png
+        cp -r $slate_resources_path/stylesheets/. ../slate/source/stylesheets
         cd ../slate
         bundle exec middleman build --clean
     - name: Push new build
