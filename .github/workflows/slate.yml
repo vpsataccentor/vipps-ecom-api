@@ -59,6 +59,7 @@ jobs:
         cd ../slate
         bundle exec middleman build --clean
     - name: Push new build
+      continue-on-error: true
       run: |
         cp -r ../slate/build/. $slate_output_path
         git config --local user.email "actions@example.com"
