@@ -38,7 +38,7 @@ jobs:
 #      run: |
 #        git init $slate_resources_path
 #        cd $slate_resources_path
-#        git pull _
+#        git pull __
     - name: Install and run Widdershins
       run: |
         npm install widdershins -g
